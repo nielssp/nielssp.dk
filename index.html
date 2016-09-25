@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <title>nielssp.dk</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Unica+One|PT+Sans:400,400i,700,700i" />
+        <link rel="stylesheet" type="text/css" href="css/main.css" />
+
+    </head>
+    <body>
+        <div id="main">
+
+            <header>
+                <h1><a href="#">nielssp.dk</a></h1>
+                <nav>
+                    <ul class="menu">
+                        <li><a href="#" class="current">Home</a></li>
+                        <li><a href="#">Archive</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">RSS</a></li>
+                        <li><a href="https://github.com/nielssp">GitHub</a></li>
+                        <li><a href="https://linkedin.com/in/nielssp">LinkedIn</a></li>
+                    </ul></nav>
+            </header>
+
+            <div id="primary">
+                <div id="content">
+
+                    <div class="post">
+                        <h1>
+                            <a href="/2015/07/creating-a-scanner-using-parser-combinators-in-scala" class="">Creating a scanner using parser combinators in Scala (PLDS part 1)</a>
+                        </h1>
+                        <time title="2015-07-29 10:06" datetime="2015-07-29T10:06:40+02:00">July 2015</time>
+                        <p><em>This post is part of a series on <strong>P</strong>rogramming <strong>L</strong>anguage <strong>D</strong>esign in <strong>S</strong>cala (PLDS). <a href="/tags/plds">Click here to see the rest of the posts in the series.</a></em></p>
+                        <p>In September 2014 I stumbled upon the <a href="https://github.com/scala/scala-parser-combinators">Scala Parser Combinators library</a> and ended up playing around with implementing a small programming language in Scala. Although the language itself was more or less useless, I thought that the process of designing and implementing it (and later extending it with more features) was a pretty fun activity. This then gave me the idea to start this blog as a place for programming and computer science related topics that I find interesting. My first blog post was supposed to be a short tutorial or introduction to Scala Parser Combinators based around the implementation of a small programming language. Because of a lack of motivation, ideas and time, my first post instead ended up being about <a href="/2015/02/colorgrab-a-crossplatform-color-picker">an entirely different project</a>, and my post about parser combinators remained an unfinished draft for more than six months.</p>
+                        <h2>This is a test heading</h2>
+                        <p>Now I've finally found the energy to complete this project, or at least the first part of it. My idea is to write a series of blog posts about the design and implementation of programming languages using practical examples in Scala (and perhaps other languages in the future). The first two posts will be about the syntactic analysis part of a language implementation, i.e. parsing the source code. This very first post will briefly introduce language design, formal definition of syntax, and how to implement a <em>scanner</em> in Scala. A scanner (also known as a <em>tokenizer</em> or a <em>lexer</em>) is a simple program that reads a sequence of characters (the source code) and outputs a sequence of tokens, i.e. a sequence of syntactical components. This process is known as <a href="https://en.wikipedia.org/wiki/Lexical_analysis">lexical analysis</a> (and also sometimes tokenization), and is usually what precedes the actual parsing step, where a parse tree or an abstract syntax tree is constructed from the sequence of tokens. The parsing step is described in the next post, so for now we'll just be looking at the scanner.</p>
+                        <h3>This is a test heading</h3>
+                        <h4>This is a test heading</h4>
+                        <h5>This is a test heading</h5>
+                        <h6>This is a test heading</h6>
+                        <p>This post should serve as an introduction to—and shouldn't require any prior knowledge of—language design and Scala, although a basic understanding of programming and programming languages is a prerequisite. I also recommend reading some <a href="http://docs.scala-lang.org/tutorials">tutorials</a> if you're interested in learning more about Scala.</p>
+                        <p>
+                            <a href="/2015/07/creating-a-scanner-using-parser-combinators-in-scala" class="">Continue reading&hellip;</a>
+                        </p>
+                    </div><div class="post">
+                        <h1>
+                            <a href="/2015/02/colorgrab-a-crossplatform-color-picker" class="">ColorGrab: A cross-platform color picker</a>
+                        </h1>
+                        <time title="2015-02-20 11:52" datetime="2015-02-20T11:52:14+01:00">February 2015</time>
+                        <p>This was not supposed to be my first post, but since the post that was supposed to be my first post is still unfinished, I have decided to write a quick post about a small project I have been working on for the past few weeks.</p>
+                        <p>The name of the project is <a href="https://github.com/Acolarh/colorgrab">ColorGrab</a>, and it is a cross-platform color picker developed in C++ using the wxWidgets library.</p>
+                        <figure><img src="http://nielssp.dk/assets/media/main-win8.png?1450718704" alt="ColorGrab" /><figcaption>ColorGrab on Windows.</figcaption></figure><p>ColorGrab allows you to pick colors from anywhere on the screen, convert between RGB, HSL, etc., and save colors to palettes. It is mostly aimed at webdesign and can output and parse color formats used in HTML and CSS. Currently it doesn't do much more than that, but I have a lot of features planned for the future.</p>
+                        <p>At the moment version 0.3 is available as a <a href="https://github.com/Acolarh/colorgrab/releases/download/v0.3/ColorGrab-0.3-setup.exe">Windows-installer</a>, a <a href="https://github.com/Acolarh/colorgrab/releases/download/v0.3/ColorGrab.exe">stand-alone executable</a>, and an <a href="https://aur.archlinux.org/packages/colorgrab/">AUR-package</a> for Arch Linux. You can also compile it on other Linux distributions by downloading the source (<a href="https://github.com/Acolarh/colorgrab/archive/v0.3.tar.gz">tar.gz</a>, <a href="https://github.com/Acolarh/colorgrab/archive/v0.3.zip">zip</a>) or cloning the <a href="https://github.com/Acolarh/colorgrab">git repository</a> on Github.</p>
+                    </div>
+                    <div class="pagination">
+                        <span class="prev">&#8592; Newer</span>
+                        <span class="this">1</span>
+
+                        <span class="next">Older &#8594;</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <footer>
+                <h1><a href="/">nielssp.dk</a></h1>
+                <div class="copyright">
+                    &copy; 2016 Niels Sonnich Poulsen
+                </div>
+            </footer>
+        </div>
+    </body>
+</html>
+
