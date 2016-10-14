@@ -1,4 +1,4 @@
-<div class="post" j:foreach="{$content->published as $post}">
+<div class="post" bs:explode="published" bs:as="{$post}" bs:path="posts/%name%">
     <h1>
         <a j:href="{$post}" j:text="{$post->title}">Title goes here</a>
     </h1>
