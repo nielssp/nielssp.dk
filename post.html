@@ -1,7 +1,8 @@
-<div class="post" bs:explode="published" bs:as="{$post}" bs:path="posts/%name%">
-    <h1>
-        <a j:href="{$post}" j:text="{$post->title}">Title goes here</a>
+<div class="post" bs:explode="{$content->published}" bs:as="{$post}" bs:path="%year%/%month%/%name%">
+    <!--{ $this->view->data->title = $post->title }-->
+    <h1 j:text="{$post->title}">
+      Title goes here
     </h1>
-    <time j:datetime="{$post->published}">Date goes here</time>
-    <div j:outerhtml="{$post}">Content goes here</div>
+    <time j:datetime="{$post->published}" j:dateformat="F Y">Date goes here</time>
+    <div j:outerhtml="{$post->contentWithoutTitle}">Content goes here</div>
 </div>

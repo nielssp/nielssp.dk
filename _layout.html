@@ -4,25 +4,38 @@
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-        <title>nielssp.dk</title>
+        <title>
+<?php
+if (isset($title)) {
+  echo Jivoo\View\Html::h($title . ' | ' . $config['title']);
+}
+else {
+  echo Jivoo\View\Html::h($config['title']);
+  if (!empty($config['subtitle']))
+    echo ' &ndash; ' . Jivoo\View\Html::h($config['subtitle']);
+}
+?>
+        </title>
 
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Unica+One|PT+Sans:400,400i,700,700i" />
-        <link rel="stylesheet" type="text/css" href="css/main.css" />
+        <link rel="stylesheet" type="text/css" j:href="css/main.css" />
+
+        <link rel="home" type="application/rss+xml" j:href="/feed/posts.rss" />
 
     </head>
     <body>
         <div id="main">
 
             <header>
-                <h1><a href="#">nielssp.dk</a></h1>
+                <h1><a j:href="/" j:innertext="{$config['title']}">site title</a></h1>
                 <nav>
                     <ul class="menu">
-                        <li><a href="#" class="current">Home</a></li>
-                        <li><a href="#">Archive</a></li>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">RSS</a></li>
+                        <li><a j:href="/" class="current">Home</a></li>
+                        <li><a j:href="/archive.html">Archive</a></li>
+                        <li><a j:href="/about.html">About</a></li>
+                        <li><a j:href="/feed/posts.rss">RSS</a></li>
                         <li><a href="https://github.com/nielssp">GitHub</a></li>
                         <li><a href="https://linkedin.com/in/nielssp">LinkedIn</a></li>
                     </ul></nav>
@@ -36,9 +49,11 @@
             </div>
 
             <footer>
-                <h1><a href="/">nielssp.dk</a></h1>
+                <h1><a j:href="/" j:innertext="{$config['title']}">site title</a></h1>
                 <div class="copyright">
-                    &copy; 2016 Niels Sonnich Poulsen
+                    &copy;
+                    <span j:outertext="{date('Y') . ' '}">year</span>
+                    <span j:outertext="{$config['copyright']}">copyright</span>
                 </div>
             </footer>
         </div>

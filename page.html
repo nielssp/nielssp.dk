@@ -1,3 +1,6 @@
-<div bs:explode="pages" bs:as="{$page}" bs:path="pages/%name%" j:outerhtml="{$page}">
-    Page content goes here.
+<div bs:explode="{$content->pages}" bs:as="{$page}" bs:path="%relativePath%/%name%">
+    <!--{ $this->view->data->title = $page->title }-->
+    <div j:outerhtml="{$page}">
+        Page content goes here.
+    </div>
 </div>

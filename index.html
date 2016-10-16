@@ -1,7 +1,7 @@
-<div class="post" j:foreach="{$content->published as $post}">
+<div class="post" bs:foreach="{$content->published->orderByDescending('published')}" bs:as="{$post}">
     <h1>
         <a j:href="{$post}" j:text="{$post->title}">Title goes here</a>
     </h1>
-    <time j:datetime="{$post->published}">Date goes here</time>
-    <div j:outerhtml="{$post}">Content goes here</div>
+    <time j:datetime="{$post->published}" j:dateformat="F Y">Date goes here</time>
+    <div j:outerhtml="{$post->contentWithoutTitle}">Content goes here</div>
 </div>
