@@ -2,6 +2,6 @@
     <h1>
         <a j:href="{$post}" j:text="{$post->title}">Title goes here</a>
     </h1>
-    <time j:datetime="{$post->published}" j:dateformat="F Y">Date goes here</time>
+    <time j:datetime="{$post->published}" j:dateformat="l, j F Y">Date goes here</time>
     <div j:outerhtml="{$post->contentWithoutTitle}">Content goes here</div>
 </div>

@@ -1,4 +1,4 @@
-<div bs:explode="{$content->pages}" bs:as="{$page}" bs:path="%relativePath%/%name%">
+<div bs:explode="{$content->pages}" bs:as="{$page}" bs:path="%relativePath%/%name%" j:strip>
     <!--{ $this->view->data->title = $page->title }-->
     <div j:outerhtml="{$page}">
         Page content goes here.
