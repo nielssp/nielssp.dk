@@ -1,6 +1,17 @@
 <h1>Posts by month</h1>
 <ul>
-  <li bs:foreach="{$content->published->orderByDescending('published')}" bs:as="{$post}">
-      <time j:datetime="{$post->published}" j:dateformat="F Y">Date goes here</time>
+  <li bs:foreach="{$content->published->groupBy('year')->orderByDescending('year')}" bs:as="{$year}">
+    <a j:href="{'/' . $year->year . '.html'}">
+      <span j:outertext="{$year->year}">year</span>
+      (<span j:outertext="{$year->count()}">num</span>)
+    </a>
+    <ul>
+      <li bs:foreach="{$year->groupBy(['year', 'month', 'monthName'])->orderByDescending('month')}" bs:as="{$month}">
+        <a j:href="{'/' . $month->year . '/' . $month->month . '.html'}">
+          <span j:outertext="{$month->monthName}">month</span>
+          (<span j:outertext="{$month->count()}">num</span>)
+        </a>
+      </li>
+    </ul>
   </li>
 </ul>
