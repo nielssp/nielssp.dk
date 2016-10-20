@@ -1,4 +1,4 @@
-<div class="post" bs:explode="{$content->published}" bs:as="{$post}" bs:path="%year%/%month%/%name%">
+<div class="post" bs:explode="{$content->published}" bs:as="{$post}" bs:path="{$post->path('%year%/%month%/%name%')}">
     <!--{ $this->view->data->title = $post->title }-->
     <h1 j:text="{$post->title}">
       Title goes here

@@ -1,0 +1,9 @@
+<div bs:explode="{$content->published->groupBy(['year', 'month'])}" bs:as="{$posts}" bs:path="{$posts->year . '/' . $posts->month}" j:strip>
+  <div class="post" bs:foreach="{$posts->orderByDescending('published')}" bs:as="{$post}">
+      <h1>
+          <a j:href="{$post}" j:text="{$post->title}">Title goes here</a>
+      </h1>
+      <time j:datetime="{$post->published}" j:dateformat="l, j F Y">Date goes here</time>
+      <div j:outerhtml="{$post->contentWithoutTitle}">Content goes here</div>
+  </div>
+</div>
