@@ -1,0 +1,6 @@
+<h1>Posts by month</h1>
+<ul>
+  <li bs:foreach="{$content->published->orderByDescending('published')}" bs:as="{$post}">
+      <time j:datetime="{$post->published}" j:dateformat="F Y">Date goes here</time>
+  </li>
+</ul>
