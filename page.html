@@ -1,6 +1,6 @@
 <div bs:explode="{$content->pages}" bs:as="{$page}" bs:path="{$page->path('%relativePath%/%name%')}" j:strip>
     <!--{ $this->view->data->title = $page->title }-->
-    <div j:outerhtml="{$page}">
+    <div j:outerhtml="{$this->filter($page)}">
         Page content goes here.
     </div>
 </div>
