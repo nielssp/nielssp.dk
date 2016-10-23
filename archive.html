@@ -15,3 +15,12 @@
     </ul>
   </li>
 </ul>
+<h1>Posts by tag</h1>
+<ul>
+  <li bs:foreach="{$content->published->groupByArray('tags')->orderBy('group')}" bs:as="{$tag}">
+    <a j:href="{'/tags/' . $tag->group}">
+      <span j:outertext="{$tag->group}">tag</span>
+      (<span j:outertext="{$tag->count()}">num</span>)
+    </a>
+  </li>
+</ul>
