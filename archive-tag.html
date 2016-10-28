@@ -1,7 +1,7 @@
 <div bs:explode="{$content->published->groupByArray('tags')->flatMap(function ($group) {
      return $group->orderByDescending('published')->paginate(5, ['tag' => $group->group]);
 })}" bs:as="{$page}" bs:path="{$page->path('tags/' . $page->tag)}" j:strip>
-    <!--{ $this->view->data->title = $page->tag }-->
+    <!--{ $this->view->data->title = $page->tag . ' &ndash; Page ' . $page->page . ' of ' . $page->pages }-->
     <div j:embed="_pagination.html" j:data="{['page' => $page]}"></div>
     <div class="post" bs:foreach="{$page}" bs:as="{$post}">
       <h1>

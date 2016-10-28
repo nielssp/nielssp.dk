@@ -1,4 +1,5 @@
 <div bs:explode="{$content->published->orderByDescending('published')->paginate(5)}" bs:as="{$page}" bs:path="{$page->path('')}" j:strip>
+    <!--{ if (!$page->isFirst()) $this->view->data->title = ' Page ' . $page->page . ' of ' . $page->pages }-->
     <div j:if="{!$page->isFirst()}" j:embed="_pagination.html" j:data="{['page' => $page]}"></div>
     <div class="post" bs:foreach="{$page}" bs:as="{$post}">
         <h1>

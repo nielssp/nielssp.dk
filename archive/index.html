@@ -1,3 +1,4 @@
+<!--{ $this->view->data->title = 'Archive' } -->
 <h1>Posts by month</h1>
 <ul>
   <li bs:foreach="{$content->published->groupBy('year')->orderByDescending('year')}" bs:as="{$year}">
