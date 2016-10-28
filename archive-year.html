@@ -1,9 +1,14 @@
-<div bs:explode="{$content->published->groupBy('year')}" bs:as="{$posts}" bs:path="{$posts->year . '/index'}" j:strip>
-  <div class="post" bs:foreach="{$posts->orderByDescending('published')}" bs:as="{$post}">
-    <h1>
-        <a j:href="{$post}" j:text="{$post->title}">Title goes here</a>
-    </h1>
-    <time j:datetime="{$post->published}" j:dateformat="l, j F Y">Date goes here</time>
-    <div j:outerhtml="{$this->filter($post, ['noTitle', 'brief'])}">Content goes here</div>
-  </div>
+<div bs:explode="{$content->published->groupBy('year')->flatMap(function ($group) {
+     return $group->orderByDescending('published')->paginate(5, ['year' => $group->year]);
+})}" bs:as="{$page}" bs:path="{$page->path($page->year)}" j:strip>
+    <!--{ $this->view->data->title = $page->year }-->
+    <div j:embed="_pagination.html" j:data="{['page' => $page]}"></div>
+    <div class="post" bs:foreach="{$page}" bs:as="{$post}">
+      <h1>
+          <a j:href="{$post}" j:text="{$post->title}">Title goes here</a>
+      </h1>
+      <time j:datetime="{$post->published}" j:dateformat="l, j F Y">Date goes here</time>
+      <div j:outerhtml="{$this->filter($post, ['noTitle', 'brief'])}">Content goes here</div>
+    </div>
+    <div j:embed="_pagination.html" j:data="{['page' => $page]}"></div>
 </div>

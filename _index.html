@@ -1,0 +1,15 @@
+<div bs:explode="{$content->published->orderByDescending('published')->paginate(5)}" bs:as="{$page}" bs:path="{$page->path('')}" j:strip>
+    <div j:if="{!$page->isFirst()}" j:embed="_pagination.html" j:data="{['page' => $page]}"></div>
+    <div class="post" bs:foreach="{$page}" bs:as="{$post}">
+        <h1>
+            <a j:href="{$post}" j:text="{$post->title}">Title goes here</a>
+        </h1>
+        <time j:datetime="{$post->published}" j:dateformat="l, j F Y">Date goes here</time>
+        <div j:outerhtml="{$this->filter($post, ['noTitle', 'brief'])}">Content goes here</div>
+
+        <p j:if="{$post->hasBreak}">
+            <a j:href="{$post}">Continue reading&hellip;</a>
+        </p>
+    </div>
+    <div j:embed="_pagination.html" j:data="{['page' => $page]}"></div>
+</div>

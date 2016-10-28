@@ -1,0 +1,12 @@
+<div class="pagination">
+    <span j:if="{$page->isFirst()}" class="prev">&#8592; Newer</span>
+    <a j:else j:href="{$page->link($page->page - 1)}" class="prev">&#8592; Newer</a>
+    
+    <div j:foreach="{$page->pageList() as $p}" j:strip>
+        <span j:if="{$p == $page->page}" class="this" j:text="{$p}">page</span>
+        <a j:else j:href="{$page->link($p)}" j:text="{$p}">page</a>
+    </div>
+    
+    <span j:if="{$page->isLast()}" class="next">Older &#8594;</span>
+    <a j:else j:href="{$page->link($page->page + 1)}" class="next">Older &#8594;</a>
+</div>

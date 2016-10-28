@@ -1,7 +1,7 @@
-<div class="post" bs:explode="{$content->published}" bs:as="{$post}" bs:path="{$post->path('%year%/%month%/%name%')}">
+<div class="post" bs:explode="{$content->published}" bs:as="{$post}" bs:path="{$post->path('%year%/%month%/%name%/index.html')}">
     <!--{ $this->view->data->title = $post->title }-->
     <h1 j:text="{$post->title}">
-      Title goes here
+        Title goes here
     </h1>
     <time j:datetime="{$post->published}" j:dateformat="l, j F Y">Date goes here</time>
     <div j:outerhtml="{$this->filter($post, ['noTitle'])}">Content goes here</div>
