@@ -4,7 +4,7 @@
   <item>
     <title><?php echo $post->title; ?></title>
     <description><![CDATA[
-    <?php echo $this->filter($post, ['noTitle', 'brief', 'linksAbsolute']); ?>
+    <?php echo $this->filter($post, ['noTitle', 'brief', 'imageSize(480, 360, 99, true)', 'linksAbsolute']); ?>
 ]]></description>
     <link><?php echo $this->url($post); ?></link>
     <pubDate><?php echo date('r', $post->published); ?></pubDate>
