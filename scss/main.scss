@@ -267,7 +267,7 @@ footer {
 p {
     margin: 0 0 $pmargin;
     line-height: $lheight;
-    font-size: 1.15em;
+    font-size: 1.1em;
     color: #262635;
 }
 
@@ -323,7 +323,7 @@ blockquote {
     padding: 4px 20px;
     margin-bottom: $pmargin;
     line-height: $lheight;
-    font-size: 1.3em;
+    font-size: 1.15em;
     font-style: italic;
     & > *:last-child {
         margin-bottom: 0;
@@ -349,7 +349,7 @@ a img {
 
 pre, code {
     font-family: "Source Code Pro", monospace;
-    font-size: 0.9em;
+    font-size: 0.8em;
     color: #cb4b16;
     line-height: 1.4em;
 }
@@ -372,6 +372,13 @@ pre code {
     display: block;
     background-color: #fdf6e3;
     overflow-x: auto;
+}
+
+#content ul, #content ol {
+    font-size: 1.1em;
+    ul, ol {
+        font-size: 1em;
+    }
 }
 
 ul, ol {
@@ -636,114 +643,17 @@ form {
     }
 }
 
-.byline {
+.tags {
     color: #777;
     font-size: 0.8em;
-}
-
-.byline a:link,.byline a:active,.byline a:visited {
-    color: #777;
-    text-decoration: underline;
-}
-
-.byline a:hover {
-    color: #D81413;
-}
-
-#comment {
-    input[name="cancel"] {
-        display: none;
+    margin-bottom: $pmargin;
+    
+    a, a:link, a:active, a:visited {
+        color: #777;
+        text-decoration: underline;
+    }
+    a:hover {
+        color: $linkHover;
     }
 }
-
-.comments {
-    margin-left: 0;
-
-    li {
-        list-style-type: none;
-        border-top: 1px solid #ddd;
-        padding: 20px 0;
-
-        ul {
-            margin-left: 50px;
-        }
-
-        li {
-            border: 0;
-            padding-bottom: 0;
-            font-size: 1em;
-        }
-        &:first-child {
-            border: none;
-        }
-        &.op {
-            .author {
-                .title {
-                    background-color: $color1;
-                    color: #fff;
-                }
-            }
-        }
-        &:target {
-            background-color: #ffe;
-        }
-    }
-
-
-    .comment-avatar {
-        float: left;
-        width: 60px;
-    }
-
-    .comment {
-        margin-left: 60px;
-
-
-        .author {
-            font-size: 1.1em;
-            margin-bottom: 5px;
-            font-weight: bold;
-
-            .title {
-                font-weight: normal;
-                font-size: 0.6em;
-                padding: 2px 5px;
-                border-radius: 3px;
-                margin-left: 10px;
-            }
-            .parent {
-                font-size: 0.8em;
-                font-weight: normal;
-                margin-left: 10px;
-                color: #777;
-            }
-        }
-
-        .content {
-            margin-bottom: 10px;
-
-            p {
-                margin-bottom: 0;
-                margin-top: 10px;
-
-                &:first-child {
-                    margin: 0;
-                }
-            }
-        }
-
-        #comment {
-            margin-top: 20px;
-            h2 {
-                display: none;
-            }
-            input[name="cancel"] {
-                display: inline;
-            }
-        }
-    }
-}
-
-
-
 

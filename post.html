@@ -5,4 +5,27 @@
     </h1>
     <time j:datetime="{$post->published}" j:dateformat="l, j F Y" title="{date('Y-m-d H:i:s T', $post->published)}">Date goes here</time>
     <div j:outerhtml="{$this->filter($post, ['noTitle', 'imageSize(648, 648, 99, true)'])}">Content goes here</div>
+
+    <div class="tags">
+        <span j:foreach="{$post->tags as $tag}" j:strip>
+            <a j:href="{'/tags/' . $tag}" j:text="{'#' . $tag}">tag</a>
+        </span>
+    </div>
+
+    <h2>Comments</h2>
+    <div id="disqus_thread"></div>
+    <script>
+var disqus_config = function () {
+    this.page.url = '<?php echo $post->path('%year%/%month%/%name%'); ?>';
+    this.page.identifier = '<?php echo $this->url(); ?>';
+    this.page.title = '<?php echo addslashes($post->title); ?>';
+};
+(function () {
+    var d = document, s = d.createElement('script');
+    s.src = '//nielssp.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
