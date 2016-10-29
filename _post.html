@@ -1,0 +1,11 @@
+<div class="post">
+    <h1>
+        <a j:href="{$post}" j:text="{$post->title}">Title goes here</a>
+    </h1>
+    <time j:datetime="{$post->published}" j:dateformat="l, j F Y">Date goes here</time>
+    <div j:outerhtml="{$this->filter($post, ['noTitle', 'brief'])}">Content goes here</div>
+
+    <p j:if="{$post->hasBreak}">
+        <a j:href="{$post}">Continue reading&hellip;</a>
+    </p>
+</div>

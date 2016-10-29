@@ -3,12 +3,8 @@
 })}" bs:as="{$page}" bs:path="{$page->path($page->year . '/' . $page->month)}" j:strip>
     <!--{ $this->view->data->title = $page->monthName . ' ' . $page->year . ' &ndash; Page ' . $page->page . ' of ' . $page->pages }-->
     <div j:embed="_pagination.html" j:data="{['page' => $page]}"></div>
-    <div class="post" bs:foreach="{$page}" bs:as="{$post}">
-        <h1>
-            <a j:href="{$post}" j:text="{$post->title}">Title goes here</a>
-        </h1>
-        <time j:datetime="{$post->published}" j:dateformat="l, j F Y">Date goes here</time>
-      <div j:outerhtml="{$this->filter($post, ['noTitle', 'brief'])}">Content goes here</div>
+    <div bs:foreach="{$page}" bs:as="{$post}" j:embed="_post.html" j:data="{['post' => $post]}">
+        posts go here
     </div>
     <div j:embed="_pagination.html" j:data="{['page' => $page]}"></div>
 </div>
