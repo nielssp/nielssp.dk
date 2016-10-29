@@ -617,6 +617,11 @@ form {
         }
     }
     
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+    
     & > time {
         font-size: 1.15em;
         margin-top: -$pmargin + 5px;

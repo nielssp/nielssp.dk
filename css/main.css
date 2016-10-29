@@ -504,6 +504,9 @@ form {
   .post h1 a:hover {
     text-decoration: underline;
     color: inherit; }
+  .post img {
+    max-width: 100%;
+    height: auto; }
   .post > time {
     font-size: 1.15em;
     margin-top: -15px;
