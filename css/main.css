@@ -267,12 +267,12 @@ a img {
 pre, code {
   font-family: "Source Code Pro", monospace;
   font-size: 0.8em;
-  color: #cb4b16;
+  color: #000;
   line-height: 1.4em; }
 
 code {
   padding: 3px;
-  background-color: #fdf6e3;
+  background-color: #eee;
   border-radius: 3px; }
 
 pre {
@@ -284,7 +284,7 @@ pre code {
   font-size: 1em;
   padding: 8px;
   display: block;
-  background-color: #fdf6e3;
+  background-color: #eee;
   overflow-x: auto; }
 
 #content ul, #content ol {

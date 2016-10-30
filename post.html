@@ -4,7 +4,7 @@
         Title goes here
     </h1>
     <time j:datetime="{$post->published}" j:dateformat="l, j F Y" title="{date('Y-m-d H:i:s T', $post->published)}">Date goes here</time>
-    <div j:outerhtml="{$this->filter($post, ['noTitle', 'imageSize(648, 648, 99, true)'])}">Content goes here</div>
+    <div j:outerhtml="{$this->filter($post, ['noTitle', 'highlightjs' => ['foundation'], 'imageSize(648, 648, 99, true)'])}">Content goes here</div>
 
     <div class="tags">
         <span j:foreach="{$post->tags as $tag}" j:strip>
@@ -16,8 +16,8 @@
     <div id="disqus_thread"></div>
     <script>
 var disqus_config = function () {
-    this.page.identifier = '<?php echo $post->path('%year%/%month%/%name%'); ?>';
-    this.page.url = '<?php echo $this->url(); ?>';
+    this.page.url = '<?php echo $post->path('%year%/%month%/%name%'); ?>';
+    this.page.identifier = '<?php echo $this->url(); ?>';
     this.page.title = '<?php echo addslashes($post->title); ?>';
 };
 (function () {
