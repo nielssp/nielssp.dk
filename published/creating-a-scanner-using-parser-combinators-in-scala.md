@@ -316,10 +316,6 @@ Since the scanner is where we've implemented the token grammar of our programmin
 
 Anyway, this is the end of part 1 of what will hopefully be a series on Programming Language Design in Scala (and perhaps it will branch off into other languages in the future). The post ended up being quite a bit longer that I had originally wanted, and I am not entirely sure whether I managed to make the topic easy to understand.
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/languages/scala.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
-
 <!--{
   "published": "2015-07-29 10:06",
 	"tags": ["scala", "language-design", "parsing", "plds"]
