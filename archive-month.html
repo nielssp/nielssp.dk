@@ -1,4 +1,4 @@
-<div bs:explode="{$content->published->groupBy(['year', 'month', 'monthName'])->flatMap(function ($group) {
+<div bs:fork="{$content->published->groupBy(['year', 'month', 'monthName'])->flatMap(function ($group) {
      return $group->orderByDescending('published')->paginate(5, ['year' => $group->year, 'month' => $group->month, 'monthName' => $group->monthName]);
 })}" bs:as="{$page}" bs:path="{$page->path($page->year . '/' . $page->month)}" j:strip>
     <!--{ $this->view->data->title = $page->monthName . ' ' . $page->year . ' &ndash; Page ' . $page->page . ' of ' . $page->pages }-->
