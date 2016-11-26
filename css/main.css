@@ -319,6 +319,8 @@ figure {
   figure figcaption {
     font-style: italic;
     line-height: 1.67em; }
+  figure img, figure video {
+    max-width: 100%; }
 
 table {
   margin-bottom: 20px;
