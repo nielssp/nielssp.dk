@@ -1,2 +1,2 @@
 # About
-This is the blog of a 24 year old software developer from Denmark.
+This is the blog of a 25 year old software developer from Denmark.
