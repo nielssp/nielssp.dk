@@ -1,0 +1,10 @@
+<div bs:fork="{$content->published->groupBy(['year', 'month', 'monthName'])->flatMap(function ($group) {
+     return $group->orderBy('published')->paginate(5, ['year' => $group->year, 'month' => $group->month, 'monthName' => $group->monthName]);
+})}" bs:as="{$page}" bs:path="{$page->path($page->year . '/' . $page->month)}" j:strip>
+    <!--{ $this->view->data->title = $page->monthName . ' ' . $page->year . ' &ndash; Page ' . $page->page . ' of ' . $page->pages }-->
+    <div j:embed="_pagination.html" j:data="{['page' => $page]}"></div>
+    <div bs:foreach="{$page}" bs:as="{$post}" j:embed="_post.html" j:data="{['post' => $post]}">
+        posts go here
+    </div>
+    <div j:embed="_pagination.html" j:data="{['page' => $page]}"></div>
+</div>

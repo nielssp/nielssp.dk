@@ -1,0 +1,6 @@
+<div bs:fork="{$content->pages}" bs:as="{$page}" bs:path="{$page->path('%relativePath%/%name%/index.html')}" j:strip>
+    <!--{ $this->view->data->title = $page->title }-->
+    <div j:outerhtml="{$this->filter($page, ['imageSize(625, 625, 99, true)'])}">
+        Page content goes here.
+    </div>
+</div>

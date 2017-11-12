@@ -1,0 +1,27 @@
+<!--{ $this->view->data->title = 'Archive' } -->
+<h1>Posts by month</h1>
+<ul>
+  <li bs:foreach="{$content->published->groupBy('year')->orderByDescending('year')}" bs:as="{$year}">
+    <a j:href="{'/' . $year->year}">
+      <span j:outertext="{$year->year}">year</span>
+      (<span j:outertext="{$year->count()}">num</span>)
+    </a>
+    <ul>
+      <li bs:foreach="{$year->groupBy(['year', 'month', 'monthName'])->orderByDescending('month')}" bs:as="{$month}">
+        <a j:href="{'/' . $month->year . '/' . $month->month}">
+          <span j:outertext="{$month->monthName}">month</span>
+          (<span j:outertext="{$month->count()}">num</span>)
+        </a>
+      </li>
+    </ul>
+  </li>
+</ul>
+<h1>Posts by tag</h1>
+<ul>
+  <li bs:foreach="{$content->published->groupByArray('tags')->orderBy('group')}" bs:as="{$tag}">
+    <a j:href="{'/tags/' . $tag->group}">
+      <span j:outertext="{$tag->group}">tag</span>
+      (<span j:outertext="{$tag->count()}">num</span>)
+    </a>
+  </li>
+</ul>
