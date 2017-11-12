@@ -1,5 +1,5 @@
 <div bs:fork="{$content->published->groupBy('year')->flatMap(function ($group) {
-     return $group->orderByDescending('published')->paginate(5, ['year' => $group->year]);
+     return $group->orderBy('published')->paginate(5, ['year' => $group->year]);
 })}" bs:as="{$page}" bs:path="{$page->path($page->year)}" j:strip>
     <!--{ $this->view->data->title = $page->year . ' &ndash; Page ' . $page->page . ' of ' . $page->pages }-->
     <div j:embed="_pagination.html" j:data="{['page' => $page]}"></div>
