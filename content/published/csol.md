@@ -7,7 +7,7 @@ There isn't much to say about this one. It started out as a desire to play Yukon
 <figcaption>A game of Yukon in csol.</figcaption>
 </figure>
 
-At the moment, csol includes 5 different soliatire games: Yukon, Klondike, Freecell, Eigh Off (very similar to Frecell), and Russian Solitaire (very similar to Yukon). They are implemented in a simple declarative language I designed for csol. It should be possible to implement a lot more games using it, but unfortunately I don't know that many different solitaire games. csol also has support for different themes using the same declarative language.
+At the moment, csol includes 5 different solitaire games: Yukon, Klondike, Freecell, Eigh Off (very similar to Frecell), and Russian Solitaire (very similar to Yukon). They are implemented in a simple declarative language I designed for csol. It should be possible to implement a lot more games using it, but unfortunately I don't know that many different solitaire games. csol also has support for different themes using the same declarative language.
 
 Some more screenshots of games and themes, as well as the source code, is available on the [github repository](https://github.com/nielssp/csol). As usual, I've also created an [aur package](https://aur.archlinux.org/packages/csol/).
 
