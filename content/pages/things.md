@@ -5,6 +5,7 @@ This page contains an incomplete list of various ideas, projects, snippets etc.
 * [ctodo](https://github.com/nielssp/ctodo) (2012) – ncurses todo list (C)
 * [csol](https://github.com/nielssp/csol) (2017) – ncurses solitaire (C)
 * [yuk](https://github.com/nielssp/yuk) (2017) – ncurses Yukon solitaire (C)
+* [nse](https://github.com/nielssp/nse) (2017) – lisp experiment (C)
 * [jqCandlestick](https://github.com/nielssp/jqCandlestick) (2014) – candlestick charts (JavaScript)
 * [nol](https://github.com/nielssp/nol) (2016) – functional programming language experiment (Scala)
 * [ColorGrab](https://github.com/nielssp/colorgrab) (2015) – wxWidgets color picker (C++)

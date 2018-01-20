@@ -204,9 +204,9 @@ The parsers for single line and multiline comments are implemented below:
 ```scala
   def singleComment: Parser[Unit] = "//" ~ rep(not("\n") ~ ".".r) ^^^ Unit
 
-  def multiComment: Parser[Unit] = "/*" ~ rep(not("*/") ~ ".".r) ~ "*/" ^^^ Unit
+  def multiComment: Parser[Unit] = "/*" ~ rep(not("*/") ~ "(?s).".r) ~ "*/" ^^^ Unit
 ```
-Here we introduce the `~`, `not`, and `^^^` combinators. The `not` combinator is used to negate the result of a parser while not consuming any input, e.g. `not("\n")` fails if the next character is a line break, but it does not consume that line break. The `^^^` is similar to the previously introduced `^^` combinator except that it doesn't care about the result of the parser on the left and merely replaces the output with the value on the right. In this case we don't care about content of the comments so we return `Unit`, i.e. nothing or "void". The `~` is another combinator for sequential composition but, unlike the others, keeps the result on both the left side and the right side. In this case it doesn't make any difference since we replace the final result with `Unit`.
+Here we introduce the `~`, `not`, and `^^^` combinators. The `not` combinator is used to negate the result of a parser while not consuming any input, e.g. `not("\n")` fails if the next character is a line break, but it does not consume that line break. The `^^^` is similar to the previously introduced `^^` combinator except that it doesn't care about the result of the parser on the left and merely replaces the output with the value on the right. In this case we don't care about the content of the comments so we return `Unit`, i.e. nothing or "void". The `~` is another combinator for sequential composition but, unlike the others, keeps the result on both the left side and the right side. In this case it doesn't make any difference since we replace the final result with `Unit`.
 
 We combine the comment parsers with a whitespace parser to implement the `skip`-parser:
 ```scala
@@ -318,5 +318,5 @@ Anyway, this is the end of part 1 of what will hopefully be a series on Programm
 
 <!--{
   "published": "2015-07-29 10:06",
-	"tags": ["scala", "language-design", "parsing", "plds"]
+	"tags": ["scala", "language-design", "parsing", "plds", "compilers"]
 }-->
