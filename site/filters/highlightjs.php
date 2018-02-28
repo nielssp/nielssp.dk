@@ -6,8 +6,10 @@
  * See the LICENSE file or http://opensource.org/licenses/MIT for more information.
  */
 
-use Blogstep\Build\ContentNode;
-use Blogstep\Build\View;
+use Blogstep\Compile\View;
+use Blogstep\Compile\ContentCompiler;
+use Blogstep\Compile\Filter;
+use Blogstep\Files\File;
 use SimpleHtmlDom\simple_html_dom;
 
 $assets = [
@@ -16,7 +18,9 @@ $assets = [
     'lang' => '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/languages/%s.min.js',
 ];
 
-return function (View $view, ContentNode $contentNode, simple_html_dom $dom, $style = 'default') use ($assets) {
+$filter = new Filter();
+
+$filter->html = function (ContentCompiler $cc, File $file, simple_html_dom $dom) {
     $codeBlocks = $dom->find('pre code[class]');
     $languages = [];
     foreach ($codeBlocks as $codeBlock) {
@@ -26,6 +30,15 @@ return function (View $view, ContentNode $contentNode, simple_html_dom $dom, $st
         }
     }
     if (count($languages)) {
+        $dom->nodes[] = $dom->createTextNode(ContentCompiler::displayTag('highlightjs', [
+            'languages' => implode(',', $languages)
+        ]));
+    }
+};
+
+$filter['highlightjs'] = function (View $view, $attr, $enabled, $style = 'default') use ($assets) {
+    if ($enabled) {
+        $languages = explode(',', $attr['languages']);
         if ($view->blocks->isEmpty('highlightjs')) {
             $view->blocks->append('highlightjs', '<script type="text/javascript" src="' . $assets['main'] . '"></script>');
             $view->blocks->append('highlightjs', '<style type="text/css">@import "' . sprintf($assets['style'], $style) . '";</style>');
@@ -35,4 +48,7 @@ return function (View $view, ContentNode $contentNode, simple_html_dom $dom, $st
             $view->blocks->append('highlightjs', '<script type="text/javascript" src="' . sprintf($assets['lang'], $language) . '"></script>');
         }
     }
+    return '';
 };
+
+return $filter;
