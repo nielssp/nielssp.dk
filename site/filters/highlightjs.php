@@ -30,8 +30,8 @@ $filter->html = function (ContentCompiler $cc, File $file, simple_html_dom $dom)
         }
     }
     if (count($languages)) {
-        $dom->nodes[] = $dom->createTextNode(ContentCompiler::displayTag('highlightjs', [
-            'languages' => implode(',', $languages)
+        $dom->root->nodes[] = $dom->createTextNode(ContentCompiler::displayTag('highlightjs', [
+            'languages' => implode(',', array_keys($languages))
         ]));
     }
 };
@@ -44,8 +44,14 @@ $filter['highlightjs'] = function (View $view, $attr, $enabled, $style = 'defaul
             $view->blocks->append('highlightjs', '<style type="text/css">@import "' . sprintf($assets['style'], $style) . '";</style>');
             $view->blocks->append('highlightjs', '<script>hljs.initHighlightingOnLoad();</script>');
         }
-        foreach (array_keys($languages) as $language) {
-            $view->blocks->append('highlightjs', '<script type="text/javascript" src="' . sprintf($assets['lang'], $language) . '"></script>');
+        if (!isset($view->data->highlightjsLangs)) {
+            $view->data->highlightjsLangs = [];
+        }
+        foreach ($languages as $language) {
+            if (!isset($view->data->highlightjsLangs[$language])) {
+                $view->blocks->append('highlightjs', '<script type="text/javascript" src="' . sprintf($assets['lang'], $language) . '"></script>');
+                $view->data->highlightjsLangs[$language] = true;
+            }
         }
     }
     return '';
