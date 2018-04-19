@@ -1,6 +1,6 @@
 <div bs:fork="{$content->pages->recursive()}" bs:as="{$page}" bs:path="{$page->path('%relativePath%/%name%/index.html')}" j:strip>
     <!--{ $this->view->data->title = $page->title }-->
-    <div j:outerhtml="{$this->filter($page, ['highlightjs' => ['foundation'], 'imageSize(648, 648, 99, true)'])}">
+    <div j:outerhtml="{$this->filter($page, ['highlightjs' => ['foundation'], 'img(648, 648, 99, true)'])}">
         Page content goes here.
     </div>
 </div>
