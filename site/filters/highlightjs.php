@@ -11,6 +11,7 @@ use Blogstep\Compile\ContentCompiler;
 use Blogstep\Compile\Filter;
 use Blogstep\Files\File;
 use SimpleHtmlDom\simple_html_dom;
+use Jivoo\Store\Document;
 
 $assets = [
     'main' => '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js',
@@ -20,7 +21,7 @@ $assets = [
 
 $filter = new Filter();
 
-$filter->html = function (ContentCompiler $cc, File $file, simple_html_dom $dom) {
+$filter->html = function (ContentCompiler $cc, File $file, Document $metadata, simple_html_dom $dom) {
     $codeBlocks = $dom->find('pre code[class]');
     $languages = [];
     foreach ($codeBlocks as $codeBlock) {
@@ -50,7 +51,9 @@ $filter['highlightjs'] = function (View $view, $attr, $enabled, $style = 'defaul
         foreach ($languages as $language) {
             if (!isset($view->data->highlightjsLangs[$language])) {
                 $view->blocks->append('highlightjs', '<script type="text/javascript" src="' . sprintf($assets['lang'], $language) . '"></script>');
-                $view->data->highlightjsLangs[$language] = true;
+                $langs = $view->data->highlightjsLangs;
+                $langs[$language] = true;
+                $view->data->highlightjsLangs = $langs;;
             }
         }
     }
