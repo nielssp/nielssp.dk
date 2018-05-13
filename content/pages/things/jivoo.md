@@ -45,7 +45,7 @@ Used on: [Agendl](bs:/things/agendl), [nielssp.dk](bs:/things/nielssp-dk), [apak
 
 <figure>
 <img src="../../images/jivoo/responsive.png" alt="Responsiveness" />
-<ficaption>Responsive design</figcaption>
+<figcaption>Responsive design</figcaption>
 </figure>
 
 <figure>
