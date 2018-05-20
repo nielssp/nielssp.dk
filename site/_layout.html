@@ -19,8 +19,7 @@ else {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="shortcut icon" j:href="/favicon.ico" />
 
-        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Unica+One%7CPT+Sans:400,400i,700,700i%7CSource+Code+Pro" />
-        <link rel="stylesheet" type="text/css" j:href="css/main.css" />
+        <link rel="stylesheet" type="text/css" bs:embed="css/main.css" />
 
         <link rel="alternate" type="application/rss+xml" j:href="/posts.rss" />
 
@@ -37,7 +36,7 @@ ga('create', 'UA-627108-9', 'auto');
 ga('send', 'pageview');
         </script>
 
-        <div id="main">
+        <main>
 
             <header>
                 <h1><a j:href="/" j:innertext="{$config['title']}">site title</a></h1>
@@ -53,32 +52,26 @@ ga('send', 'pageview');
                     </ul></nav>
             </header>
 
-            <div id="primary">
-                <div id="content">
+            <section id="content">
 
-                    <div j:block="content">Content goes here</div>
-                </div>
-            </div>
+              <div j:block="content">Content goes here</div>
+            </section>
 
             <footer>
-                <h1><a j:href="/" j:innertext="{$config['title']}">site title</a></h1>
+                <a j:href="/" j:innertext="{$config['title']}">site title</a>
                 <div class="copyright">
                     ©
                     <span j:outertext="{date('Y') . ' '}">year</span>
                     <span j:outertext="{$config['copyright']}">copyright</span>
                 </div>
             </footer>
-        </div>
-        
+        </main>
+
+        <script type="text/javascript" bs:embed="js/cookie-consent.js"></script>
+
         <link j:block="highlightjs" />
 
-        <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
-        <script type="text/javascript">
-            window.cookieconsent_options = {"message":"This website uses Google Analytics and thus cookies.","dismiss":"Got it!","learnMore":"More info","link":null,"theme":"dark-bottom"};
-        </script>
-
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.10/cookieconsent.min.js"></script>
-        <!-- End Cookie Consent plugin -->
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Source+Code+Pro" />
 
     </body>
 </html>
