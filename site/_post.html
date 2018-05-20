@@ -7,7 +7,7 @@
       <meta itemprop="mainEntityOfPage" content="{$this->url($post)}"/>
       <meta itemprop="dateModified" content="{date('c', $post->modified)}"/>
     </header>
-    <div j:outerhtml="{$this->filter($post, ['noTitle', 'brief', 'highlightjs' => ['foundation'], 'img(736, 736, 90, true)'])}">Content goes here</div>
+    <div j:innerhtml="{$this->filter($post, ['noTitle', 'brief', 'highlightjs' => ['foundation'], 'img(736, 736, 90, true)'])}" itemprop="articleBody">Content goes here</div>
 
     <p j:if="{$post->hasBreak}">
         <a j:href="{$post}">Continue reading&hellip;</a>
