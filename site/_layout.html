@@ -36,7 +36,7 @@ ga('create', 'UA-627108-9', 'auto');
 ga('send', 'pageview');
         </script>
 
-        <main>
+        <div id="container">
 
             <header>
                 <h1><a j:href="/" j:innertext="{$config['title']}">site title</a></h1>
@@ -52,10 +52,10 @@ ga('send', 'pageview');
                     </ul></nav>
             </header>
 
-            <section id="content">
+            <main>
 
               <div j:block="content">Content goes here</div>
-            </section>
+            </main>
 
             <footer>
                 <a j:href="/" j:innertext="{$config['title']}">site title</a>
@@ -65,7 +65,7 @@ ga('send', 'pageview');
                     <span j:outertext="{$config['copyright']}">copyright</span>
                 </div>
             </footer>
-        </main>
+        </div>
 
         <script type="text/javascript" bs:embed="js/cookie-consent.js"></script>
 

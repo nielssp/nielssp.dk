@@ -18,50 +18,49 @@ body {
   color: #fff; }
 
 /* Layout blocks */
-header {
+#container {
+  display: block;
+  max-width: 800px;
+  margin: 1.55em auto 16px auto;
+  padding: 0 8px;
+  line-height: 1.6;
+  text-align: left; }
+
+#container > header {
   border-bottom: 1px solid #515171;
-  margin-top: 1.55em;
   margin-bottom: 0.6em; }
-  header h1 {
+  #container > header h1 {
     margin: 0;
     font-size: 1.4em;
     line-height: 1;
     background-color: #515171;
     padding: 0.38em 32px;
     color: #fff; }
-    header h1 a, header h1 a:link, header h1 a:visited, header h1 a:active {
+    #container > header h1 a, #container > header h1 a:link, #container > header h1 a:visited, #container > header h1 a:active {
       color: inherit;
       text-decoration: none; }
-    header h1 a:hover {
+    #container > header h1 a:hover {
       text-decoration: underline; }
-  header nav {
+  #container > header nav {
     margin: 0.50em 0 0.25em 0; }
-    header nav ul {
+    #container > header nav ul {
       margin: 0;
       padding: 0; }
-    header nav li {
+    #container > header nav li {
       list-style-type: none;
       display: inline-block;
       margin-right: 10px; }
 
-main {
-  display: block;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0 8px;
-  line-height: 1.6;
-  text-align: left; }
-
-footer {
+#container > footer {
   border-bottom: 1px solid #515171;
-  margin: 1.6em 0 16px 0;
+  margin: 1.6em 0 0 0;
   padding-bottom: 0.25em; }
-  footer a, footer a:link, footer a:visited, footer a:active {
+  #container > footer a, #container > footer a:link, #container > footer a:visited, #container > footer a:active {
     font-size: 1em;
     float: left;
     margin: 0.05em 0 0 0;
     color: #000; }
-  footer .copyright {
+  #container > footer .copyright {
     text-align: right; }
 
 /* Headings */
@@ -77,11 +76,6 @@ h1 {
   font-weight: 400;
   margin: 0 0 0.4em 0;
   color: #3636A9; }
-  h1 a {
-    color: inherit;
-    text-decoration: none; }
-  h1 a:hover {
-    text-decoration: underline; }
 
 h1 + time,
 .dateline {
