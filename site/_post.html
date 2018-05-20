@@ -1,9 +1,11 @@
 <article itemscope itemtype="http://schema.org/BlogPosting">
     <header>
-      <h1>
-          <a j:href="{$post}" j:text="{$post->title}" itemprop="name headline url">Title goes here</a>
+      <h1 itemprop="name headline">
+          <a j:href="{$post}" j:text="{$post->title}" itemprop="url">Title goes here</a>
       </h1>
       <time j:datetime="{$post->published}" j:dateformat="l, j F Y" title="{date('Y-m-d H:i:s T', $post->published)}" itemprop="datePublished">Date goes here</time>
+      <meta itemprop="mainEntityOfPage" content="{$this->url($post)}"/>
+      <meta itemprop="dateModified" content="{date('c', $post->modified)}"/>
     </header>
     <div j:outerhtml="{$this->filter($post, ['noTitle', 'brief', 'highlightjs' => ['foundation'], 'img(736, 736, 90, true)'])}">Content goes here</div>
 
