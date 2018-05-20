@@ -1,6 +1,13 @@
 <div bs:fork="{$content->pages->recursive()}" bs:as="{$page}" bs:path="{$page->path('%relativePath%/%name%/index.html')}" j:strip>
+    <h1 j:text="{$page->title}">
+      Title goes here
+    </h1>
+    <div class="dateline">
+      Last updated on
+      <time j:datetime="{$page->modified}" j:dateformat="l, j F Y" title="{date('Y-m-d H:i:s T', $page->modified)}">Date goes here</time>
+    </div>
     <!--{ $this->view->data->title = $page->title }-->
-    <div j:outerhtml="{$this->filter($page, ['highlightjs' => ['foundation'], 'img(648, 648, 95, true)'])}">
+    <div j:outerhtml="{$this->filter($page, ['noTitle', 'highlightjs' => ['foundation'], 'img(736, 736, 95, true)'])}">
         Page content goes here.
     </div>
 </div>
