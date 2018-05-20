@@ -4,7 +4,7 @@
         Title goes here
     </h1>
     <time j:datetime="{$post->published}" j:dateformat="l, j F Y" title="{date('Y-m-d H:i:s T', $post->published)}">Date goes here</time>
-    <div j:outerhtml="{$this->filter($post, ['noTitle', 'highlightjs' => ['foundation'], 'img(648, 648, 95, true)'])}">Content goes here</div>
+    <div j:outerhtml="{$this->filter($post, ['noTitle', 'highlightjs' => ['foundation'], 'img(648, 648, 90, true)'])}">Content goes here</div>
 
     <div class="tags">
         <span j:foreach="{$post->tags as $tag}" j:strip>

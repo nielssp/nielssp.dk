@@ -22,7 +22,7 @@ endfunction
 nnoremap <leader>c :call Repl()<cr>
 ```
 
-You start it by pressing `<leader>c` in normal mode (or `:call Repl()`). I use space as my leader (`let mapleader = " "`), so by pressing space followed by "c" a prompt displays at the bottom of the window. To exit the REPL, you type "q" and then press enter. Any expression you type while in the REPL is evaluated. The result of the expression is printed and saved in the `ans`-variable, so that it can be reused in the next expression.
+You start it by pressing `<leader>c` in normal mode (or `:call Repl()`). I use space as my leader (`let mapleader = " "`), so by pressing space followed by <q>c</q> a prompt displays at the bottom of the window. To exit the REPL, you type <q>q</q> and then press enter. Any expression you type while in the REPL is evaluated. The result of the expression is printed and saved in the `ans`-variable, so that it can be reused in the next expression.
 
 ```vim
 > 25 - 5
