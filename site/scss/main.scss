@@ -409,3 +409,30 @@ kbd {
   }
 }
 
+.gallery {
+  overflow-x: auto;
+  white-space: nowrap;
+  
+  img {
+    vertical-align: top;
+  }
+}
+
+.gallery-js {
+  nav {
+    float: left;
+    list-style-type: none;
+    margin-left: -32px;
+  }
+  nav a {
+    display: block;
+    width: 32px;
+    text-align: center;
+  }
+  nav a.active {
+    background-color: #eee;
+    color: #000;
+  }
+}
+  
+

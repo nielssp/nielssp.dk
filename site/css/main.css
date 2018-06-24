@@ -301,4 +301,22 @@ kbd {
     #cookie-consent button:hover, #cookie-consent button:active {
       background-color: #5050A4; }
 
+.gallery {
+  overflow-x: auto;
+  white-space: nowrap; }
+  .gallery img {
+    vertical-align: top; }
+
+.gallery-js nav {
+  float: left;
+  list-style-type: none;
+  margin-left: -32px; }
+.gallery-js nav a {
+  display: block;
+  width: 32px;
+  text-align: center; }
+.gallery-js nav a.active {
+  background-color: #eee;
+  color: #000; }
+
 /*# sourceMappingURL=main.css.map */
