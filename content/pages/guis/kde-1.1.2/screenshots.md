@@ -3,16 +3,20 @@ KDE 1.1.2 was released on 13 September 1999. It was included in Slackware Linux 
 
 [K Desktop Environment 1 on Wikipedia](https://en.wikipedia.org/wiki/K_Desktop_Environment_1).
 
-## Login screen
+<div class="toc" data-headings="h2"></div>
+
+## Startup
+
+### Login screen
 <figure>
 <img src="login-screen.png" alt="Login screen" />
-<figcaption>Groovy!</figcaption>
+<figcaption>KDM: Groovy!</figcaption>
 </figure>
 
-## Splash screen
+### Splash screen
 No splash screen.
 
-## First run
+### First run
 The first time you log in you're informed that the <q>Desktop</q>-directory is being created. That's it. No additional configuration or setup required.
 
 <figure>
@@ -30,13 +34,13 @@ Like later KDE versions, the KDE 1 desktop feels a bit like Windows, but interes
 <figcaption>1) Desktop with file manager&nbsp; 2) Desktop with hidden main panel</figcaption>
 </figure>
 
-## Main menu
+### Main menu
 
 <figure>
 <img src="main-menu.png" alt="Main menu" />
 </figure>
 
-## Run
+### Run
 
 Pressing Alt-F2 opens the Run-dialog.
 
@@ -44,20 +48,42 @@ Pressing Alt-F2 opens the Run-dialog.
 <img src="run.png" alt="Run" />
 </figure>
 
-## Lock screen
+### Lock screen
 
 <figure>
 <img src="lock-screen.png" alt="Lock screen" />
 </figure>
 
-## File manager
+### Help
+
+The KDE help system provides access to HTML help files for all KDE programs. It also displays man-pages.
+
+<figure>
+<div class="gallery">
+<img src="help.png" alt="Help" />
+<img src="help-2.png" alt="Help" />
+</div>
+<figcaption>kdehelp 0.7: 1) Welcome page&nbsp; 2) Man-page for <q>man</q></figcaption>
+</figure>
+
+### About
+
+A simple <q>About KDE</q> dialog can be accessed from the <q>Help</q>-menu of most KDE applications.
+
+<figure>
+<img src="about.png" alt="About" />
+</figure>
+
+## Utilities
+
+### File manager
 
 <figure>
 <img src="file-manager.png" alt="File manager" />
 <figcaption>kfm 1.167.2.21: The KDE file manager.</figcaption>
 </figure>
 
-### Feature: Open with
+#### Feature: Open with
 
 It's possible to right click on a file to open it with a specific application, however it doesn't seem to be possible to change file associations at all.
 
@@ -65,18 +91,46 @@ It's possible to right click on a file to open it with a specific application, h
 <img src="file-manager-open-with.png" alt="Open with" />
 </figure>
 
-## Terminal
+### File search
+
+The file search application is almost identical to <q>Find: All Files</q> in Windows 95.
+
+<figure>
+<div class="gallery">
+<img src="file-search-4.png" alt="File search" />
+<img src="file-search-2.png" alt="File search" />
+<img src="file-search-3.png" alt="File search" />
+</div>
+<figcaption>kfind 0.4.1</figcaption>
+</figure>
+
+### Terminal
 
 <figure>
 <img src="terminal.png" alt="Terminal" />
 <figcaption>konsole 0.9.11: The KDE terminal.</figcaption>
 </figure>
 
-## Web browser
+### Text editor
+
+<figure>
+<img src="text-editor.png" alt="Text editor" />
+<figcaption>kedit 1.2.2: A simple text editor.</figcaption>
+</figure>
+
+### Code editor
+
+<figure>
+<img src="code-editor.png" alt="Code editor" />
+<figcaption>kwrite 0.98: A slightly more advanced text editor.</figcaption>
+</figure>
+
+### Web browser
+In wasn't obvious to me at first, but I eventually discovered that the file manager, kfm, was in fact also a web browser (similar to its successor Konqueror).
 
 <figure>
 <img src="web-browser.png" alt="Web browser" />
-<figcaption>kfm 1.167.2.21: Also a web browser.</figcaption>
+<figcaption>kfm 1.167.2.21: Not only a file manager but also a web browser.</figcaption>
 </figure>
 
 Even though it's not a KDE application and doesn't use Qt, Netscape also has an icon on the panel by default (and otherwise resides in the <q>non-KDE Apps</q>-menu).
@@ -86,28 +140,16 @@ Even though it's not a KDE application and doesn't use Qt, Netscape also has an 
 <figcaption>Netscape Communicator 4.73.</figcaption>
 </figure>
 
-## Text editor
+## Graphics
 
-<figure>
-<img src="text-editor.png" alt="Text editor" />
-<figcaption>kedit 1.2.2: A simple text editor.</figcaption>
-</figure>
-
-## Code editor
-
-<figure>
-<img src="code-editor.png" alt="Code editor" />
-<figcaption>kwrite 0.98: A slightly more advanced text editor.</figcaption>
-</figure>
-
-## Image viewer
+### Image viewer
 
 <figure>
 <img src="image-viewer.png" alt="Image viewer" />
 <figcaption>kview 1.8: An image viewer.</figcaption>
 </figure>
 
-## Image manipulation
+### Image manipulation
 
 <figure>
 <img src="paint.png" alt="Image manipulation" />
@@ -197,29 +239,6 @@ No video player.
 <figcaption>kscd 1.2.7</figcaption>
 </figure>
 
-## Help
-
-The KDE help system provides access to HTML help files for all KDE programs. It also displays man-pages.
-
-<figure>
-<div class="gallery">
-<img src="help.png" alt="Help" />
-<img src="help-2.png" alt="Help" />
-</div>
-<figcaption>kdehelp 0.7: 1) Welcome page&nbsp; 2) Man-page for <q>man</q></figcaption>
-</figure>
-
-## File search
-
-<figure>
-<div class="gallery">
-<img src="file-search-4.png" alt="File search" />
-<img src="file-search-2.png" alt="File search" />
-<img src="file-search-3.png" alt="File search" />
-</div>
-<figcaption>kfind 0.4.1</figcaption>
-</figure>
-
 ## Settings
 
 KDE comes with a control panel called <q>KDE Control Center</q> that provides access to all KDE settings dialogs. Each settings dialog can also be opened individually from the KDE main menu (in which case the Control Center sidebar and menubar won't be visible).
@@ -237,6 +256,8 @@ KDE comes with a control panel called <q>KDE Control Center</q> that provides ac
 
 ### Appearance
 
+The color scheme can be changed similarly to how it's done on Windows 9x. There's also a checkbox that enables/disables Windows 95-style widgets. Another checkbox makes it possible to put the menubar on top of the screen emulating Mac OS.
+
 <figure>
 <div class="gallery">
 <img src="settings-appearance.png" alt="Appearance" />
@@ -247,6 +268,8 @@ KDE comes with a control panel called <q>KDE Control Center</q> that provides ac
 </figure>
 
 ### Theme
+
+Themes are collections of color schemes, icons, wallpapers, sounds, window style, etc.
 
 <figure>
 <img src="settings-theme.png" alt="Theme" />
