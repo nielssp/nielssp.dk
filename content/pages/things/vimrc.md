@@ -133,6 +133,4 @@ catch
   endfunction
   command! Install :call Install()
 endtry
-
-call system('setxkbmap -option caps:escape')
 ```

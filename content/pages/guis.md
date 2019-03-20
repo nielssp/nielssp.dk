@@ -13,7 +13,7 @@ So far I've played around with the following versions of Slackware Linux in Virt
 	* KDE 3.0.1
 	* GNOME 1.4
 	* XFCE 3.8
-* Slackware 9.11
+* Slackware 9.1
 	* KDE 3.1
 	* GNOME 2.4
 	* XFCE 3.99.4

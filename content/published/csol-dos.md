@@ -4,7 +4,7 @@
 <figcaption>csol running in DOS 6.22 on an i486 Toshiba laptop from the mid-'90s.</figcaption>
 </figure>
 
-I'm not sure how the thought entered my mind, but I was suddenly curious about how easy it would be to get at somewhat simple ncurses application like csol to run on DOS. Aside from ncurses, I knew csol didn't really have any dependencies other than a C compiler, so I searched for <q>DOS curses</q> and [PDCurses](https://pdcurses.sourceforge.io/) (Public Domain Curses) showed up.
+I'm not sure how the thought entered my mind, but I was suddenly curious about how easy it would be to get a somewhat simple ncurses application like csol to run on DOS. Aside from ncurses, I knew csol didn't really have any dependencies other than a C compiler, so I searched for <q>DOS curses</q> and [PDCurses](https://pdcurses.sourceforge.io/) (Public Domain Curses) showed up.
 
 Helpfully, the [PDCurses github repository](https://github.com/wmcbrine/PDCurses/tree/master/dos) contains a list of C compilers for DOS. At first I tried to get DJGPP up and running in DOSBox, but eventually ended up using [Open Watcom](http://www.openwatcom.org/) instead because the installation was simpler. After compiling PDCurses my new DOS development environment was ready. To compile csol with Open Watcom and PDCurses I had to make a number of changes to the source:
 

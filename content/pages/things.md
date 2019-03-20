@@ -6,6 +6,7 @@ This page contains an incomplete list of various ideas, projects, snippets etc.
 * [csol](https://github.com/nielssp/csol) (2017) – ncurses solitaire (C)
 * [yuk](https://github.com/nielssp/yuk) (2017) – ncurses Yukon solitaire (C)
 * [nse](https://github.com/nielssp/nse) (2017) – lisp experiment (C)
+* [vmtest](https://github.com/nielssp/vmtest) (2018) – VM and JIT experiment (C)
 * [jqCandlestick](https://github.com/nielssp/jqCandlestick) (2014) – candlestick charts (JavaScript)
 * [nol](https://github.com/nielssp/nol) (2016) – functional programming language experiment (Scala)
 * [ColorGrab](https://github.com/nielssp/colorgrab) (2015) – wxWidgets color picker (C++)
@@ -20,4 +21,4 @@ This page contains an incomplete list of various ideas, projects, snippets etc.
 * [Acrum](bs:/things/acrum) (2013) – agile project management tool (PHP)
 * [PeanutCMS](bs:/things/peanutcms) (2011) – CMS (PHP)
 * [Jivoo](bs:/things/jivoo) (2014) – CMS / framework (PHP)
-* [blogstep](bs:/things/blogstep) (2016) – web-based static site generator (PHP)
+* [TEXTSTEP](bs:/things/textstep) (2016) – web-based static site generator (PHP)
