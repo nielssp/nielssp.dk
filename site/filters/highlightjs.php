@@ -42,24 +42,24 @@ $filter->html = function (ContentCompiler $cc, File $file, Document $metadata, \
 $filter['highlightjs'] = function (TemplateCompiler $tc, $attr, $enabled, $style = 'default') use ($assets) {
     if ($enabled) {
         $languages = explode(',', $attr['languages']);
-        if ($tc->getEnv()->get('HIGHLIGHTJS') === null) {
+        if ($tc->getTemplateEnv()->get('HIGHLIGHTJS') === null) {
             $block = '<script type="text/javascript" src="' . $assets['main'] . '"></script>';
             $block .= '<style type="text/css">@import "' . sprintf($assets['style'], $style) . '";</style>';
             $block .= '<script>hljs.initHighlightingOnLoad();</script>';
         } else {
-            $block = $tc->getEnv()->get('HIGHLIGHTJS')->toString();
+            $block = $tc->getTemplateEnv()->get('HIGHLIGHTJS')->toString();
         }
-        if ($tc->getEnv()->get('HIGHLIGHTJS_LANGS') === null) {
-            $tc->getEnv()->let('HIGHLIGHTJS_LANGS', new ObjectVal([]));
+        if ($tc->getTemplateEnv()->get('HIGHLIGHTJS_LANGS') === null) {
+            $tc->getTemplateEnv()->let('HIGHLIGHTJS_LANGS', new ObjectVal([]));
         }
-        $existing = $tc->getEnv()->get('HIGHLIGHTJS_LANGS');
+        $existing = $tc->getTemplateEnv()->get('HIGHLIGHTJS_LANGS');
         foreach ($languages as $language) {
             if (!$existing->has($language)) {
                 $block .= '<script type="text/javascript" src="' . sprintf($assets['lang'], $language) . '"></script>';
                 $existing->set($language, TrueVal::true());
             }
         }
-        $tc->getEnv()->set('HIGHLIGHTJS', new StringVal($block));
+        $tc->getTemplateEnv()->set('HIGHLIGHTJS', new StringVal($block));
     }
     return '';
 };
