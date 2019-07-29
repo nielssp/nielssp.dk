@@ -6,11 +6,13 @@
  * See the LICENSE file or http://opensource.org/licenses/MIT for more information.
  */
 
-use Blogstep\Compile\View;
 use Blogstep\Compile\ContentCompiler;
+use Blogstep\Compile\TemplateCompiler;
+use Blogstep\Compile\Tsc\StringVal;
+use Blogstep\Compile\Tsc\ObjectVal;
+use Blogstep\Compile\Tsc\TrueVal;
 use Blogstep\Compile\Filter;
 use Blogstep\Files\File;
-use \simple_html_dom;
 use Jivoo\Store\Document;
 
 $assets = [
@@ -21,7 +23,7 @@ $assets = [
 
 $filter = new Filter();
 
-$filter->html = function (ContentCompiler $cc, File $file, Document $metadata, simple_html_dom $dom) {
+$filter->html = function (ContentCompiler $cc, File $file, Document $metadata, \simple_html_dom $dom) {
     $codeBlocks = $dom->find('pre code[class]');
     $languages = [];
     foreach ($codeBlocks as $codeBlock) {
@@ -37,25 +39,27 @@ $filter->html = function (ContentCompiler $cc, File $file, Document $metadata, s
     }
 };
 
-$filter['highlightjs'] = function (View $view, $attr, $enabled, $style = 'default') use ($assets) {
+$filter['highlightjs'] = function (TemplateCompiler $tc, $attr, $enabled, $style = 'default') use ($assets) {
     if ($enabled) {
         $languages = explode(',', $attr['languages']);
-        if ($view->blocks->isEmpty('highlightjs')) {
-            $view->blocks->append('highlightjs', '<script type="text/javascript" src="' . $assets['main'] . '"></script>');
-            $view->blocks->append('highlightjs', '<style type="text/css">@import "' . sprintf($assets['style'], $style) . '";</style>');
-            $view->blocks->append('highlightjs', '<script>hljs.initHighlightingOnLoad();</script>');
+        if ($tc->getEnv()->get('HIGHLIGHTJS') === null) {
+            $block = '<script type="text/javascript" src="' . $assets['main'] . '"></script>';
+            $block .= '<style type="text/css">@import "' . sprintf($assets['style'], $style) . '";</style>';
+            $block .= '<script>hljs.initHighlightingOnLoad();</script>';
+        } else {
+            $block = $tc->getEnv()->get('HIGHLIGHTJS')->toString();
         }
-        if (!isset($view->data->highlightjsLangs)) {
-            $view->data->highlightjsLangs = [];
+        if ($tc->getEnv()->get('HIGHLIGHTJS_LANGS') === null) {
+            $tc->getEnv()->let('HIGHLIGHTJS_LANGS', new ObjectVal([]));
         }
+        $existing = $tc->getEnv()->get('HIGHLIGHTJS_LANGS');
         foreach ($languages as $language) {
-            if (!isset($view->data->highlightjsLangs[$language])) {
-                $view->blocks->append('highlightjs', '<script type="text/javascript" src="' . sprintf($assets['lang'], $language) . '"></script>');
-                $langs = $view->data->highlightjsLangs;
-                $langs[$language] = true;
-                $view->data->highlightjsLangs = $langs;;
+            if (!$existing->has($language)) {
+                $block .= '<script type="text/javascript" src="' . sprintf($assets['lang'], $language) . '"></script>';
+                $existing->set($language, TrueVal::true());
             }
         }
+        $tc->getEnv()->set('HIGHLIGHTJS', new StringVal($block));
     }
     return '';
 };

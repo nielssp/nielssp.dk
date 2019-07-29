@@ -1,0 +1,38 @@
+{
+posts = list_content('/content/published')
+posts = posts | sort_by_desc(.published)
+posts = posts | take(30)
+}
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>{CONFIG.title}</title>
+  <atom:link href="{url()}" rel="self" type="application/rss+xml" />
+  <link>{url('/')}</link>
+  <description>{CONFIG.description}</description>
+  {last_post = posts[0]}
+  {if last_post}
+  <lastBuildDate>{last_post.published | rfc2822}</lastBuildDate>
+  {end if}
+
+  {for post in posts}
+  <item>
+    <title>{post.title}</title>
+    <description><![CDATA[
+      {filter_content(post, ['noTitle', 'brief', 'img(480, 360, 90, true)', 'linksAbsolute'])}
+
+      {if post.has_break}
+      <p>
+        <a href="{url(post.link)}">Continue reading&hellip;</a>
+      </p>
+      {end if}
+      ]]></description>
+    <link>{url(post.link)}</link>
+    <pubDate>{post.published | rfc2822}</pubDate>
+    <guid>{url(post.link)}</guid>
+  </item>
+  {end for}
+
+</channel>
+
+</rss>

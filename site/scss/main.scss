@@ -435,5 +435,22 @@ kbd {
     color: #000;
   }
 }
-  
 
+.toc {
+}
+
+h1, h2, h3, h4, h5, h6 {
+    .heading-fragment {
+        width: 30px;
+        padding-right: 2px;
+        margin-left: -32px;
+        display: none;
+        float: left;
+        text-align: right;
+    }
+    &:hover {
+        .heading-fragment {
+            display: inline-block;
+        }
+    }
+}

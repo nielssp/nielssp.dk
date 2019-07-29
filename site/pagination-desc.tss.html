@@ -1,0 +1,21 @@
+<div class="pagination">
+    {if PAGE.page == 1}
+    <span class="prev">&#8592; Newer</span>
+    {else}
+    <a href="{page_link(PAGE.page - 1)}" class="prev">&#8592; Newer</a>
+    {end if}
+
+    {for p in page_list(11)}
+        {if p == PAGE.page}
+        <span class="this">{p}</span>
+        {else}
+        <a href="{page_link(p)}">{p}</a>
+        {end if}
+    {end for}
+
+    {if PAGE.page == PAGE.pages}
+    <span class="next">Older &#8594;</span>
+    {else}
+    <a href="{page_link(PAGE.page + 1)}" class="next">Older &#8594;</a>
+    {end if}
+</div>
