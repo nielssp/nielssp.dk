@@ -3,21 +3,21 @@ add_static('robots.txt')
 add_static('js')
 add_static('css')
 
-add_page('404.html', '404.tss.html')
-add_page('posts.rss', 'posts.tss.rss')
+add_page('404.html', 'templates/404.tss.html')
+add_page('posts.rss', 'templates/posts.tss.rss')
 
-add_page('archive/index.html', 'archive.tss.html')
+add_page('archive/index.html', 'templates/archive.tss.html')
 
-pages = list_content('/content/pages')
+pages = list_content('content/pages')
 for page in pages
   page.link = "{page.relative_path}/{page.name}/index.html"
-  add_page(page.link, 'page.tss.html', {
+  add_page(page.link, 'templates/page.tss.html', {
     page: page
   })
   save_content(page)
 end for
 
-published_posts = list_content('/content/published')
+published_posts = list_content('content/published')
 
 tag_groups = {}
 
@@ -31,7 +31,7 @@ for post in published_posts
   post.year = post.published | date('%Y')
   post.month = post.published | date('%m')
   post.link = "{post.year}/{post.month}/{post.name}/index.html"
-  add_page(post.link, 'post.tss.html', {
+  add_page(post.link, 'templates/post.tss.html', {
     post: post
   })
   save_content(post)
@@ -39,22 +39,22 @@ end for
 
 for group in published_posts | group_by(.year)
   year = group[0].year
-  group | paginate(5, "{year}%page%/index.html", 'archive-year.tss.html', {
+  group | paginate(5, "{year}%page%/index.html", 'templates/archive-year.tss.html', {
     year: year
   })
   for subgroup in group | group_by(.month)
     month = subgroup[0].month
-    subgroup | paginate(5, "{year}/{month}%page%/index.html", 'archive-month.tss.html', {
+    subgroup | paginate(5, "{year}/{month}%page%/index.html", 'templates/archive-month.tss.html', {
       year: year,
       month: month
     })
   end for
 end for
 
-published_posts | sort_by_desc(.published) | paginate(5, '%page%/index.html', 'post-list.tss.html')
+published_posts | sort_by_desc(.published) | paginate(5, '%page%/index.html', 'templates/post-list.tss.html')
 
 for tag: posts in tag_groups
-  posts | sort_by(.published) | paginate(5, "tags/{tag}%page%/index.html", 'archive-tag.tss.html', {
+  posts | sort_by(.published) | paginate(5, "tags/{tag}%page%/index.html", 'templates/archive-tag.tss.html', {
     tag: tag
   })
 end for
