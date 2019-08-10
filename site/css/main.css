@@ -143,7 +143,8 @@ figure {
     max-width: 100%;
     height: auto; }
   figure figcaption {
-    color: #333; }
+    color: #333;
+    clear: left; }
   figure table {
     margin: 0 -8px 0.75em -8px; }
   figure pre {
@@ -319,14 +320,22 @@ kbd {
   background-color: #eee;
   color: #000; }
 
-h1 .heading-fragment, h2 .heading-fragment, h3 .heading-fragment, h4 .heading-fragment, h5 .heading-fragment, h6 .heading-fragment {
-  width: 30px;
-  padding-right: 2px;
-  margin-left: -32px;
-  display: none;
-  float: left;
-  text-align: right; }
-h1:hover .heading-fragment, h2:hover .heading-fragment, h3:hover .heading-fragment, h4:hover .heading-fragment, h5:hover .heading-fragment, h6:hover .heading-fragment {
-  display: inline-block; }
+/*
+h1, h2, h3, h4, h5, h6 {
+    .heading-fragment {
+        width: 30px;
+        padding-right: 2px;
+        margin-left: -32px;
+        display: none;
+        float: left;
+        text-align: right;
+    }
+    &:hover {
+        .heading-fragment {
+            display: inline-block;
+        }
+    }
+}
+*/
 
 /*# sourceMappingURL=main.css.map */
