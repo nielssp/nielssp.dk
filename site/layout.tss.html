@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8" />
+        <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-        <title>
-{if TITLE}
-    {TITLE | h} | {CONFIG.title | h}
-{else}
-    {CONFIG.title | h}
-    {if CONFIG.subtitle}
-        &ndash; {CONFIG.subtitle | h}
-    {end if}
-{end if}
-        </title>
+        <title>{
+            if TITLE
+                "{TITLE | h} | {CONFIG.title | h}"
+            else
+                CONFIG.title | h
+                if CONFIG.subtitle
+                    " &ndash; {CONFIG.subtitle | h}"
+                end if
+            end if
+        }</title>
 
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="shortcut icon" href="{'/favicon.ico' | link}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="shortcut icon" href="{'/favicon.ico' | link}"/>
 
         <style type="text/css">{read('css/main.css')}</style>
 
-        <link rel="alternate" type="application/rss+xml" href="{link('/posts.rss')}" />
+        <link rel="alternate" type="application/rss+xml" href="{link('/posts.rss')}"/>
 
     </head>
     <body>
@@ -32,21 +32,20 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 
 ga('create', 'UA-627108-9', 'auto');
 ga('send', 'pageview');
-"""}
-        </script>
+        """}</script>
 
         <div id="container">
 
             <header>
-                <h1><a href="{link('/')}">{CONFIG.title | h}</a></h1>
+                <h1><a{'/' | href}>{CONFIG.title | h}</a></h1>
                 <nav>
                     <ul class="menu">
-                        <li><a href="{link('/')}">Home</a></li>
-                        <li><a href="{link('/archive')}">Archive</a></li>
-                        <li><a href="{link('/things')}">Things</a></li>
-                        <li><a href="{link('/guis')}">GUIs</a></li>
-                        <li><a href="{link('/about')}">About</a></li>
-                        <li><a href="{link('/posts.rss')}">RSS</a></li>
+                        <li><a{'/' | href}>Home</a></li>
+                        <li><a{'/archive' | href}>Archive</a></li>
+                        <li><a{'/things' | href}>Things</a></li>
+                        <li><a{'/guis' | href}>GUIs</a></li>
+                        <li><a{'/about' | href}>About</a></li>
+                        <li><a{'/posts.rss' | href}>RSS</a></li>
                         <li><a href="https://github.com/nielssp">GitHub</a></li>
                         <li><a href="https://linkedin.com/in/nielssp">LinkedIn</a></li>
                     </ul>
@@ -58,11 +57,11 @@ ga('send', 'pageview');
             </main>
 
             <footer>
-                <a href="{link('/')}">{CONFIG.title | h}</a>
+                <a{'/' | href}>{CONFIG.title | h}</a>
                 <div class="copyright">
                     ©
-                    <span>{now() | date('%Y')}</span>
-                    <span>{CONFIG.copyright | h}</span>
+                    {now() | date('%Y')}
+                    {CONFIG.copyright | h}
                 </div>
             </footer>
         </div>
@@ -72,7 +71,7 @@ ga('send', 'pageview');
 
         {HIGHLIGHTJS}
 
-        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Source+Code+Pro" />
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Source+Code+Pro"/>
 
     </body>
 </html>
