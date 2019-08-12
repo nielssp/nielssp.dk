@@ -4,8 +4,8 @@ Inspired by [GUIdebook](https://guidebookgallery.org) and the [toastytech GUI ga
 So far I've played around with the following versions of Slackware Linux in VirtualBox:
 
 * Slackware 7.1
-	* [KDE 1.1.2](bs:guis/kde-1.1.2/screenshots)
-	* [GNOME 1.2](bs:guis/gnome-1.2/screenshots)
+	* [KDE 1.1.2](guis/kde-1.1.2/screenshots.md)
+	* [GNOME 1.2](guis/gnome-1.2/screenshots.md)
 * Slackware 8.0
 	* KDE 2.1.2
 	* GNOME 1.4

@@ -2,7 +2,7 @@
 LAYOUT = 'layout.tss.html'
 TITLE = 'Archive'
 
-posts = list_content('../content/published')
+posts = list_content('../content/published', {suffix: '.md'})
 for post in posts
   post.year = post.published | date('%Y')
   post.month = post.published | date('%m')

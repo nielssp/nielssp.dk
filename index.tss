@@ -8,7 +8,7 @@ add_page('posts.rss', 'templates/posts.tss.rss')
 
 add_page('archive/index.html', 'templates/archive.tss.html')
 
-pages = list_content('content/pages')
+pages = list_content('content/pages', {suffix: '.md'})
 for page in pages
   page.link = "{page.relative_path}/{page.name}/index.html"
   add_page(page.link, 'templates/page.tss.html', {
@@ -17,12 +17,12 @@ for page in pages
   save_content(page)
 end for
 
-published_posts = list_content('content/published')
+published_posts = list_content('content/published', {suffix: '.md'})
 
 tag_groups = {}
 
 for post in published_posts
-  for tag in post.tags
+  for tag in post.tags or []
     if not tag_groups[tag]
       tag_groups[tag] = []
     end if

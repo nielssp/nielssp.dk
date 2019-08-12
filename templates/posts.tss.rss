@@ -1,5 +1,5 @@
 {
-posts = list_content('../content/published')
+posts = list_content('../content/published', {suffix: '.md'})
 posts = posts | sort_by_desc(.published)
 posts = posts | take(30)
 }<?xml version="1.0" encoding="UTF-8" ?>
