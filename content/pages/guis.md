@@ -7,7 +7,7 @@ So far I've played around with the following versions of Slackware Linux in Virt
 	* [KDE 1.1.2](guis/kde-1.1.2/screenshots.md)
 	* [GNOME 1.2](guis/gnome-1.2/screenshots.md)
 * Slackware 8.0
-	* KDE 2.1.2
+	* [KDE 2.1.2](guis/kde-2.1.2/screenshots.md)
 	* GNOME 1.4
 * Slackware 8.1
 	* KDE 3.0.1
