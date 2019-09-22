@@ -1,7 +1,7 @@
-# GNOME 1.2
-GNOME 1.2 was released on 25 May 2000. It was included in Slackware Linux 7.1.
+# GNOME 1.4
+GNOME 1.4 was released on 2 April 2001. It was included in Slackware Linux 8.0.
 
-[Official GNOME 1.2 press release](https://www.gnome.org/press/2000/05/gnome-1-2-bongo-gnome-unleashed/).
+[Official GNOME 1.4 press release](https://www.gnome.org/press/2001/04/gnome-1-4-released-desktop-environment-boasts-power-stability-polish-and-integration/).
 
 <div class="toc" data-headings="h2"></div>
 
@@ -10,7 +10,7 @@ GNOME 1.2 was released on 25 May 2000. It was included in Slackware Linux 7.1.
 ### Login screen
 <figure>
 <img src="login-screen.png" alt="Login screen" />
-<figcaption>gdm 2.0</figcaption>
+<figcaption>gdm</figcaption>
 </figure>
 
 ### Splash screen
@@ -19,21 +19,21 @@ GNOME 1.2 was released on 25 May 2000. It was included in Slackware Linux 7.1.
 </figure>
 
 ### First run
-The help browser, home directory, and <q>Gnome Hints</q> are shown.
-
-<figure>
-<img src="welcome-screen.png" alt="First run" />
-</figure>
-
-## Desktop
-The desktop has a few things in common with KDE, but compared with KDE 1 it seems a lot more customizable; all panel elements can be moved around freely and several types of new panels can be added. The menu in the second screenshot below shows some of the applets that can be added to a panel.
+<q>Gnome Hints</q> and the setup wizard for Nautilus are shown.
 
 <figure>
 <div class="gallery">
-<img src="desktop.png" alt="Desktop" />
-<img src="desktop-2.png" alt="Desktop" />
+<img src="welcome-screen.png" alt="First run" />
+<img src="welcome-screen-2.png" alt="First run" />
+<img src="welcome-screen-3.png" alt="First run" />
 </div>
-<figcaption>1) Desktop with&nbsp; 2) Desktop with added <q>menu panel</q> and <q>Add to panel</q> menu</figcaption>
+</figure>
+
+## Desktop
+
+<figure>
+<img src="desktop.png" alt="Desktop" />
+<figcaption>Desktop with Nautilus file manager.</figcaption>
 </figure>
 
 ### Main menu
@@ -44,16 +44,18 @@ The desktop has a few things in common with KDE, but compared with KDE 1 it seem
 
 ### Run
 
-The Run-dialog can be opened from the main menu. There doesn't seem to be a default key binding for it.
+The Run-dialog can be opened by pressing Alt+F2.
 
 <figure>
 <img src="run.png" alt="Run" />
-<figcaption>The title bar is on the side for some reason</figcaption>
 </figure>
 
 ### Lock screen
 
-There is a lock screen (or at least there's a button for it on the default panel), but I couldn't get it to work. It appears to use xscreensaver for screensavers and lock screen, but `xscreensaver-command -lock` returns <q>locking not enabled</q>.
+<figure>
+<img src="lock-screen.png" alt="Lock screen" />
+<figcaption>xscreensaver 3.32</figcaption>
+</figure>
 
 ### Help
 
@@ -64,7 +66,7 @@ The GNOME help system provides access to HTML help files for all GNOME programs.
 <img src="help.png" alt="Help" />
 <img src="help-2.png" alt="Help" />
 </div>
-<figcaption>gnome-help-browser 0.4: 1) Welcome page&nbsp; 2) Man-page for <q>man</q></figcaption>
+<figcaption>gnome-help-browser 1.4.0.4: 1) Welcome page&nbsp; 2) Man-page for <q>man</q></figcaption>
 </figure>
 
 ### About
@@ -79,14 +81,14 @@ The closest thing to an about dialog is <q>System Information</q>. It doesn't in
 
 ### File manager
 
+GNOME 1.4 now comes with Nautilus, a file manager originally developed by a software company called [Eazel](https://en.wikipedia.org/wiki/Eazel).
+
 <figure>
 <img src="file-manager.png" alt="File manager" />
-<figcaption>gmc 4.5.50: GNOME Midnight Commander.</figcaption>
+<figcaption>nautilus 1.0.3.</figcaption>
 </figure>
 
 #### Feature: Open with
-
-It's possible to right click on a file to open it with a specific application. MIME type associations can be changed in the settings.
 
 <figure>
 <img src="file-manager-open-with.png" alt="Open with" />
@@ -95,44 +97,36 @@ It's possible to right click on a file to open it with a specific application. M
 ### File search
 
 <figure>
-<div class="gallery">
 <img src="file-search.png" alt="File search" />
-<img src="file-search-2.png" alt="File search" />
-<img src="file-search-3.png" alt="File search" />
-</div>
-<figcaption>gsearchtool 1.2.0</figcaption>
+<figcaption>gsearchtool 1.4.0.1</figcaption>
 </figure>
 
 ### Terminal
 
 <figure>
 <img src="terminal.png" alt="Terminal" />
-<figcaption>gnome-terminal 1.2.1.</figcaption>
+<figcaption>gnome-terminal 1.4.0.4.</figcaption>
 </figure>
 
 ### Text editor
 
 <figure>
 <img src="text-editor.png" alt="Text editor" />
-<figcaption>gedit 0.5.1: A simple text editor.</figcaption>
+<figcaption>gedit 0.9.6</figcaption>
 </figure>
 
 ### Code editor
 
-This version of gedit doesn't seem to provide much help in terms of editing code.
-
-### Web browser
-At first glance GNOME doesn't come with its own web browser. Netscape runs as it did on KDE:
-
 <figure>
-<img src="web-browser.png" alt="Netscape" />
-<figcaption>Netscape Communicator 4.73.</figcaption>
+<img src="code-editor.png" alt="Text editor" />
+<figcaption>gvim 5.8</figcaption>
 </figure>
 
-I did, however, discover that the help browser can also be used as a web browser:
+### Web browser
 
 <figure>
-<img src="web-browser-2.png" alt="Help browser" />
+<img src="webbrowser.png" alt="Netscape" />
+<figcaption>galeon 0.11.0</figcaption>
 </figure>
 
 ## Graphics
@@ -141,23 +135,26 @@ I did, however, discover that the help browser can also be used as a web browser
 
 <figure>
 <img src="image-viewer.png" alt="Image viewer" />
-<figcaption>ee 0.3.11: Electric Eyes</figcaption>
+<figcaption>ee 0.3.12: Electric Eyes</figcaption>
+</figure>
+
+<figure>
+<img src="image-viewer-2.png" alt="Image viewer" />
+<figcaption>eog 0.6: Eye of GNOME</figcaption>
 </figure>
 
 ### Image manipulation
 
-Since GNOME is based on GTK+ (originally the <q>GIMP toolkit</q>) it makes sense that it includes GIMP.
-
 <figure>
 <img src="paint.png" alt="Image manipulation" />
-<figcaption>GIMP 1.0.4 in all its multi-window glory</figcaption>
+<figcaption>GIMP 1.2.1</figcaption>
 </figure>
 
 ## Office applications
 
 ### Email
 
-GNOME 1.2 doesn't have its own email client, but Netscape Communicator includes one.
+GNOME 1.4 doesn't have its own email client.
 
 ### Address book
 
@@ -165,7 +162,7 @@ GnomeCard is the address book. It doesn't seem to have any integration with othe
 
 <figure>
 <img src="address-book.png" alt="Address book" />
-<figcaption>gnomecard 1.2.0</figcaption>
+<figcaption>gnomecard 1.4.0</figcaption>
 </figure>
 
 ### Calendar
@@ -175,25 +172,28 @@ GnomeCard is the address book. It doesn't seem to have any integration with othe
 <img src="calendar.png" alt="Calendar" />
 <img src="calendar-2.png" alt="Calendar" />
 </div>
-<figcaption>gnomecal 1.2.0</figcaption>
+<figcaption>gnomecal 1.4.0</figcaption>
 </figure>
 
 ### Calculator
 
 <figure>
 <img src="calculator.png" alt="Calculator" />
-<figcaption>gcalc 1.2.0</figcaption>
+<figcaption>gcalc 1.4.0.1</figcaption>
 </figure>
 
 ### Word processor
 
-No word processor.
+<figure>
+<img src="word-processor.png" alt="Word processor" />
+<figcaption>abiword</figcaption>
+</figure>
 
 ### Spreadsheets
 
 <figure>
 <img src="spreadsheet.png" alt="Spreadsheets" />
-<figcaption>gnumeric 0.54</figcaption>
+<figcaption>gnumeric 0.65</figcaption>
 </figure>
 
 ### Presentations
@@ -213,7 +213,7 @@ No presentations.
 
 <figure>
 <img src="sound-recorder.png" alt="Sound recorder" />
-<figcaption>grecord 1.2.0: Plays/records WAV.</figcaption>
+<figcaption>grecord 1.2.3: Plays/records WAV.</figcaption>
 </figure>
 
 ### Video player
@@ -224,7 +224,7 @@ No video player.
 
 <figure>
 <img src="cd-player.png" alt="CD player" />
-<figcaption>gtcd 1.2.0</figcaption>
+<figcaption>gtcd 1.2.3</figcaption>
 </figure>
 
 ## Settings
@@ -233,7 +233,7 @@ GNOME comes with a control panel called <q>GNOME Control Center</q> that provide
 
 <figure>
 <img src="settings.png" alt="Settings" />
-<figcaption>gnomecc 1.2.0: GNOME Control Center</figcaption>
+<figcaption>gnomecc 1.4.0.1: GNOME Control Center</figcaption>
 </figure>
 
 ### Wallpaper
@@ -244,14 +244,15 @@ GNOME comes with a control panel called <q>GNOME Control Center</q> that provide
 
 ### Appearance
 
-The <q>Theme selector</q> makes it possible to switch between a number of preinstalled GTK+ themes, but unlike in KDE 1 there is no easy way to change the colors. Similarly the window manager Sawfish also comes preinstalled with a small number of themes.
+The <q>Theme selector</q> makes it possible to switch between a number of preinstalled GTK+ themes, but unlike in KDE 1 there is no easy way to change the colors. Similarly the window manager Sawfish also comes preinstalled with a small number of themes. The file manager Nautilus also comes with its own themes.
 
 <figure>
 <div class="gallery">
 <img src="settings-appearance.png" alt="Appearance" />
-<img src="settings-appearance-2.png" alt="Appearance" />
+<img src="settings-window-style.png" alt="Appearance" />
+<img src="settings-icons.png" alt="Appearance" />
 </div>
-<figcaption>1) GTK+ theme selector&nbsp; 2) Window manager (Sawfish) theme selector</figcaption>
+<figcaption>1) GTK+ theme selector&nbsp; 2) Window manager (Sawfish) theme selector 3) Nautilus themes</figcaption>
 </figure>
 
 ### Theme
@@ -314,7 +315,9 @@ No removable media settings.
 
 ### Printers
 
-No printer settings.
+<figure>
+<img src="settings-printer.png" alt="Printer" />
+</figure>
 
 ### Sound
 
@@ -327,7 +330,10 @@ No printer settings.
 
 ### Login screen
 
-No login screen settings.
+<figure>
+<img src="settings-login-manager.png" alt="Login screen settings" />
+<figcaption>gdmconfig 2.2.2.1</figcaption>
+</figure>
 
 ## System
 
@@ -339,7 +345,7 @@ No user management.
 
 <figure>
 <img src="task-manager.png" alt="Task manager" />
-<figcaption>gtop 1.0.9</figcaption>
+<figcaption>gtop 1.0.13</figcaption>
 </figure>
 
 ## Dialogs
@@ -353,11 +359,7 @@ No user management.
 ### Font
 
 <figure>
-<div class="gallery">
 <img src="dialog-font.png" alt="Font" />
-<img src="dialog-font-2.png" alt="Font" />
-<img src="dialog-font-3.png" alt="Font" />
-</div>
 </figure>
 
 ### Open
