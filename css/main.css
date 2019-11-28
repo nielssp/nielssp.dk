@@ -320,6 +320,18 @@ kbd {
   background-color: #eee;
   color: #000; }
 
+@media only screen and (min-width: 1360px) {
+  .toc {
+    float: right;
+    width: 250px;
+    position: sticky;
+    top: 0;
+    margin-right: -280px; }
+    .toc h2 {
+      margin-top: 0; }
+    .toc ol {
+      list-style-position: inside;
+      margin-left: 0; } }
 /*
 h1, h2, h3, h4, h5, h6 {
     .heading-fragment {
