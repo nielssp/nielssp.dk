@@ -17,3 +17,7 @@ So far I've played around with the following versions of Slackware Linux in Virt
 	* KDE 3.1
 	* GNOME 2.4
 	* XFCE 3.99.4
+
+GUI elements:
+
+* [Buttons](guis/buttons/index.md)

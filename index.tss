@@ -10,7 +10,11 @@ add_page('archive/index.html', 'templates/archive.tss.html')
 
 pages = list_content('content/pages', {suffix: '.md'})
 for page in pages
-  page.link = "{page.relative_path}/{page.name}/index.html"
+  if page.name == 'index'
+    page.link = "{page.relative_path}/index.html"
+  else
+    page.link = "{page.relative_path}/{page.name}/index.html"
+  end if
   add_page(page.link, 'templates/page.tss.html', {
     page: page
   })
