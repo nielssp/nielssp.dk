@@ -57,7 +57,7 @@ ga('send', 'pageview');
             </main>
 
             <footer>
-                <a{'/' | href}>{CONFIG.title | h}</a>
+                <a{'/privacy' | href}>Privacy Policy</a>
                 <div class="copyright">
                     ©
                     {now() | date('%Y')}
@@ -66,7 +66,6 @@ ga('send', 'pageview');
             </footer>
         </div>
 
-        <script type="text/javascript">{read('js/cookie-consent.js')}</script>
         <script type="text/javascript">{read('js/gallery.js')}</script>
 
         {HIGHLIGHTJS}

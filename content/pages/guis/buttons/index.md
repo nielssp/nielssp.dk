@@ -135,6 +135,16 @@ The above button is from the Neptune file manager, the only Alto program I found
 </div>
 </div>
 
+## Common Desktop Environment (1993)
+
+<div class="button-container" style="background-color: #AEB2C3">
+<div class="image-button" tabindex=0>
+<img class="normal" src="cde.png" />
+<img class="focus" src="cde_focus.png" />
+<img class="active" src="cde_active.png" />
+</div>
+</div>
+
 ## System 7.5 (1995)
 
 <div class="button-container" style="background-color: #EEEEEE">
@@ -307,6 +317,18 @@ The above button is from the Neptune file manager, the only Alto program I found
 </div>
 </div>
 
+## GNOME 2.12 (2005)
+
+<div class="button-container" style="background-color: #EAE4DF">
+<div class="image-button" tabindex=0>
+<img class="normal" src="gnome212.png" />
+<img class="hover" src="gnome212_hover.png" />
+<img class="focus" src="gnome212_focus.png" />
+<img class="focus-hover" src="gnome212_focus_hover.png" />
+<img class="active" src="gnome212_active.png" />
+</div>
+</div>
+
 ## Ubuntu 6.06 (2006)
 
 <div class="button-container" style="background-color: #EFEBE7">
@@ -340,6 +362,42 @@ The above button is from the Neptune file manager, the only Alto program I found
 <img class="focus" src="kde4_focus.png" />
 <img class="focus-hover" src="kde4_focus_hover.png" />
 <img class="active" src="kde4_active.png" />
+</div>
+</div>
+
+## GNOME 2.22 (2008)
+
+<div class="button-container" style="background-color: #F2F1F0">
+<div class="image-button" tabindex=0>
+<img class="normal" src="gnome222.png" />
+<img class="hover" src="gnome222_hover.png" />
+<img class="focus" src="gnome222_focus.png" />
+<img class="focus-hover" src="gnome222_focus_hover.png" />
+<img class="active" src="gnome222_active.png" />
+</div>
+</div>
+
+## GNOME 3.0 (2011)
+
+<div class="button-container" style="background-color: #EDEDED">
+<div class="image-button" tabindex=0>
+<img class="normal" src="gnome3.png" />
+<img class="hover" src="gnome3_hover.png" />
+<img class="focus" src="gnome3_focus.png" />
+<img class="focus-hover" src="gnome3_focus_hover.png" />
+<img class="active" src="gnome3_active.png" />
+</div>
+</div>
+
+## GNOME 3.4 (2012)
+
+<div class="button-container" style="background-color: #EDEDED">
+<div class="image-button" tabindex=0>
+<img class="normal" src="gnome34.png" />
+<img class="hover" src="gnome34_hover.png" />
+<img class="focus" src="gnome34_focus.png" />
+<img class="focus-hover" src="gnome34_focus_hover.png" />
+<img class="active" src="gnome34_active.png" />
 </div>
 </div>
 
