@@ -39,6 +39,15 @@ The above button is from the Neptune file manager, the only Alto program I found
 </div>
 </div>
 
+## Workbench 1.0 (1985)
+
+<div class="button-container" style="background-color: #000022">
+<div class="image-button">
+<img class="normal" src="workbench1.png" />
+<img class="active" src="workbench1_active.png" />
+</div>
+</div>
+
 ## Windows 1.0 (1985)
 
 <div class="button-container" style="background-color: #FFFFFF">
@@ -83,6 +92,15 @@ The above button is from the Neptune file manager, the only Alto program I found
 <div class="image-button">
 <img class="normal" src="nextstep.png" />
 <img class="active" src="nextstep_active.png" />
+</div>
+</div>
+
+## Workbench 2.0 (1990)
+
+<div class="button-container" style="background-color: #AAAAAA">
+<div class="image-button">
+<img class="normal" src="workbench2.png" />
+<img class="active" src="workbench2_active.png" />
 </div>
 </div>
 
