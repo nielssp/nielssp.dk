@@ -86,6 +86,25 @@ The above button is from the Neptune file manager, the only Alto program I found
 </div>
 </div>
 
+## OPEN LOOK (1988)
+
+<div class="button-container" style="background-color: #C8CCC8">
+<div class="image-button">
+<img class="normal" src="openlook.png" />
+<img class="active" src="openlook_active.png" />
+</div>
+</div>
+
+## Motif (1989)
+
+<div class="button-container" style="background-color: #A0A0A0">
+<div class="image-button" tabindex=0>
+<img class="normal" src="motif.png" />
+<img class="focus" src="motif_focus.png" />
+<img class="active" src="motif_active.png" />
+</div>
+</div>
+
 ## NeXTSTEP (1989)
 
 <div class="button-container" style="background-color: #C0C0C0">
