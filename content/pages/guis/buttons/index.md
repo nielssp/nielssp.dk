@@ -1,5 +1,9 @@
 # Buttons
 
+This is a collection of buttons from classic as well as modern operating systems and desktop environments. All of the buttons can be clicked, and some include focus and hover effects as well.
+
+[CSS imitations of some of the buttons.](css.md)
+
 ## Xerox Alto (1973)
 
 <div class="button-container" style="background-color: #FFFFFF">
