@@ -13,7 +13,7 @@ This is a collection of buttons from classic as well as modern operating systems
 </div>
 </div>
 
-The above button is from the Neptune file manager, the only Alto program I found that had actual buttons.
+This button is from the Neptune file manager, the only Alto program I found that had actual buttons.
 
 ## Xerox Star (1981)
 
@@ -523,13 +523,19 @@ The above button is from the Neptune file manager, the only Alto program I found
 
 ## Notes
 
+Focus-states are only included for buttons that receive focus when they are clicked.
+
 Alto emulator:  [Salto](http://www.bitsavers.org/bits/Xerox/Alto/simulator/salto/)
 
 Star emulator: [Darkstar](https://github.com/livingcomputermuseum/Darkstar)
 
 Lisa emulator: [lisaem](https://lisa.sunder.net/)
 
-Focus-states only included for buttons that receive focus when they are clicked.
+Commodore emulator: [VICE](https://vice-emu.sourceforge.io/)
+
+Amiga emulator: [FS-UAE](https://fs-uae.net/)
+
+Mac emulators: [PCE](http://www.hampa.ch/pce/pce-macplus.html), [Basilisk II](http://basilisk.cebix.net/), [SheepShaver](https://sheepshaver.cebix.net/), [QEMU](https://wiki.qemu.org/Documentation/Platforms/PowerPC)
 
 <style>
 .image-button {

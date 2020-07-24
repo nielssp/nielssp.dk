@@ -334,24 +334,20 @@ CSS imitations of [these buttons](index.md).
   font-size: 12px;
 }
 .win3 button {
-  background-color: #C3C7CB;
+  background-color: #c0c0c0;
   color: #000;
   border: 1px solid #000;
-  border-radius: 2px;
+  border-radius: 2.5px;
   padding: 2px 32px;
   position: relative;
-  box-shadow: inset 2px 2px 0 #fff, inset -2px -2px 0 #868A8E;
+	box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #fff, 
+    inset -2px -2px 0 #808080, inset 2px 2px 0 #fff;
+	outline: none;
 }
-.win3 button:focus:after {
-  content: '';
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -1px;
-  bottom: -1px;
-  right: -1px;
-  border: 2px solid #000;
-  border-radius: 2px;
+.win3 button:focus {
+ box-shadow: inset 1px 1px 0 #000, inset -1px -1px 0 #000,
+    inset -2px -2px 0 #808080, inset 2px 2px 0 #fff, 
+    inset -3px -3px 0 #808080, inset 3px 3px 0 #fff;
 }
 .win3 button:focus:before {
   content: '';
@@ -364,7 +360,7 @@ CSS imitations of [these buttons](index.md).
   border: 1px dotted #000;
 }
 .win3 button:active {
-  box-shadow: inset 1px 1px 0 #868A8E;
+  box-shadow: inset 1px 1px 0 #000, inset -1px -1px 0 #000, inset 2px 2px 0 #808080;
   padding: 3px 31px 1px 33px;
 }
 .win3 button:active:focus:before {
@@ -383,12 +379,15 @@ CSS imitations of [these buttons](index.md).
   color: #000;
   border: 1px solid #000;
   border-radius: 2px;
-  box-shadow: inset 2px 2px 0 #fff, inset -2px -2px 0 #575757;
-  padding: 1px 16px;
+  box-shadow: inset -2px -2px 0 #575757, inset 2px 2px 0 #fff;
+  padding: 2px 16px;
 }
 .viewmax2 button:active {
-  box-shadow: inset 4px 4px 0 #575757;
-  padding: 2px 15px 0 17px;
+  box-shadow: inset 3px 3px 0 #575757, inset 4px 4px 0 #fff;
+  padding: 4px 14px 0 18px;
+}
+.viewmax2 u {
+  text-decoration: underline 2px solid #f00;
 }
 
 .os22 {
@@ -562,16 +561,18 @@ CSS imitations of [these buttons](index.md).
   background-color: #C0C0C0;
   color: #000000;
   border: 1px solid #000000;
-  border-top: 1px solid #FFFFFF;
-  border-left: 1px solid #FFFFFF;
-  box-shadow: inset 1px 1px 0 #DFDFDF, inset -1px -1px 0 #808080;
+  border-top: 1px solid #F8FCF8;
+  border-left: 1px solid #F8FCF8;
+  box-shadow: inset 1px 1px 0 #D8DCD8, inset -1px -1px 0 #606060;
   padding: 4px 10px 4px 10px;
   min-width: 100px;
   text-align: center;
 }
 .kde1 button:active {
   border: 1px solid #000000;
-  box-shadow: inset 1px 1px 0 #808080, inset -1px -1px 0 #808080;
+  border-bottom: 1px solid #F8FCF8;
+  border-right: 1px solid #F8FCF8;
+  box-shadow: inset 1px 1px 0 #606060;
   padding: 5px 9px 3px 11px;
 }
 

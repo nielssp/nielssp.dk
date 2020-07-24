@@ -21,3 +21,4 @@ So far I've played around with the following versions of Slackware Linux in Virt
 GUI elements:
 
 * [Buttons](guis/buttons/index.md)
+* [Classic CSS stylesheets](https://nielssp.github.io/classic-stylesheets/)
