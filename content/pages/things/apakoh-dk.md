@@ -25,5 +25,5 @@ I also have an offline version of the Apakoh-website, containing a list of all t
 
 <figure>
 <img src="../../images/apakoh/apakoh5.png" alt="apakoh games" />
-<figcaption><q>Apakoh Games</q></figcaption>
+<figcaption>&ldquo;Apakoh Games&rdquo;</figcaption>
 </figure>

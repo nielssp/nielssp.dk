@@ -62,12 +62,12 @@ The KDE help center is now accessed using Konqueror. It still displays man-pages
 <img src="help.png" alt="Help" />
 <img src="help-2.png" alt="Help" />
 </div>
-<figcaption>konqueror 2.1.1: 1) Welcome page&nbsp; 2) Man-page for <q>man</q></figcaption>
+<figcaption>konqueror 2.1.1: 1) Welcome page&nbsp; 2) Man-page for &ldquo;man&rdquo;</figcaption>
 </figure>
 
 ### About
 
-A simple <q>About KDE</q> dialog can be accessed from the <q>Help</q>-menu of most KDE applications.
+A simple &ldquo;About KDE&rdquo; dialog can be accessed from the &ldquo;Help&rdquo;-menu of most KDE applications.
 
 <figure>
 <img src="about.png" alt="About" />
@@ -159,14 +159,14 @@ A simple <q>About KDE</q> dialog can be accessed from the <q>Help</q>-menu of mo
 
 ### Address book
 
-KMail has a built-in <q>Addressbook Manager</q> but it only contains email addresses:
+KMail has a built-in &ldquo;Addressbook Manager&rdquo; but it only contains email addresses:
 
 <figure>
 <img src="address-book.png" alt="Address book" />
 <figcaption>kmail's address book</figcaption>
 </figure>
 
-An actual address book (e.g. name, address, organization, phone etc.) is provided by <q>kab</q>, and it's possible to open the KMail Composer directly from kab.
+An actual address book (e.g. name, address, organization, phone etc.) is provided by &ldquo;kab&rdquo;, and it's possible to open the KMail Composer directly from kab.
 
 <figure>
 <img src="address-book-2.png" alt="Address book" />
@@ -240,7 +240,7 @@ No sound recorder.
 
 ## Settings
 
-KDE comes with a control panel called <q>KDE Control Center</q> that provides access to all KDE settings dialogs. Each settings dialog can also be opened individually from the KDE main menu (in which case the Control Center sidebar and menubar won't be visible).
+KDE comes with a control panel called &ldquo;KDE Control Center&rdquo; that provides access to all KDE settings dialogs. Each settings dialog can also be opened individually from the KDE main menu (in which case the Control Center sidebar and menubar won't be visible).
 
 <figure>
 <img src="settings.png" alt="Settings" />

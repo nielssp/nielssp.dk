@@ -25,3 +25,8 @@ TEXTSTEP (previously BlogSTEP) is a static site generator with a web-based file 
 <img src="../../images/blogstep/v7phonemenu.png" alt="Menu and dock"/>
 <figcaption>Responsive design: Menu and dock.</figcaption>
 </figure>
+
+<figure>
+<img src="../../images/blogstep/v12phone.png" alt="Menu and dock"/>
+<figcaption>Version 0.12 (June 2020): Alternative skin: &ldquo;Purple Gradient&rdquo;</figcaption>
+</figure>

@@ -19,7 +19,7 @@ GNOME 1.4 was released on 2 April 2001. It was included in Slackware Linux 8.0.
 </figure>
 
 ### First run
-<q>Gnome Hints</q> and the setup wizard for Nautilus are shown.
+&ldquo;Gnome Hints&rdquo; and the setup wizard for Nautilus are shown.
 
 <figure>
 <div class="gallery">
@@ -66,12 +66,12 @@ The GNOME help system provides access to HTML help files for all GNOME programs.
 <img src="help.png" alt="Help" />
 <img src="help-2.png" alt="Help" />
 </div>
-<figcaption>gnome-help-browser 1.4.0.4: 1) Welcome page&nbsp; 2) Man-page for <q>man</q></figcaption>
+<figcaption>gnome-help-browser 1.4.0.4: 1) Welcome page&nbsp; 2) Man-page for &ldquo;man&rdquo;</figcaption>
 </figure>
 
 ### About
 
-The closest thing to an about dialog is <q>System Information</q>. It doesn't include a version number though.
+The closest thing to an about dialog is &ldquo;System Information&rdquo;. It doesn't include a version number though.
 
 <figure>
 <img src="about.png" alt="About" />
@@ -229,7 +229,7 @@ No video player.
 
 ## Settings
 
-GNOME comes with a control panel called <q>GNOME Control Center</q> that provides access to all GNOME settings dialogs.
+GNOME comes with a control panel called &ldquo;GNOME Control Center&rdquo; that provides access to all GNOME settings dialogs.
 
 <figure>
 <img src="settings.png" alt="Settings" />
@@ -244,7 +244,7 @@ GNOME comes with a control panel called <q>GNOME Control Center</q> that provide
 
 ### Appearance
 
-The <q>Theme selector</q> makes it possible to switch between a number of preinstalled GTK+ themes, but unlike in KDE 1 there is no easy way to change the colors. Similarly the window manager Sawfish also comes preinstalled with a small number of themes. The file manager Nautilus also comes with its own themes.
+The &ldquo;Theme selector&rdquo; makes it possible to switch between a number of preinstalled GTK+ themes, but unlike in KDE 1 there is no easy way to change the colors. Similarly the window manager Sawfish also comes preinstalled with a small number of themes. The file manager Nautilus also comes with its own themes.
 
 <figure>
 <div class="gallery">

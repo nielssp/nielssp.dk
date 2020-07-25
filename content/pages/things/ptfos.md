@@ -3,7 +3,7 @@
 
 From 2011. Probably one of the first things I made in Java.
 
-<q>Plan T from Outer Space is a single player arcade-style science fiction shooter game. You control a tank using dual joystick-style controls and your mission is to defeat the alien invasion force.</q>
+&ldquo;Plan T from Outer Space is a single player arcade-style science fiction shooter game. You control a tank using dual joystick-style controls and your mission is to defeat the alien invasion force.&rdquo;
 
 <figure>
 <img src="../../images/ptfos.png" alt="Plan T from Outer Space" />

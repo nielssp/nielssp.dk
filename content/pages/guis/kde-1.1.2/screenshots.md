@@ -17,14 +17,14 @@ KDE 1.1.2 was released on 13 September 1999. It was included in Slackware Linux 
 No splash screen.
 
 ### First run
-The first time you log in you're informed that the <q>Desktop</q>-directory is being created. That's it. No additional configuration or setup required.
+The first time you log in you're informed that the &ldquo;Desktop&rdquo;-directory is being created. That's it. No additional configuration or setup required.
 
 <figure>
 <img src="welcome-screen.png" alt="First run" />
 </figure>
 
 ## Desktop
-Like later KDE versions, the KDE 1 desktop feels a bit like Windows, but interestingly, in this version the task bar (placed on the top of the screen by default) isn't part of the main panel like in later versions. The bottom panel contains the clock, system tray, workspace switcher (with tiny <q>Logout</q> and <q>Lock screen</q> buttons), and a customizable number of menus and shortcut icons. Everything except for the system tray and clock (which are fixed to the right side of the panel) can be moved around freely. The panel can be hidden to either the left or right side using the arrows in which case icons for the main menu, window list, and disk navigator appear on the left side of the task bar.
+Like later KDE versions, the KDE 1 desktop feels a bit like Windows, but interestingly, in this version the task bar (placed on the top of the screen by default) isn't part of the main panel like in later versions. The bottom panel contains the clock, system tray, workspace switcher (with tiny &ldquo;Logout&rdquo; and &ldquo;Lock screen&rdquo; buttons), and a customizable number of menus and shortcut icons. Everything except for the system tray and clock (which are fixed to the right side of the panel) can be moved around freely. The panel can be hidden to either the left or right side using the arrows in which case icons for the main menu, window list, and disk navigator appear on the left side of the task bar.
 
 <figure>
 <div class="gallery">
@@ -63,12 +63,12 @@ The KDE help system provides access to HTML help files for all KDE programs. It 
 <img src="help.png" alt="Help" />
 <img src="help-2.png" alt="Help" />
 </div>
-<figcaption>kdehelp 0.7: 1) Welcome page&nbsp; 2) Man-page for <q>man</q></figcaption>
+<figcaption>kdehelp 0.7: 1) Welcome page&nbsp; 2) Man-page for &ldquo;man&rdquo;</figcaption>
 </figure>
 
 ### About
 
-A simple <q>About KDE</q> dialog can be accessed from the <q>Help</q>-menu of most KDE applications.
+A simple &ldquo;About KDE&rdquo; dialog can be accessed from the &ldquo;Help&rdquo;-menu of most KDE applications.
 
 <figure>
 <img src="about.png" alt="About" />
@@ -93,7 +93,7 @@ It's possible to right click on a file to open it with a specific application, h
 
 ### File search
 
-The file search application is almost identical to <q>Find: All Files</q> in Windows 95.
+The file search application is almost identical to &ldquo;Find: All Files&rdquo; in Windows 95.
 
 <figure>
 <div class="gallery">
@@ -133,7 +133,7 @@ In wasn't obvious to me at first, but I eventually discovered that the file mana
 <figcaption>kfm 1.167.2.21: Not only a file manager but also a web browser.</figcaption>
 </figure>
 
-Even though it's not a KDE application and doesn't use Qt, Netscape also has an icon on the panel by default (and otherwise resides in the <q>non-KDE Apps</q>-menu).
+Even though it's not a KDE application and doesn't use Qt, Netscape also has an icon on the panel by default (and otherwise resides in the &ldquo;non-KDE Apps&rdquo;-menu).
 
 <figure>
 <img src="web-browser-2.png" alt="Netscape" />
@@ -172,14 +172,14 @@ Even though it's not a KDE application and doesn't use Qt, Netscape also has an 
 
 ### Address book
 
-KMail has a built-in <q>Addressbook Manager</q> but it only contains email addresses:
+KMail has a built-in &ldquo;Addressbook Manager&rdquo; but it only contains email addresses:
 
 <figure>
 <img src="address-book.png" alt="Address book" />
 <figcaption>kmail's address book</figcaption>
 </figure>
 
-An actual address book (e.g. name, address, organization, phone etc.) is provided by <q>kab</q>, and it's possible to open the KMail Composer directly from kab.
+An actual address book (e.g. name, address, organization, phone etc.) is provided by &ldquo;kab&rdquo;, and it's possible to open the KMail Composer directly from kab.
 
 <figure>
 <img src="address-book-2.png" alt="Address book" />
@@ -241,7 +241,7 @@ No video player.
 
 ## Settings
 
-KDE comes with a control panel called <q>KDE Control Center</q> that provides access to all KDE settings dialogs. Each settings dialog can also be opened individually from the KDE main menu (in which case the Control Center sidebar and menubar won't be visible).
+KDE comes with a control panel called &ldquo;KDE Control Center&rdquo; that provides access to all KDE settings dialogs. Each settings dialog can also be opened individually from the KDE main menu (in which case the Control Center sidebar and menubar won't be visible).
 
 <figure>
 <img src="settings.png" alt="Settings" />

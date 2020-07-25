@@ -20,6 +20,6 @@ Google Analytics mainly uses first-party cookies to report on visitor interactio
 
 In addition, Google Analytics supports an optional browser [add-on](https://tools.google.com/dlpage/gaoptout/) that – once installed and enabled – disables measurement by Google Analytics for any site a user visits. Note that this add-on only disables Google Analytics measurement.
 
-Google Analytics also collects Internet Protocol (IP) addresses to provide and protect the security of the service, and to give website owners a sense of which country, state, or city in the world their users come from (also known as <q>IP geolocation</q>).
+Google Analytics also collects Internet Protocol (IP) addresses to provide and protect the security of the service, and to give website owners a sense of which country, state, or city in the world their users come from (also known as &ldquo;IP geolocation&rdquo;).
 
 [See this page for Google Analytics security and usage of data.](https://support.google.com/analytics/answer/6004245)

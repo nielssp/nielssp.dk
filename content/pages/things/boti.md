@@ -13,15 +13,15 @@ A browser-based strategy gamed I developed (but never finished) between 2008 and
 
 <figure>
 <img src="../../images/boti/boti6.png" alt="2009">
-<figcaption>2009 &ndash; <q>version 1.5</q>, slightly updated graphics</figcaption>
+<figcaption>2009 &ndash; &ldquo;version 1.5&rdquo;, slightly updated graphics</figcaption>
 </figure>
 
 <figure>
 <img src="../../images/boti/boti7.png" alt="2009">
-<figcaption>2010 &ndash; <q>BotI engine 2.0</q>, log in</figcaption>
+<figcaption>2010 &ndash; &ldquo;BotI engine 2.0&rdquo;, log in</figcaption>
 </figure>
 
 <figure>
 <img src="../../images/boti/boti8.png" alt="2009">
-<figcaption>2010 &ndash; <q>BotI engine 2.0</q>, updated graphics</figcaption>
+<figcaption>2010 &ndash; &ldquo;BotI engine 2.0&rdquo;, updated graphics</figcaption>
 </figure>

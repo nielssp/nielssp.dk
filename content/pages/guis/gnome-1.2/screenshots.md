@@ -19,7 +19,7 @@ GNOME 1.2 was released on 25 May 2000. It was included in Slackware Linux 7.1.
 </figure>
 
 ### First run
-The help browser, home directory, and <q>Gnome Hints</q> are shown.
+The help browser, home directory, and &ldquo;Gnome Hints&rdquo; are shown.
 
 <figure>
 <img src="welcome-screen.png" alt="First run" />
@@ -33,7 +33,7 @@ The desktop has a few things in common with KDE, but compared with KDE 1 it seem
 <img src="desktop.png" alt="Desktop" />
 <img src="desktop-2.png" alt="Desktop" />
 </div>
-<figcaption>1) Desktop with&nbsp; 2) Desktop with added <q>menu panel</q> and <q>Add to panel</q> menu</figcaption>
+<figcaption>1) Desktop with&nbsp; 2) Desktop with added &ldquo;menu panel&rdquo; and &ldquo;Add to panel&rdquo; menu</figcaption>
 </figure>
 
 ### Main menu
@@ -53,7 +53,7 @@ The Run-dialog can be opened from the main menu. There doesn't seem to be a defa
 
 ### Lock screen
 
-There is a lock screen (or at least there's a button for it on the default panel), but I couldn't get it to work. It appears to use xscreensaver for screensavers and lock screen, but `xscreensaver-command -lock` returns <q>locking not enabled</q>.
+There is a lock screen (or at least there's a button for it on the default panel), but I couldn't get it to work. It appears to use xscreensaver for screensavers and lock screen, but `xscreensaver-command -lock` returns &ldquo;locking not enabled&rdquo;.
 
 ### Help
 
@@ -64,12 +64,12 @@ The GNOME help system provides access to HTML help files for all GNOME programs.
 <img src="help.png" alt="Help" />
 <img src="help-2.png" alt="Help" />
 </div>
-<figcaption>gnome-help-browser 0.4: 1) Welcome page&nbsp; 2) Man-page for <q>man</q></figcaption>
+<figcaption>gnome-help-browser 0.4: 1) Welcome page&nbsp; 2) Man-page for &ldquo;man&rdquo;</figcaption>
 </figure>
 
 ### About
 
-The closest thing to an about dialog is <q>System Information</q>. It doesn't include a version number though.
+The closest thing to an about dialog is &ldquo;System Information&rdquo;. It doesn't include a version number though.
 
 <figure>
 <img src="about.png" alt="About" />
@@ -146,7 +146,7 @@ I did, however, discover that the help browser can also be used as a web browser
 
 ### Image manipulation
 
-Since GNOME is based on GTK+ (originally the <q>GIMP toolkit</q>) it makes sense that it includes GIMP.
+Since GNOME is based on GTK+ (originally the &ldquo;GIMP toolkit&rdquo;) it makes sense that it includes GIMP.
 
 <figure>
 <img src="paint.png" alt="Image manipulation" />
@@ -229,7 +229,7 @@ No video player.
 
 ## Settings
 
-GNOME comes with a control panel called <q>GNOME Control Center</q> that provides access to all GNOME settings dialogs.
+GNOME comes with a control panel called &ldquo;GNOME Control Center&rdquo; that provides access to all GNOME settings dialogs.
 
 <figure>
 <img src="settings.png" alt="Settings" />
@@ -244,7 +244,7 @@ GNOME comes with a control panel called <q>GNOME Control Center</q> that provide
 
 ### Appearance
 
-The <q>Theme selector</q> makes it possible to switch between a number of preinstalled GTK+ themes, but unlike in KDE 1 there is no easy way to change the colors. Similarly the window manager Sawfish also comes preinstalled with a small number of themes.
+The &ldquo;Theme selector&rdquo; makes it possible to switch between a number of preinstalled GTK+ themes, but unlike in KDE 1 there is no easy way to change the colors. Similarly the window manager Sawfish also comes preinstalled with a small number of themes.
 
 <figure>
 <div class="gallery">

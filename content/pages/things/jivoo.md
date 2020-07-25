@@ -40,7 +40,7 @@ Used on: [Agendl](bs:/things/agendl), [nielssp.dk](bs:/things/nielssp-dk), [apak
 
 <figure>
 <img src="../../images/jivoo/about.png" alt="About" />
-<figcaption><q>Jivoo</q> and <q>Jivoo CMS</q> versions.</figcaption>
+<figcaption>&ldquo;Jivoo&rdquo; and &ldquo;Jivoo CMS&rdquo; versions.</figcaption>
 </figure>
 
 <figure>
@@ -50,5 +50,5 @@ Used on: [Agendl](bs:/things/agendl), [nielssp.dk](bs:/things/nielssp-dk), [apak
 
 <figure>
 <img src="../../images/jivoo/front.png" alt="Frontpage" />
-<figcaption>Default frontend theme <q>extraterrestrial</q>. Originally designed in 2010 as part of my 2010 attempt at creating a CMS. Later part of <a href="bs:/things/peanutcms">PeanutCMS</a>. Inspired by the <q>Twenty Ten</q> WordPress theme, which was the default WordPress theme in 2010.  A slightly modified version was also used on <a href="bs:/things/nielssp-dk">nielssp.dk</a>.</figcaption>
+<figcaption>Default frontend theme &ldquo;extraterrestrial&rdquo;. Originally designed in 2010 as part of my 2010 attempt at creating a CMS. Later part of <a href="bs:/things/peanutcms">PeanutCMS</a>. Inspired by the &ldquo;Twenty Ten&rdquo; WordPress theme, which was the default WordPress theme in 2010.  A slightly modified version was also used on <a href="bs:/things/nielssp-dk">nielssp.dk</a>.</figcaption>
 </figure>
