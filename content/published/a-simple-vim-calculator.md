@@ -1,3 +1,7 @@
+{
+  published: "2016-11-25 23:59:54",
+  tags: ["vim"]
+}
 # A very simple calculator in Vim
 Ever wanted a simple calculator within Vim? Since vimscript is already a fully featured programming language, you've already got it! For instance you can type `:echo 2 + 5` in normal mode and get the result 7. You can also enter Ex-mode by typing `Q` in normal mode. In Ex-mode you can type commands without first typing `:`, however you still have to type `echo` to print the result of expressions. When in insert mode you can also press `<c-r>=` (an equals sign should appear in the bottom left corner) followed by a vimscript expression. This inserts the result of the expression at the current cursor position.
 
@@ -62,8 +66,3 @@ asin() acos() atan() atan2()
 ```
 
 That's about it. It's pretty simple, but it can be quite useful when you need to do a couple of calculations.
-
-<!--{
-  "published": "2016-11-25 23:59:54",
-	"tags": ["vim"]
-}-->

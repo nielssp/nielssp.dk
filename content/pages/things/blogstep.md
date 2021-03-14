@@ -1,2 +1,2 @@
 # BlogSTEP
-Renamed to [TEXTSTEP](bs:/things/textstep)
+Renamed to [TEXTSTEP](/things/textstep)

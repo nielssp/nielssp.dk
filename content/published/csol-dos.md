@@ -1,3 +1,7 @@
+{
+  published: "2018-04-19 19:04",
+  tags: ["c", "csol", "ncurses", "solitaire", "dos"]
+}
 # Porting csol to DOS for no reason
 <figure>
 <img src="../images/csol-dos.jpg" alt="csol" height="360"/>
@@ -19,8 +23,3 @@ Similarly I had used `getopt_long()` from `getopt.h` (a GNU header) to parse com
 **From Unicode to Code page 437:** The default csol theme uses several Unicode characters to draw cards and suits. Since DOS doesn't support Unicode I created a new default theme based on [Code page 437](https://en.wikipedia.org/wiki/Code_page_437) which happens to include the exact same characters I was using in the Unicode theme.
 
 The modified source code is available on [github](https://github.com/nielssp/csol-dos). I've also uploaded a [zip-file](https://github.com/nielssp/csol-dos/releases/download/1.0.0/csol.zip) containing the compiled EXE and configuration files. It works in DOSBox, and I was also able to run it directly from a 3.5&Prime; floppy on my Toshiba T2130CS with a 486. It should also work on older 386 and 286 machines.
-
-<!--{
-  "published": "2018-04-19 19:04",
-	"tags": ["c", "csol", "ncurses", "solitaire", "dos"]
-}-->

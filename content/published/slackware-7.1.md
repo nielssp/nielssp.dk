@@ -1,3 +1,7 @@
+{
+  published: "2018-07-03 14:55",
+  tags: ["linux", "slackware", "kde", "gnome", "xfce"]
+}
 # Slackware Linux 7.1: A time capsule
 
 <figure>
@@ -11,9 +15,4 @@ One such desktop environment is KDE, which had its 1.0 release almost 20 years a
 
 I ended up picking [Slackware](http://slackware.com) since it began including KDE 1.1 from version 7.0 (and also included early versions of GNOME and XFCE in later releases). I've previously used Slackware 12.0 with KDE 3.5, so I'm already somewhat familiar with the installation process which hasn't changed much over the years. Additionally it's fairly easy to find ISOs for early Slackware releases online (e.g. just search for &ldquo;slackware 7.1 iso&rdquo; and you'll find it on several mirrors). 
 
-I'm now in the process of gathering screenshots of desktop environments and applications from several different Slackware releases that I've downloaded and installed in VirtualBox. The screenshots will (eventually) be available in [the new GUI section](bs:guis) of my website. So far I've added a page full of screenshots from [KDE 1.1.2 on Slackware 7.1](bs:guis/kde-1.1.2/screenshots).
-
-<!--{
-  "published": "2018-07-03 14:55",
-  "tags": ["linux", "slackware", "kde", "gnome", "xfce"]
-}-->
+I'm now in the process of gathering screenshots of desktop environments and applications from several different Slackware releases that I've downloaded and installed in VirtualBox. The screenshots will (eventually) be available in [the new GUI section](/guis) of my website. So far I've added a page full of screenshots from [KDE 1.1.2 on Slackware 7.1](/guis/kde-1.1.2/screenshots).

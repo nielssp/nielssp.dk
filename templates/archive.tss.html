@@ -1,23 +1,17 @@
 {
 LAYOUT = 'layout.tss.html'
 TITLE = 'Archive'
-
-posts = list_content('../content/published', {suffix: '.md'})
-for post in posts
-  post.year = post.published | date('%Y')
-  post.month = post.published | date('%m')
-end for
 }
 <h1>Posts by month</h1>
 <ul>
-  {for group in posts | group_by(.year) | sort_by_desc(fn g -> g[0].year)}
+  {for group in posts | group_by(.year) | sort_by_desc(g => g[0].year)}
   <li>
     <a href="{group[0].year | link}">
       <span>{group[0].year}</span>
       (<span>{length(group)}</span>)
     </a>
     <ul>
-      {for subgroup in group | group_by(.month) | sort_by_desc(fn g -> g[0].month)}
+      {for subgroup in group | group_by(.month) | sort_by_desc(g => g[0].month)}
       <li>
         <a href="{'' + subgroup[0].year + '/' + subgroup[0].month | link}">
           <span>{subgroup[0].published | date('%B')}</span>
@@ -31,7 +25,7 @@ end for
 </ul>
 <h1>Posts by tag</h1>
 <ul>
-  {for group in posts | flat_map(.tags) | group_by(fn x -> x) | sort_by(fn g -> g[0])}
+  {for group in posts | flat_map(.tags) | group_by(x => x) | sort_by(g => g[0])}
   <li>
     <a href="{'tags/' + group[0] | link}">
       <span>{group[0]}</span>

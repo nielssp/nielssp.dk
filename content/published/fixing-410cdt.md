@@ -1,3 +1,7 @@
+{
+  published: "2019-09-14 17:50",
+  tags: ["laptops", "computers", "dos"]
+}
 # Bringing a Toshiba Satellite Pro 410CDT back to life
 I've [previously mentioned](csol-dos.md) that I have an old Toshiba T2130CS with an Intel 486 processor. With its 24 MB of RAM it will run Windows 95 and even 98, but I'm currently just using it with DOS 6.22 to play an assortment of DOS games. Unfortunately the T2130CS, with its lack of a sound card and its low-contrast [passive-matrix LCD](https://en.wikipedia.org/wiki/Liquid-crystal_display#Passive_and_active-matrix), makes for a less than stellar DOS gaming experience  (but a pretty cool text mode experience).
 
@@ -27,8 +31,3 @@ At first I didn't really expect this to work, but after applying power to the sy
 </figure>
 
 In conclusion, I think that feeling of getting something to work after tinkering with it for several hours is pretty neat. And I guess the moral of the story is that batteries are evil.
-
-<!--{
-  "published": "2019-09-14 17:50",
-	"tags": ["laptops", "computers", "dos"]
-}-->

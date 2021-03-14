@@ -1,5 +1,5 @@
 # apakoh.dk
-My first domain name, registered in May of 2011. Originally only contained a single link to [Plan T from Outer Space](bs:/things/ptfos), but I was working on several other games as well (mostly browser-based). Turned into a blog (using [PeanutCMS](bs:/things/peanutcms)) in 2013, but I never wrote anything other than a short introduction. Removed the blog when I created [nielssp.dk](bs:/things/nielssp-dk) in 2015. Now just a list of links.
+My first domain name, registered in May of 2011. Originally only contained a single link to [Plan T from Outer Space](/things/ptfos), but I was working on several other games as well (mostly browser-based). Turned into a blog (using [PeanutCMS](/things/peanutcms)) in 2013, but I never wrote anything other than a short introduction. Removed the blog when I created [nielssp.dk](/things/nielssp-dk) in 2015. Now just a list of links.
 
 <figure>
 <img src="../../images/apakoh/apakoh1.png" alt="apakoh.dk" />

@@ -1,6 +1,10 @@
+{
+  published: "2015-07-29 10:06",
+  tags: ["scala", "language-design", "parsing", "plds", "compilers"]
+}
 # Creating a scanner using parser combinators in Scala (PLDS part I)
 
-*This post is part of a series on **P**rogramming **L**anguage **D**esign in **S**cala (PLDS). [Click here to see the rest of the posts in the series.](bs:/tags/plds)*
+*This post is part of a series on **P**rogramming **L**anguage **D**esign in **S**cala (PLDS). [Click here to see the rest of the posts in the series.](/tags/plds)*
 
 In September 2014 I stumbled upon the [Scala Parser Combinators library](https://github.com/scala/scala-parser-combinators) and ended up playing around with implementing a small programming language in Scala. Although the language itself was more or less useless, I thought that the process of designing and implementing it (and later extending it with more features) was a pretty fun activity. This then gave me the idea to start this blog as a place for programming and computer science related topics that I find interesting. My first blog post was supposed to be a short tutorial or introduction to Scala Parser Combinators based around the implementation of a small programming language. Because of a lack of motivation, ideas and time, my first post instead ended up being about [an entirely different project](colorgrab-a-crossplatform-color-picker.md), and my post about parser combinators remained an unfinished draft for more than six months.
 
@@ -8,7 +12,7 @@ Now I've finally found the energy to complete this project, or at least the firs
 
 This post should serve as an introduction to—and shouldn't require any prior knowledge of—language design and Scala, although a basic understanding of programming and programming languages is a prerequisite. I also recommend reading some [tutorials](http://docs.scala-lang.org/tutorials) if you're interested in learning more about Scala.
 
-<div class="break"></div>
+<!--more-->
 
 ## Language definition and grammar
 
@@ -315,8 +319,3 @@ The scanner is the first step towards implementing a programming language. In fa
 Since the scanner is where we've implemented the token grammar of our programming language, it is also were the keywords, literals, special characters, etc. of the language are defined. Thus, if we later wish to for instance add a new keyword to the language, we'll have to modify the scanner. A possible improvement to the lexical grammar could be the addition of more numeric literals, such as hexadecimal literals (e.g. `0xF30A`) or optional exponents (e.g. `0.5e7`). Another possible improvement could be the addition of more escape sequences to string literals, such as `"\n"` for line breaks or `"\u00C6"` for Unicode characters.
 
 Anyway, this is the end of part 1 of what will hopefully be a series on Programming Language Design in Scala (and perhaps it will branch off into other languages in the future). The post ended up being quite a bit longer that I had originally wanted, and I am not entirely sure whether I managed to make the topic easy to understand.
-
-<!--{
-  "published": "2015-07-29 10:06",
-	"tags": ["scala", "language-design", "parsing", "plds", "compilers"]
-}-->

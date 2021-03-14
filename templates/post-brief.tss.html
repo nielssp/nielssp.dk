@@ -7,9 +7,9 @@
       <meta itemprop="mainEntityOfPage" content="{url(post.link)}"/>
       <meta itemprop="dateModified" content="{post.modified | iso8601}"/>
     </header>
-    <div itemprop="articleBody">{filter_content(post, ['noTitle', 'brief', 'highlightjs("foundation")', 'img(736, 736, 90, true)'])}</div>
+    <div itemprop="articleBody">{post.html | copy | no_title | read_more | images(736, 736, 90, true) | links | html}</div>
 
-    {if post.has_break}
+    {if post?.read_more}
     <p>
         <a href="{link(post.link)}">Continue reading&hellip;</a>
     </p>

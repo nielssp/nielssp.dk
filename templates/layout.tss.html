@@ -4,11 +4,11 @@
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <title>{
-            if TITLE
+            if TITLE?
                 "{TITLE | h} | {CONFIG.title | h}"
             else
                 CONFIG.title | h
-                if CONFIG.subtitle
+                if CONFIG?.subtitle
                     " &ndash; {CONFIG.subtitle | h}"
                 end if
             end if
@@ -18,7 +18,7 @@
         <meta name="description" content="{CONFIG.description | h}"/>
         <link rel="shortcut icon" href="{'/favicon.ico' | link}"/>
 
-        <style type="text/css">{read('css/main.css')}</style>
+        <style type="text/css">{read('../css/main.css')}</style>
 
         <link rel="alternate" type="application/rss+xml" href="{link('/posts.rss')}"/>
 
@@ -67,9 +67,9 @@ ga('send', 'pageview');
             </footer>
         </div>
 
-        <script type="text/javascript">{read('js/gallery.js')}</script>
+        <script type="text/javascript">{read('../js/gallery.js')}</script>
 
-        {HIGHLIGHTJS}
+        {HIGHLIGHTJS?}
 
         <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Source+Code+Pro"/>
 

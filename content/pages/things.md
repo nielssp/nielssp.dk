@@ -3,7 +3,7 @@ This page contains an incomplete list of various ideas, projects, snippets etc.
 
 *Snippets and dotfiles*
 
-* [Minimal .vimrc](bs:/things/vimrc) – with comments
+* [Minimal .vimrc](things/vimrc) – with comments
 
 *Command line applications*
 
@@ -29,20 +29,20 @@ This page contains an incomplete list of various ideas, projects, snippets etc.
 
 *Websites*
 
-* [niels.spoweb.dk](bs:/things/niels-spoweb-dk) (2004) – personal website and blog (PHP)
-* [apakoh.dk](bs:/things/apakoh-dk) (2011) – personal website and blog (PHP)
-* [nielssp.dk](bs:/things/nielssp-dk) (2014) – personal website and blog (Markdown/TEXTSTEP)
+* [niels.spoweb.dk](things/niels-spoweb-dk.md) (2004) – personal website and blog (PHP)
+* [apakoh.dk](things/apakoh-dk.md) (2011) – personal website and blog (PHP)
+* [nielssp.dk](things/nielssp-dk.md) (2014) – personal website and blog (Markdown/TEXTSTEP)
 
 *Web applications*
 
-* [PeanutCMS](bs:/things/peanutcms) (2011) – CMS (PHP)
-* [Acrum](bs:/things/acrum) (2013) – agile project management tool (PHP)
-* [Agendl](bs:/things/agendl) (2014) – todo list manager (PHP)
-* [Jivoo](bs:/things/jivoo) (2014) – CMS / framework (PHP)
-* [TEXTSTEP](bs:/things/textstep) (2016) – web-based static site generator (PHP/JavaScript)
+* [PeanutCMS](things/peanutcms.md) (2011) – CMS (PHP)
+* [Acrum](things/acrum.md) (2013) – agile project management tool (PHP)
+* [Agendl](things/agendl.md) (2014) – todo list manager (PHP)
+* [Jivoo](things/jivoo.md) (2014) – CMS / framework (PHP)
+* [TEXTSTEP](things/textstep.md) (2016) – web-based static site generator (PHP/JavaScript)
 
 *Browser-based games*
 
-* [Battle of the Island](bs:/things/boti) (2008) – tick-based strategy game with isometric graphics  (PHP)
-* [Plan T from Outer Space](bs:/things/ptfos) (2011) – 2d shoot 'em up (Java)
-* [NukeNation](bs:/things/nukenation) (2013) – several different attempts at some sort of MMO strategy game (Scala/JavaScript)
+* [Battle of the Island](things/boti.md) (2008) – tick-based strategy game with isometric graphics  (PHP)
+* [Plan T from Outer Space](things/ptfos.md) (2011) – 2d shoot 'em up (Java)
+* [NukeNation](things/nukenation.md) (2013) – several different attempts at some sort of MMO strategy game (Scala/JavaScript)

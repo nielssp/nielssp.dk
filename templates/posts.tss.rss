@@ -1,6 +1,4 @@
 {
-posts = list_content('../content/published', {suffix: '.md'})
-posts = posts | sort_by_desc(.published)
 posts = posts | take(30)
 }<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -9,18 +7,17 @@ posts = posts | take(30)
   <atom:link href="{url()}" rel="self" type="application/rss+xml" />
   <link>{url('/')}</link>
   <description>{CONFIG.description}</description>
-  {last_post = posts[0]}
-  {if last_post}
-  <lastBuildDate>{last_post.published | rfc2822}</lastBuildDate>
+  {if posts?[0]}
+  <lastBuildDate>{posts[0].published | rfc2822}</lastBuildDate>
   {end if}
 
   {for post in posts}
   <item>
     <title>{post.title}</title>
     <description><![CDATA[
-      {filter_content(post, ['noTitle', 'brief', 'img(480, 360, 90, true)', 'linksAbsolute'])}
+      {post.html | no_title | read_more | images(480, 360, 90, true) | urls | html}
 
-      {if post.has_break}
+      {if post.read_more}
       <p>
         <a href="{url(post.link)}">Continue reading&hellip;</a>
       </p>

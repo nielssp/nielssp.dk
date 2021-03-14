@@ -1,7 +1,7 @@
 # Jivoo
-See also: [PeanutCMS](bs:/things/peanutcms).
+See also: [PeanutCMS](/things/peanutcms).
 
-Used on: [Agendl](bs:/things/agendl), [nielssp.dk](bs:/things/nielssp-dk), [apakoh.dk](bs:/things/apakoh-dk)
+Used on: [Agendl](/things/agendl), [nielssp.dk](/things/nielssp-dk), [apakoh.dk](/things/apakoh-dk)
 
 <figure>
 <img src="../../images/jivoo/install.png" alt="Install" />
@@ -50,5 +50,5 @@ Used on: [Agendl](bs:/things/agendl), [nielssp.dk](bs:/things/nielssp-dk), [apak
 
 <figure>
 <img src="../../images/jivoo/front.png" alt="Frontpage" />
-<figcaption>Default frontend theme &ldquo;extraterrestrial&rdquo;. Originally designed in 2010 as part of my 2010 attempt at creating a CMS. Later part of <a href="bs:/things/peanutcms">PeanutCMS</a>. Inspired by the &ldquo;Twenty Ten&rdquo; WordPress theme, which was the default WordPress theme in 2010.  A slightly modified version was also used on <a href="bs:/things/nielssp-dk">nielssp.dk</a>.</figcaption>
+<figcaption>Default frontend theme &ldquo;extraterrestrial&rdquo;. Originally designed in 2010 as part of my 2010 attempt at creating a CMS. Later part of <a href="/things/peanutcms">PeanutCMS</a>. Inspired by the &ldquo;Twenty Ten&rdquo; WordPress theme, which was the default WordPress theme in 2010.  A slightly modified version was also used on <a href="/things/nielssp-dk">nielssp.dk</a>.</figcaption>
 </figure>
