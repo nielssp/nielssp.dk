@@ -16,7 +16,7 @@ TITLE = post.title
 
     <div class="tags">
         {for tag in post.tags}
-        <a href="{url("/tags/{tag}")}">#{tag}</a>
+        <a href="{link("/tags/{tag}")}">#{tag}</a>
         {end for}
     </div>
 

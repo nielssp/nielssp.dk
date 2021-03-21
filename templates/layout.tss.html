@@ -8,7 +8,7 @@
                 "{TITLE | h} | {CONFIG.title | h}"
             else
                 CONFIG.title | h
-                if CONFIG?.subtitle
+                if CONFIG.subtitle?
                     " &ndash; {CONFIG.subtitle | h}"
                 end if
             end if

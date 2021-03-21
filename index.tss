@@ -1,17 +1,15 @@
-GLOBAL.CONFIG = {
+export CONFIG = {
   time_zone: "Europe/Copenhagen",
   title: "nielssp.dk",
   description: "The blog of a 27 year old software developer",
   copyright: "Niels Sonnich Poulsen",
 }
 
-GLOBAL.ROOT_PATH = '/'
-GLOBAL.ROOT_URL = 'http://nielssp.dk'
+export ROOT_PATH = '/'
+export ROOT_URL = 'http://nielssp.dk'
 
 add_static('favicon.ico')
 add_static('robots.txt')
-add_static('js')
-add_static('css')
 
 add_page('404.html', 'templates/404.tss.html')
 
@@ -31,7 +29,7 @@ for page in pages
   })
 end for
 
-published_posts = list_content('content/published', {suffix: '.md'}) | filter(p => p?.published) | sort_by_desc(.published)
+published_posts = list_content('content/published', {suffix: '.md'}) | filter(p => p.published?) | sort_by_desc(.published)
 
 tag_groups = {}
 
