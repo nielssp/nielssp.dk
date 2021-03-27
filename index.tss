@@ -8,6 +8,10 @@ export CONFIG = {
 export ROOT_PATH = '/'
 export ROOT_URL = 'http://nielssp.dk'
 
+import('modules/highlightjs.tss')
+export highlightjs
+export import_highlightjs
+
 add_static('favicon.ico')
 add_static('robots.txt')
 
@@ -20,13 +24,10 @@ for page in pages
   else
     page.link = "{page.relative_path}/{page.name}/index.html"
   end if
-  add_reverse(page.path, page.link)
-end for
-
-for page in pages
   add_page(page.link, 'templates/page.tss.html', {
     page: page
   })
+  add_reverse(page.path, page.link)
 end for
 
 published_posts = list_content('content/published', {suffix: '.md'}) | filter(p => p.published?) | sort_by_desc(.published)
@@ -43,13 +44,10 @@ for post in published_posts
   post.year = post.published | date('%Y')
   post.month = post.published | date('%m')
   post.link = "{post.year}/{post.month}/{post.name}/index.html"
-  add_reverse(post.path, post.link)
-end for
-
-for post in published_posts
   add_page(post.link, 'templates/post.tss.html', {
     post: post
   })
+  add_reverse(post.path, post.link)
 end for
 
 add_page('posts.rss', 'templates/posts.tss.rss', {posts: published_posts})

@@ -7,7 +7,7 @@
       <meta itemprop="mainEntityOfPage" content="{url(post.link)}"/>
       <meta itemprop="dateModified" content="{post.modified | iso8601}"/>
     </header>
-    <div itemprop="articleBody">{post.html | copy | no_title | read_more | images(736, 736, 90, true) | links | html}</div>
+    <div itemprop="articleBody">{post.html | copy | no_title | read_more | highlightjs | images(736, 736, 90, true) | links | html}</div>
 
     {if post?.read_more}
     <p>

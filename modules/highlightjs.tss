@@ -1,0 +1,55 @@
+import('html')
+
+version = '10.7.1'
+
+assets = {
+  main: "//cdnjs.cloudflare.com/ajax/libs/highlight.js/{version}/highlight.min.js",
+  style: style => "//cdnjs.cloudflare.com/ajax/libs/highlight.js/{version}/styles/{style}.min.css",
+  lang: lang => "//cdnjs.cloudflare.com/ajax/libs/highlight.js/{version}/languages/{lang}.min.js",
+}
+
+found_languages = {}
+
+find_languages = node => do
+  if type(node) != 'object'
+    return
+  end if
+  if node.tag? == symbol('pre')
+    for child in node.children? or []
+      if child.tag? == symbol('code') and child.attributes?.class?
+        language = child.attributes.class | lower
+        if language | starts_with('lang-')
+          language = language | drop(5)
+        else if language | starts_with('language-')
+          language = language | drop(9)
+        end if
+        if language != 'nohighlight'
+          found_languages[language] = true
+        end if
+      end if
+    end for
+  else
+    for child in node.children? or []
+      find_languages(child)
+    end for
+  end if
+end do
+
+export highlightjs = html => do
+  find_languages(html)
+  return html
+end do
+
+export import_highlightjs = style => do
+  if found_languages
+    if not style
+      style = 'default'
+    end if
+    '<script type="text/javascript" src="' + h(assets.main) + '"></script>'
+    '<style type="text/css">@import "' + h(assets.style(style)) + '";</style>'
+    for language in keys(found_languages)
+      '<script type="text/javascript" src="' + h(assets.lang(language)) + '"></script>'
+    end for
+    '<script>hljs.initHighlightingOnLoad();</script>'
+  end if
+end do

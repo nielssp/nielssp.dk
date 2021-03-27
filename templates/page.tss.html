@@ -10,6 +10,5 @@ TITLE = page.title
             <time datetime="{page.modified | iso8601}" title="{page.modified | date('%F %T %Z')}">{page.modified | date('%A, %e %B %Y')}</time>
         </div>
     </header>
-    {page.html | copy | no_title | images(736, 736, 90, true) | links | html}
-    {#filter_content(page, ['noTitle', 'highlightjs("foundation")', 'img(736, 736, 90, true)'])#}
+    {page.html | copy | no_title | highlightjs | images(736, 736, 90, true) | links | html}
 </article>
