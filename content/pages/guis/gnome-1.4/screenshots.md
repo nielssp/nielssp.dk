@@ -1,9 +1,15 @@
+{
+  toc_depth: 2,
+}
 # GNOME 1.4
 GNOME 1.4 was released on 2 April 2001. It was included in Slackware Linux 8.0.
 
 [Official GNOME 1.4 press release](https://www.gnome.org/press/2001/04/gnome-1-4-released-desktop-environment-boasts-power-stability-polish-and-integration/).
 
-<div class="toc" data-headings="h2"></div>
+<div class="toc">
+<h2 data-toc-ignore>Contents</h2>
+<!--toc-->
+</div>
 
 ## Startup
 

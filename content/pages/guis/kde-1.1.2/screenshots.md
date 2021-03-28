@@ -1,9 +1,15 @@
+{
+  toc_depth: 2,
+}
 # KDE 1.1.2
 KDE 1.1.2 was released on 13 September 1999. It was included in Slackware Linux 7.1.
 
 [K Desktop Environment 1 on Wikipedia](https://en.wikipedia.org/wiki/K_Desktop_Environment_1).
 
-<div class="toc" data-headings="h2"></div>
+<div class="toc">
+<h2 data-toc-ignore>Contents</h2>
+<!--toc-->
+</div>
 
 ## Startup
 

@@ -1,9 +1,15 @@
+{
+  toc_depth: 2,
+}
 # KDE 2.1.2
 KDE 2.1.2 was released on 30 September 2001. It was included in Slackware Linux 8.0.
 
 [K Desktop Environment 2 on Wikipedia](https://en.wikipedia.org/wiki/K_Desktop_Environment_2).
 
-<div class="toc" data-headings="h2"></div>
+<div class="toc">
+<h2 data-toc-ignore>Contents</h2>
+<!--toc-->
+</div>
 
 ## Startup
 

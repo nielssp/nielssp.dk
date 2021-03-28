@@ -1,9 +1,15 @@
+{
+  toc_depth: 2,
+}
 # GNOME 1.2
 GNOME 1.2 was released on 25 May 2000. It was included in Slackware Linux 7.1.
 
 [Official GNOME 1.2 press release](https://www.gnome.org/press/2000/05/gnome-1-2-bongo-gnome-unleashed/).
 
-<div class="toc" data-headings="h2"></div>
+<div class="toc">
+<h2 data-toc-ignore>Contents</h2>
+<!--toc-->
+</div>
 
 ## Startup
 
