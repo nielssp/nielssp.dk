@@ -12,6 +12,22 @@ import('modules/highlightjs.tss')
 export highlightjs
 export import_highlightjs
 
+export IMAGE_PRESERVE_LOSSLESS = false
+
+OUTPUT_OBSERVERS | push(path => do
+  if path | lower | ends_with('html')
+    exec('htmlmin', path, path)
+#  else if path | lower | ends_with('png')
+#    exec('pngcrush', path, "{path}.optimized")
+#    exec('mv', "{path}.optimized", path)
+  end if
+end do)
+
+exec('mkdir', "{DIST_ROOT}/css")
+exec('sass', '--style', 'compressed', '--sourcemap=none', "{SRC_ROOT}/scss/main.scss", "{DIST_ROOT}/css/main.css")
+exec('mkdir', "{DIST_ROOT}/js")
+exec("slimit {"{SRC_ROOT}/js/gallery.js" | shell_escape} > {"{DIST_ROOT}/js/gallery.js" | shell_escape}")
+
 add_static('favicon.ico')
 add_static('robots.txt')
 
