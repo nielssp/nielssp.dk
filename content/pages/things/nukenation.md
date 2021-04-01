@@ -17,7 +17,7 @@ Other than a  zoomable map, the mockup had no functionality or gameplay. I'm not
 
 ## nn2 (2018)
 
-In 2018 I started from scratch on a new project reusing the same. This time I created a WebSocket server in Scala and a JavaScript client using a canvas to draw the game map. You could build a couple of different buildings, recruit infantry, and move units around on the map.
+In 2018 I started from scratch on a new project reusing the same name. This time I created a WebSocket server in Scala and a JavaScript client using a canvas to draw the game map. You could build a couple of different buildings, recruit infantry, and move units around on the map.
 
 <figure>
 <img src="../../images/nukenation/nn2.png" />
@@ -51,7 +51,7 @@ I spent some time designing the interface necessary for creating and joining gam
 
 <figure>
 <img src="../../images/nukenation/nn2m5.png" />
-<figcaption>Creating a new game with a short 30 second.</figcaption>
+<figcaption>Creating a new game with a short 30 second turn time.</figcaption>
 </figure>
 
 It would have been possible to have short games with a short turn time. Alternatively, the turn time could be set to something like 24 hours, in which case players would have plenty of time to log in once a day to make their moves.
