@@ -18,7 +18,9 @@ This page contains an incomplete list of various ideas, projects, snippets etc.
 *Libraries*
 
 * [jqCandlestick (GitHub)](https://github.com/nielssp/jqCandlestick) (2014) – candlestick charts (JavaScript)
-* [parco](https://github.com/nielssp/parco) (2015) – parser combinators (PHP)
+* [parco (GitHub)](https://github.com/nielssp/parco) (2015) – parser combinators (PHP)
+* [Classic Stylesheets (GitHub)](https://github.com/nielssp/classic-stylesheets) (2020) &ndash; web application stylesheets (CSS)
+* [cstk](https://github.com/nielssp/cstk) (2020) &ndash; web application GUI toolkit (TypeScript)
 
 *Programming languages*
 
