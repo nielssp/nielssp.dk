@@ -8,7 +8,7 @@ export CONFIG = {
 export ROOT_PATH = '/'
 export ROOT_URL = 'http://nielssp.dk'
 
-import('modules/highlightjs.tss')
+import('modules/highlightjs.plet')
 export highlightjs
 export import_highlightjs
 
@@ -31,7 +31,7 @@ exec("slimit {"{SRC_ROOT}/js/gallery.js" | shell_escape} > {"{DIST_ROOT}/js/gall
 add_static('favicon.ico')
 add_static('robots.txt')
 
-add_page('404.html', 'templates/404.tss.html')
+add_page('404.html', 'templates/404.plet.html')
 
 pages = list_content('content/pages', {suffix: '.md'})
 for page in pages
@@ -40,7 +40,7 @@ for page in pages
   else
     page.link = "{page.relative_path}/{page.name}/index.html"
   end if
-  add_page(page.link, 'templates/page.tss.html', {
+  add_page(page.link, 'templates/page.plet.html', {
     page: page
   })
   add_reverse(page.path, page.link)
@@ -60,34 +60,34 @@ for post in published_posts
   post.year = post.published | date('%Y')
   post.month = post.published | date('%m')
   post.link = "{post.year}/{post.month}/{post.name}/index.html"
-  add_page(post.link, 'templates/post.tss.html', {
+  add_page(post.link, 'templates/post.plet.html', {
     post: post
   })
   add_reverse(post.path, post.link)
 end for
 
-add_page('posts.rss', 'templates/posts.tss.rss', {posts: published_posts})
+add_page('posts.rss', 'templates/posts.plet.rss', {posts: published_posts})
 
-add_page('archive/index.html', 'templates/archive.tss.html', {posts: published_posts})
+add_page('archive/index.html', 'templates/archive.plet.html', {posts: published_posts})
 
 for group in published_posts | group_by(.year)
   year = group[0].year
-  group | paginate(5, "{year}%page%/index.html", 'templates/archive-year.tss.html', {
+  group | paginate(5, "{year}%page%/index.html", 'templates/archive-year.plet.html', {
     year: year
   })
   for subgroup in group | group_by(.month)
     month = subgroup[0].month
-    subgroup | paginate(5, "{year}/{month}%page%/index.html", 'templates/archive-month.tss.html', {
+    subgroup | paginate(5, "{year}/{month}%page%/index.html", 'templates/archive-month.plet.html', {
       year: year,
       month: month
     })
   end for
 end for
 
-published_posts | paginate(5, '%page%/index.html', 'templates/post-list.tss.html')
+published_posts | paginate(5, '%page%/index.html', 'templates/post-list.plet.html')
 
 for tag: posts in tag_groups
-  posts | sort_by(.published) | paginate(5, "tags/{tag}%page%/index.html", 'templates/archive-tag.tss.html', {
+  posts | sort_by(.published) | paginate(5, "tags/{tag}%page%/index.html", 'templates/archive-tag.plet.html', {
     tag: tag
   })
 end for

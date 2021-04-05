@@ -1,9 +1,0 @@
-{
-LAYOUT = 'layout.tss.html'
-TITLE = "{tag} \u2013 Page {PAGE.page} of {PAGE.pages}"
-}
-{embed('pagination.tss.html', {PAGE: PAGE})}
-{for post in PAGE.items}
-  {embed('post-brief.tss.html', {post: post})}
-{end for}
-{embed('pagination.tss.html', {PAGE: PAGE})}
