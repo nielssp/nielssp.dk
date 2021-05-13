@@ -1,7 +1,7 @@
 export CONFIG = {
   time_zone: "Europe/Copenhagen",
   title: "nielssp.dk",
-  description: "The blog of a 27 year old software developer",
+  description: "The blog of a 28 year old software developer",
   copyright: "Niels Sonnich Poulsen",
 }
 
