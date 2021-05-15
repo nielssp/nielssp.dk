@@ -1,12 +1,12 @@
 {
-  modified: '2021-05-15 16:43'
+  modified: '2021-05-15 16:57'
 }
 # Things
 This page contains an incomplete list of various ideas, projects, snippets etc.
 
 *Snippets and dotfiles*
 
-* [Minimal .vimrc](things/vimrc) – with comments
+* [Minimal .vimrc](things/vimrc.md) – with comments
 
 *Command line applications*
 
