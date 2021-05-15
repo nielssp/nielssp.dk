@@ -1,5 +1,10 @@
+{
+  modified: '2021-05-15 16:51'
+}
 # nielssp.dk
-My personal website and blog. Created in October of 2014 using [Jivoo CMS](/things/jivoo). First [blog post](/2015/02/colorgrab-a-crossplatform-color-picker) in February 2015. Replaced Jivoo with [BLOGSTEP](/things/blogstep) at the end of October 2016. Redesigned (slightly) in May 2018.
+My personal website and blog. Created in October of 2014 using [Jivoo CMS](/things/jivoo). First [blog post](/2015/02/colorgrab-a-crossplatform-color-picker) in February 2015. Replaced Jivoo with [TEXTSTEP](textstep.md) at the end of October 2016. Redesigned (slightly) in May 2018. Started using [Plet](plet.md) as the static site generator instead of TEXTSTEP in May 2021.
+
+The source code (Plet templates and Markdown content) and all assets are available on [GitHub](https://github.com/nielssp/nielssp.dk).
 
 <figure>
 <img src="../../images/nielssp.dk/2015.png" alt="2015"/>

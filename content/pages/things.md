@@ -1,3 +1,6 @@
+{
+  modified: '2021-05-15 16:43'
+}
 # Things
 This page contains an incomplete list of various ideas, projects, snippets etc.
 
@@ -10,6 +13,7 @@ This page contains an incomplete list of various ideas, projects, snippets etc.
 * [ctodo (GitHub)](https://github.com/nielssp/ctodo) (2012) – ncurses todo list (C)
 * [yuk (GitHub)](https://github.com/nielssp/yuk) (2017) – ncurses Yukon solitaire (C)
 * [csol (GitHub)](https://github.com/nielssp/csol) (2017) – ncurses solitaire (C)
+* [Plet](things/plet.md) (2021) &ndash; static site generator (C)
 
 *GUI applications*
 
@@ -33,7 +37,7 @@ This page contains an incomplete list of various ideas, projects, snippets etc.
 
 * [niels.spoweb.dk](things/niels-spoweb-dk.md) (2004) – personal website and blog (PHP)
 * [apakoh.dk](things/apakoh-dk.md) (2011) – personal website and blog (PHP)
-* [nielssp.dk](things/nielssp-dk.md) (2014) – personal website and blog (Markdown/TEXTSTEP)
+* [nielssp.dk](things/nielssp-dk.md) (2014) – personal website and blog (Markdown/Plet)
 
 *Web applications*
 
