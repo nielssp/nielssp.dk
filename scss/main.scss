@@ -46,7 +46,7 @@ body {
     font-size: 1.4em;
     line-height: 1;
     background-color: #515171;
-    padding: 0.38em 32px;
+    padding: 0.38em 8px;
     color: #fff;
 
     a, a:link, a:visited, a:active {
@@ -59,7 +59,8 @@ body {
   }
 
   nav {
-    margin: 0.50em 0 0.25em 0;
+    margin: 0.6em 0 0.6em 0;
+    line-height: 2;
     ul {
       margin: 0;
       padding: 0;
@@ -68,6 +69,28 @@ body {
       list-style-type: none;
       display: inline-block;
       margin-right: 10px;
+      
+      a {
+        color: #000;
+      }
+    }
+  }
+
+  @media only screen and (min-width: 1360px) {
+    float: left;
+    width: 140px;
+    margin-left: -170px;
+    border: 0;
+
+    h1 {
+      margin: 0 -8px;
+    }
+
+    nav {
+      li {
+        display: block;
+        margin: 0;
+      }
     }
   }
 }
@@ -108,11 +131,10 @@ h1 {
 
 h1 + time,
 .dateline {
-  color: #999;
-  margin-top: -0.9em;
+  color: #555;
   margin-bottom: 1em;
-  font-size: 0.9em;
   display: block;
+  font-style: italic;
 }
 
 h2 {
@@ -262,7 +284,7 @@ pre {
 a {
   &, &:link, &:visited, &:hover, &:active {
     color: $link;
-    text-decoration: none;
+    text-decoration: underline;
   }
 
   &:visited {
@@ -271,7 +293,7 @@ a {
 
   &:hover, &:active {
     color: $linkHover;
-    text-decoration: underline;
+    text-decoration: none;
   }
 
   img {
@@ -305,65 +327,34 @@ kbd {
 
 /* Widgets */
 
-.pagination {
-  text-align: center;
-  font-weight: normal;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  margin-bottom: 20px;
-  padding: 6px 0;
-  color: #555;
-
-  .next, .prev {
-    font-weight: bold;
-    padding: 2px 4px;
+.post {
+  margin-bottom: 8px;
+  & > a {
+    display: block;
   }
-  .next {
-    margin-left: 16px;
+  & > time {
+    display: block;
+    font-style: italic;
+    color: #444;
   }
 
-  .prev {
-    margin-right: 16px;
-  }
-
-  .this {
-    background-color: #555;
-    color: #fff;
-    padding: 2px 4px;
-  }
-
-  a {
-    &, &:link, &:active, &:visited {
-      padding: 2px 4px;
+  @media only screen and (min-width: 600px) {
+    display: flex;
+    justify-content: space-between; 
+    & > a {
+      margin-right: 8px;
     }
-    &:hover {
+    & > time {
+      margin-left: auto;
     }
   }
-}
-
-.comments-pagination {
-  border: none;
-}
-
-.archive-pagination {
-  color: #555;
-
-  .title {
-    font-weight: bold;
-  }
-
-  .quantity {
-    float: right;
-  }
-
 }
 
 .tags {
-  color: #777;
   margin-bottom: 0.8em;
 
   a, a:link, a:active, a:visited {
-    color: #777;
+    color: #555;
     text-decoration: underline;
   }
   a:hover {
@@ -371,49 +362,10 @@ kbd {
   }
 }
 
-#cookie-consent {
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  background-color: #000;
-  color: #fff;
-  padding: 10px 20px;
-  font-size: 16px;
-  text-align: center;
-  div {
-  }
-  a {
-    display: block;
-    margin: 10px 0;
-    &, &:link, &:active, &:visited {
-      text-decoration: none;
-      color: #0C7DF0;
-    }
-    &:hover, &:active {
-      text-decoration: underline;
-      color: $linkHover;
-    }
-  }
-  button {
-    display: block;
-    border: none;
-    width: 100%;
-    padding: 10px 0;
-    background-color: #515171;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-    font-family: Georgia, serif;
-    &:hover, &:active {
-      background-color: #5050A4;
-    }
-  }
-}
-
 .gallery {
   overflow-x: auto;
   white-space: nowrap;
-  
+
   img {
     vertical-align: top;
   }
@@ -452,21 +404,3 @@ kbd {
     }
   }
 }
-
-/*
-h1, h2, h3, h4, h5, h6 {
-    .heading-fragment {
-        width: 30px;
-        padding-right: 2px;
-        margin-left: -32px;
-        display: none;
-        float: left;
-        text-align: right;
-    }
-    &:hover {
-        .heading-fragment {
-            display: inline-block;
-        }
-    }
-}
-*/

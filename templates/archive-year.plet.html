@@ -1,9 +1,8 @@
 {
 LAYOUT = 'layout.plet.html'
-TITLE = "{year} \u2013 Page {PAGE.page} of {PAGE.pages}"
+TITLE = "{year}"
 }
-{embed('pagination.plet.html', {PAGE: PAGE})}
-{for post in PAGE.items}
+<h1>{TITLE}</h1>
+{for post in posts}
   {embed('post-brief.plet.html', {post: post})}
 {end for}
-{embed('pagination.plet.html', {PAGE: PAGE})}

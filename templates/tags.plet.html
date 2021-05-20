@@ -1,0 +1,15 @@
+{
+LAYOUT = 'layout.plet.html'
+TITLE = 'Topics'
+}
+<h1>Topics</h1>
+<ul>
+  {for group in posts | flat_map(.tags) | group_by(x => x) | sort_by(g => g[0])}
+  <li>
+    <a href="{'tags/' + group[0] | link}">
+      <span>{group[0]}</span>
+      (<span>{length(group)}</span>)
+    </a>
+  </li>
+  {end for}
+</ul>

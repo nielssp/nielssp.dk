@@ -1,17 +1,6 @@
-<article itemscope itemtype="http://schema.org/BlogPosting">
-    <header>
-      <h1 itemprop="name headline">
-          <a href="{link(post.link)}" itemprop="url">{post.title | h}</a>
-      </h1>
-      <time datetime="{post.published | iso8601}" title="{post.published | date('%F %T %Z')}" itemprop="datePublished">{post.published | date('%A, %e %B %Y')}</time>
-      <meta itemprop="mainEntityOfPage" content="{url(post.link)}"/>
-      <meta itemprop="dateModified" content="{post.modified | iso8601}"/>
-    </header>
-    <div itemprop="articleBody">{post.html | copy | no_title | read_more | highlightjs | images(736, 736, 90, true) | links | html}</div>
-
-    {if post?.read_more}
-    <p>
-        <a href="{link(post.link)}">Continue reading&hellip;</a>
-    </p>
-    {end if}
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <a href="{link(post.link)}" itemprop="name headline url">{post.title | h}</a>
+  <time datetime="{post.published | iso8601}" title="{post.published | date('%F %T %Z')}" itemprop="datePublished" style="white-space: nowrap;">{post.published | date('%e %B %Y')}</time>
+  <meta itemprop="mainEntityOfPage" content="{url(post.link)}"/>
+  <meta itemprop="dateModified" content="{post.modified | iso8601}"/>
 </article>

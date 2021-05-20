@@ -69,25 +69,31 @@ end for
 add_page('posts.rss', 'templates/posts.plet.rss', {posts: published_posts})
 
 add_page('archive/index.html', 'templates/archive.plet.html', {posts: published_posts})
+add_page('tags/index.html', 'templates/tags.plet.html', {posts: published_posts})
 
 for group in published_posts | group_by(.year)
   year = group[0].year
-  group | paginate(5, "{year}%page%/index.html", 'templates/archive-year.plet.html', {
-    year: year
+  add_page("{year}/index.html", 'templates/archive-year.plet.html', {
+    posts: group,
+    year: year,
   })
   for subgroup in group | group_by(.month)
     month = subgroup[0].month
-    subgroup | paginate(5, "{year}/{month}%page%/index.html", 'templates/archive-month.plet.html', {
+    add_page("{year}/{month}/index.html", 'templates/archive-month.plet.html', {
+      posts: subgroup,
       year: year,
-      month: month
+      month: month,
     })
   end for
 end for
 
-published_posts | paginate(5, '%page%/index.html', 'templates/post-list.plet.html')
+add_page('index.html', 'templates/post-list.plet.html', {
+  posts: published_posts,
+})
 
 for tag: posts in tag_groups
-  posts | sort_by(.published) | paginate(5, "tags/{tag}%page%/index.html", 'templates/archive-tag.plet.html', {
-    tag: tag
+  add_page("tags/{tag}/index.html", 'templates/archive-tag.plet.html', {
+    posts: posts,
+    tag: tag,
   })
 end for
