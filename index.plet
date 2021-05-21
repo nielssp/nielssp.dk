@@ -40,6 +40,14 @@ for page in pages
   else
     page.link = "{page.relative_path}/{page.name}/index.html"
   end if
+  first_commit = exec('git log --format=%ci -1 --diff-filter=A', page.path)
+  if first_commit
+    page.created = time(first_commit)
+  end if
+  last_commit = exec('git log --format=%ci -1', page.path)
+  if last_commit
+    page.modified = time(last_commit)
+  end if
   add_page(page.link, 'templates/page.plet.html', {
     page: page
   })
