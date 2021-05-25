@@ -3,6 +3,4 @@ LAYOUT = 'layout.plet.html'
 TITLE = "{year}"
 }
 <h1>{TITLE}</h1>
-{for post in posts}
-  {embed('post-brief.plet.html', {post: post})}
-{end for}
+{embed('post-list.plet.html', {posts: posts})}

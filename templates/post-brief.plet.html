@@ -1,6 +1,4 @@
-<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+<li class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <a href="{link(post.link)}" itemprop="name headline url">{post.title | h}</a>
   <time datetime="{post.published | iso8601}" title="{post.published | date('%F %T %Z')}" itemprop="datePublished" style="white-space: nowrap;">{post.published | date('%e %B %Y')}</time>
-  <meta itemprop="mainEntityOfPage" content="{url(post.link)}"/>
-  <meta itemprop="dateModified" content="{post.modified | iso8601}"/>
-</article>
+</li>

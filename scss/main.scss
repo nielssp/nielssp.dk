@@ -327,6 +327,11 @@ kbd {
 
 /* Widgets */
 
+.post-list {
+  margin-left: 0;
+  list-style-type: none;
+}
+
 .post {
   margin-bottom: 8px;
   & > time {

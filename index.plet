@@ -95,7 +95,7 @@ for group in published_posts | group_by(.year)
   end for
 end for
 
-add_page('index.html', 'templates/post-list.plet.html', {
+add_page('index.html', 'templates/blog.plet.html', {
   posts: published_posts,
 })
 
