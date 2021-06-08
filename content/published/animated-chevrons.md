@@ -85,7 +85,7 @@ const length = Math.sqrt((x0 - x1) * (x0 - x1) + (y0 - y1) * (y0 - y1));
 ```
 
 <figure>
-<img src="../images/chevron/angle.svg" width="400"/>
+<img src="../images/chevron/angle.svg" width="400" alt="Diagram showing relationship between a line and the X-axis on a canvas"/>
 <figcaption>`atan2` computes the angle between the x-axis and the line.</figcaption>
 </figure>
 
@@ -103,7 +103,7 @@ const chevronLength = 10;
 We can think of a chevron as a path consisting of two line segments meeting in a point. We'll refer to this point as the center point.
 
 <figure>
-<img src="../images/chevron/chevron.svg" width="250"/>
+<img src="../images/chevron/chevron.svg" width="250" alt="Diagram showing relationship between a line and a chevron on the line"/>
 <figcaption>The three points of a single chevron.</figcaption>
 </figure>
 
@@ -142,11 +142,11 @@ for (let i = 0; i < n; i++) {
 <canvas id="canvas2" width="300" height="200" style="border: 1px solid #000;"></canvas>
 </figure>
 
-Chevron space: <input type="number" size=5 name="chevronSpace" value="7"/>
+<label>Chevron space: <input type="number" size=5 name="chevronSpace" value="7"/></label>
 
-Chevron angle in degrees: <input type="number" size=5 name="chevronAngle" value="126"/>
+<label>Chevron angle in degrees: <input type="number" size=5 name="chevronAngle" value="126"/></label>
 
-Chevron length: <input type="number" size=5 name="chevronLength" value="10"/>
+<label>Chevron length: <input type="number" size=5 name="chevronLength" value="10"/></label>
 
 <button type="submit">Update</button>
 
@@ -213,7 +213,7 @@ requestAnimationFrame(render);
 
 If you cover up both ends of the above line with your fingers, it pretty much looks the way it should. We just need to do something about the chevrons popping in and out of existence.
 
-Pixels per second: <input type="number" size=5 name="pixelsPerSecond" value="20"/>
+<label>Pixels per second: <input type="number" size=5 name="pixelsPerSecond" value="20"/></label>
 
 <button type="submit">Update</button>
 
@@ -246,7 +246,7 @@ This results in a 30 pixel gradient from white to black at both ends of the line
 
 This is the final chevron animation. You can go back and change the other parameters to see what effects they have on the final result.
 
-Fade length: <input type="number" size=5 name="fadeLength" value="30"/>
+<label>Fade length: <input type="number" size=5 name="fadeLength" value="30"/></label>
 
 <button type="submit">Update</button>
 
