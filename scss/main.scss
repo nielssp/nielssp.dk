@@ -544,8 +544,9 @@ code .cm, code .c1 {
   font-style: italic;
 }
 
-code .nt {
-  color: #597;
+code .nt,
+code .nc {
+  color: #485;
 }
 
 code .err {

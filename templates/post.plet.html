@@ -12,7 +12,7 @@ TITLE = post.title
       <meta itemprop="dateModified" content="{post.modified | iso8601}"/>
     </header>
 
-    <div itemprop="articleBody">{post.html | no_title | highlightjs | images(736, 736, 90, true) | links | html}</div>
+    <div itemprop="articleBody">{post.html | no_title | pygmentize | images(736, 736, 90, true) | links | html}</div>
 
     <div class="tags">
         {for tag in post.tags}
