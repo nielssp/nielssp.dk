@@ -5,6 +5,7 @@ $linkHover: #D81413;
 * {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 
 html {
@@ -30,7 +31,7 @@ body {
 
 #container {
   display: block;
-  max-width: 800px;
+  max-width: 816px;
   margin: 1.55em auto 16px auto;
   padding: 0 8px;
   line-height: 1.6;
@@ -263,21 +264,37 @@ blockquote {
 
 pre, code {
   font-family: "Source Code Pro", monospace;
-  font-size: 0.85em;
+  font-size: 0.95em;
   color: #000;
 }
 
 pre {
   margin: 1.2em 24px 1.55em 24px;
+  position: relative;
   code {
     font-weight: 400;
     padding: 4px 8px!important;
     display: block;
-    background-color: #eee;
+    background-color: #f7f7f7;
     overflow-x: auto;
     line-height: 1.3;
   }
+
+
+  &:hover code::before {
+    content: attr(data-lang);
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 4px 8px;
+    color: #999;
+    background-color: #f7f7f7;
+    text-transform: uppercase;
+    font-size: 0.8em;
+  }
 }
+
 
 /* Inline elements */
 
@@ -312,7 +329,7 @@ q {
 
 code {
   padding: 3px;
-  background-color: #eee;
+  background-color: #f7f7f7;
 }
 
 kbd {
@@ -323,6 +340,48 @@ kbd {
   border-radius: 3px;
   padding: 0 2px;
   font-size: 0.9em;
+}
+
+button {
+  border: 1px solid #000;
+  padding: 4px 16px;
+  background-color: #eee;
+  box-shadow: inset 1px 1px 0 #eee, inset 2px 2px 0 #fff, inset -1px -1px 1px #666;
+  color: #000;
+  font-weight: bold;
+  border-radius: 3px;
+  font-size: inherit;
+  margin: 2px;
+
+  &:focus {
+    box-shadow: inset 1px 1px 0 #eee, inset 2px 2px 0 #fff, inset -1px -1px 1px #666, 0 0 0 1px #000;
+    outline: 1px dotted #000;
+    outline-offset: -4px;
+  }
+
+  &:active {
+    background-color: #666;
+    color: #fff;
+    box-shadow: inset 1px 1px 1px #333, inset -1px -1px 1px #999;
+    outline: none;
+  }
+}
+
+input[type=text],
+input[type=number],
+textarea {
+  background-color: #fff;
+  padding: 4px 8px;
+  color: #000;
+  border: 1px solid #000;
+  box-shadow: inset 1px 1px 1px #999;
+  font-size: inherit;
+  margin: 2px;
+
+  &:focus {
+    box-shadow: inset 1px 1px 1px #999, 0 0 0 1px #000;
+    outline: none;
+  }
 }
 
 /* Widgets */
@@ -362,6 +421,56 @@ kbd {
   a:hover {
     color: $linkHover;
   }
+}
+
+.schnack-signin,
+.schnack-login-status,
+.schnack-settings,
+.schnack-above,
+.schnack-comment-inner {
+  margin: 0 0 0.8em 0;
+}
+
+.schnack-form br {
+  display: none;
+}
+
+textarea.schnack-body {
+  display: block;
+  width: 100%;
+  min-height: 120px;
+  margin-bottom: 0.8em;
+}
+
+blockquote.schnack-body {
+  padding-top: 0.4em;
+  padding-bottom: 0.4em;
+  margin-right: 0;
+}
+
+.schnack-comments {
+  list-style-type: none;
+  margin-left: 0;
+
+  .schnack-comments {
+    margin-left: 32px;
+  }
+
+  .schnack-date {
+    margin-left: 16px;
+  }
+
+  .schnack-date a {
+    color: #555;
+  }
+
+  .schnack-form {
+    margin-top: 0.8em;
+  }
+}
+
+.schnack-comment:target > .schnack-comment-inner > .schnack-body {
+  background-color: #fffff7;
 }
 
 .gallery {
@@ -405,4 +514,41 @@ kbd {
       margin-left: 0;
     }
   }
+}
+
+code .k, code .kt, code .kd {
+  font-weight: bold;
+}
+
+code .s, code .s1, code .cpf {
+  color: #24b;
+}
+
+code .se {
+  font-weight: bold;
+}
+
+code .m, code .mi, code .mf, code .kc {
+  color: #b42;
+}
+
+code .cp, code .cm, code .c1 {
+  color: #888;
+}
+
+code .cp {
+  font-weight: bold;
+}
+
+code .cm, code .c1 {
+  font-style: italic;
+}
+
+code .nt {
+  color: #597;
+}
+
+code .err {
+  background-color: #b42;
+  color: #fff;
 }

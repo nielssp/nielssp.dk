@@ -65,11 +65,11 @@ Not the most interesting result, but to me it was important to see the line on t
 
 You can change the parameters below (this will update all the other examples on this page as well):
 
-x<sub>0</sub>: <input type="number" name="x0" value="50"/> y<sub>0</sub>: <input type="number" name="y0" value="50"/>
+<label>x<sub>0</sub>: <input type="number" size=5 name="x0" value="50"/></label>&emsp;<label>y<sub>0</sub>: <input type="number" size=5 name="y0" value="50"/></label>
 
-x<sub>1</sub>: <input type="number" name="x1" value="250"/> y<sub>1</sub>: <input type="number" name="y1" value="150"/>
+<label>x<sub>1</sub>: <input type="number" size=5 name="x1" value="250"/></label>&emsp;<label>y<sub>1</sub>: <input type="number" size=5 name="y1" value="150"/></label>
 
-Line width: <input type="number" name="lineWidth" value="2"/>
+<label>Line width: <input type="number" size=5 name="lineWidth" value="2"/></label>
 
 <button type="submit">Update</button>
 
@@ -142,11 +142,11 @@ for (let i = 0; i < n; i++) {
 <canvas id="canvas2" width="300" height="200" style="border: 1px solid #000;"></canvas>
 </figure>
 
-Chevron space: <input type="number" name="chevronSpace" value="7"/>
+Chevron space: <input type="number" size=5 name="chevronSpace" value="7"/>
 
-Chevron angle in degrees: <input type="number" name="chevronAngle" value="126"/>
+Chevron angle in degrees: <input type="number" size=5 name="chevronAngle" value="126"/>
 
-Chevron length: <input type="number" name="chevronLength" value="10"/>
+Chevron length: <input type="number" size=5 name="chevronLength" value="10"/>
 
 <button type="submit">Update</button>
 
@@ -213,7 +213,7 @@ requestAnimationFrame(render);
 
 If you cover up both ends of the above line with your fingers, it pretty much looks the way it should. We just need to do something about the chevrons popping in and out of existence.
 
-Pixels per second: <input type="number" name="pixelsPerSecond" value="20"/>
+Pixels per second: <input type="number" size=5 name="pixelsPerSecond" value="20"/>
 
 <button type="submit">Update</button>
 
@@ -246,7 +246,7 @@ This results in a 30 pixel gradient from white to black at both ends of the line
 
 This is the final chevron animation. You can go back and change the other parameters to see what effects they have on the final result.
 
-Fade length: <input type="number" name="fadeLength" value="30"/>
+Fade length: <input type="number" size=5 name="fadeLength" value="30"/>
 
 <button type="submit">Update</button>
 
