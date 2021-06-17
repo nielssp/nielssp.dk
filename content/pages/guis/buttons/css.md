@@ -3,9 +3,21 @@
 CSS imitations of [these buttons](index.md).
 
 <style>
+button, button:focus, button:active {
+  border: none;
+  padding: 0;
+  box-shadow: none;
+  font-weight: normal;
+  border-radius: 0;
+  font-size: inherit;
+  margin: 0;
+  outline: none;
+  outline-offset: 0;
+  color: #000;
+}
 .button-container {
   padding: 8px 32px;
-	font-family: sans-serif;
+  font-family: sans-serif;
 }
 .button-container button {
   font-family: inherit;
