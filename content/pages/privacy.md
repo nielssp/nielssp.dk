@@ -12,14 +12,20 @@ When you access and navigate my website each page view is logged on my web serve
 
 None of this information is shared with anyone or linked with anything that is personally identifiable.
 
-## Cookies
+## Analytics
 
-I use Google Analytics to record information about the pages a user has seen, for example the URL of the page, time of day, device used, etc. The information that I collect is anonymized and sent to Google Analytics for analysis.
+I use a self-hosted instance of [Shynet](https://github.com/milesmcc/shynet) to keep track of the number of visitors, which pages are accessed, and where users come from. It records the following information for each visitor:
 
-Google Analytics mainly uses first-party cookies to report on visitor interactions on this website. Users may disable cookies or delete any individual cookie. [Learn more](https://policies.google.com/technologies/cookies)
+* Page URL
+* Page load time
+* Session duration
+* Referrer
+* OS and browser
+* Country
+* Device type
 
-In addition, Google Analytics supports an optional browser [add-on](https://tools.google.com/dlpage/gaoptout/) that – once installed and enabled – disables measurement by Google Analytics for any site a user visits. Note that this add-on only disables Google Analytics measurement.
+It does not store visitors' IP addresses and it does not use cookies or local storage to track visitors across multiple sessions.
 
-Google Analytics also collects Internet Protocol (IP) addresses to provide and protect the security of the service, and to give website owners a sense of which country, state, or city in the world their users come from (also known as &ldquo;IP geolocation&rdquo;).
+## Comments
 
-[See this page for Google Analytics security and usage of data.](https://support.google.com/analytics/answer/6004245)
+I use a self-hosted instance of [Uncomment](https://github.com/nielssp/uncomment) to allow visitors to leave comments. If you leave a comment, aside from storing the information that you've entered (name, email, website, and the comment body), your IP address is also stored. The email and IP address are not shared with anyone.
