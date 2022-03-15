@@ -46,6 +46,7 @@ This page contains an incomplete list of various ideas, projects, snippets etc.
 * [Agendl](things/agendl.md) (2014) – todo list manager (PHP)
 * [Jivoo](things/jivoo.md) (2014) – CMS / framework (PHP)
 * [TEXTSTEP](things/textstep.md) (2016) – web-based static site generator (PHP/JavaScript)
+* [Uncomment](../published/uncomment.md) (2021) &ndash; comment system for static websites (Rust/TypeScript)
 
 *Browser-based games*
 
