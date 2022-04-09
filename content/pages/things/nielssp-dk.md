@@ -23,10 +23,15 @@ The source code (Plet templates and Markdown content) and all assets are availab
 
 <figure>
 <img src="../../images/nielssp.dk/2021.png" alt="2021"/>
-<figcaption>nielssp.dk in 2021 showing design used from May 2021 onward (on large screens)</figcaption>
+<figcaption>nielssp.dk in 2021 showing design used from May 2021 to April 2022 (on large screens)</figcaption>
 </figure>
 
 <figure>
 <img src="../../images/nielssp.dk/2021b.png" alt="2021"/>
 <figcaption>Front page after May 2021</figcaption>
+</figure>
+
+<figure>
+<img src="../../images/nielssp.dk/2022.png" alt="2022"/>
+<figcaption>nielssp.dk in 2022 showing design used from April 2022 onward</figcaption>
 </figure>

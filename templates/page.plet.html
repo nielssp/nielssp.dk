@@ -10,7 +10,7 @@ TITLE = page.title
             <time datetime="{page.modified | iso8601}" title="{page.modified | date('%F %T %Z')}">{page.modified | date('%A, %e %B %Y')}</time>
         </div>
     </header>
-    {page.html | copy | no_title | pygmentize | images(736, 736, 90, true) | links | html}
+    {page.html | copy | no_title | pygmentize | images(784, 784, 90, true) | links | html}
 
     <div class="tags">
         {for tag in page.tags? or []}

@@ -24,7 +24,7 @@ body {
   display: block;
   max-width: 816px;
   margin: 1.55em auto 16px auto;
-  padding: 0 1em;
+  padding: 0 16px;
   line-height: 1.6;
   text-align: left;
 }
@@ -192,7 +192,8 @@ ol ol ol {
 }
 
 figure {
-  margin: 0 32px 0.8em 32px;
+  margin: 0 0 0.8em 0;
+  text-align: center;
 
   img, video {
     max-width: 100%;
@@ -200,6 +201,7 @@ figure {
   }
   figcaption {
     color: #333;
+    font-style: italic;
   }
   table {
     margin: 0 -8px 0.75em -8px;
@@ -258,7 +260,7 @@ pre, code {
 }
 
 pre {
-  margin: 1.2em 24px 1.55em 24px;
+  margin: 1.2em 0 1.55em 0;
   position: relative;
   code {
     font-weight: 400;
@@ -426,13 +428,15 @@ textarea {
 
 .gallery-js {
   nav {
-    float: left;
+    display: flex;
     list-style-type: none;
-    margin-left: -32px;
+    justify-content: center;
   }
   nav a {
     display: block;
-    width: 32px;
+    width: 48px;
+    height: 32px;
+    line-height: 32px;
     text-align: center;
   }
   nav a.active {
