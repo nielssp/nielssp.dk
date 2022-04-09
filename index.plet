@@ -1,7 +1,7 @@
 export CONFIG = {
   time_zone: "Europe/Copenhagen",
   title: "nielssp.dk",
-  description: "The blog of a 29 year old software developer",
+  description: "The website and blog of a 29 year old software developer",
   copyright: "Niels Sonnich Poulsen",
 }
 
@@ -10,6 +10,9 @@ export ROOT_URL = 'http://nielssp.dk'
 
 import('modules/pygments.plet')
 export pygmentize
+
+import('modules/findlink.plet')
+export find_link
 
 export IMAGE_PRESERVE_LOSSLESS = false
 
@@ -32,13 +35,22 @@ add_static('robots.txt')
 
 add_page('404.html', 'templates/404.plet.html')
 
+tag_groups = {}
+
 pages = list_content('content/pages', {suffix: '.md'})
 for page in pages
+  for tag in page.tags? or []
+    if not tag_groups[tag]
+      tag_groups[tag] = []
+    end if
+    tag_groups[tag] | push(page)
+  end for
   if page.name == 'index'
-    page.link = "{page.relative_path}/index.html"
+    page.id = page.relative_path
   else
-    page.link = "{page.relative_path}/{page.name}/index.html"
+    page.id = "{page.relative_path}/{page.name}"
   end if
+  page.link = "{page.id}/index.html"
   first_commit = exec('git log --format=%ci -1 --diff-filter=A', page.path)
   if first_commit
     page.created = time(first_commit)
@@ -54,8 +66,6 @@ for page in pages
 end for
 
 published_posts = list_content('content/published', {suffix: '.md'}) | filter(p => p.published?) | sort_by_desc(.published)
-
-tag_groups = {}
 
 for post in published_posts
   for tag in post.tags or []
@@ -73,10 +83,12 @@ for post in published_posts
   add_reverse(post.path, post.link)
 end for
 
+published_posts = published_posts | filter(p => not p.exclude?)
+
 add_page('posts.rss', 'templates/posts.plet.rss', {posts: published_posts})
 
+add_page('articles/index.html', 'templates/articles.plet.html', {posts: published_posts})
 add_page('archive/index.html', 'templates/archive.plet.html', {posts: published_posts})
-add_page('tags/index.html', 'templates/tags.plet.html', {posts: published_posts})
 
 for group in published_posts | group_by(.year)
   year = group[0].year
@@ -94,13 +106,32 @@ for group in published_posts | group_by(.year)
   end for
 end for
 
-add_page('index.html', 'templates/blog.plet.html', {
-  posts: published_posts,
+updates = list_content('updates', {suffix: '.html'})
+
+for update in updates
+  update.published = update.name | time
+  update.year = update.published | date('%Y')
+end for
+
+updates = updates | sort_by_desc(.published)
+
+add_page('index.html', 'templates/updates.plet.html', {
+  updates: updates,
+})
+add_page('updates.rss', 'templates/updates.plet.rss', {
+  updates: updates,
 })
 
+tags = []
+
 for tag: posts in tag_groups
+  tags | push({tag: tag, count: posts | length})
   add_page("tags/{tag}/index.html", 'templates/archive-tag.plet.html', {
-    posts: posts,
+    posts: posts | sort_by_desc(p => p.published? or p.modified),
     tag: tag,
   })
 end for
+
+tags = tags | sort_by(.tag)
+
+add_page('tags/index.html', 'templates/tags.plet.html', {tags: tags})

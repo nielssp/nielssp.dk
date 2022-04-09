@@ -1,0 +1,7 @@
+{
+LAYOUT = 'layout.plet.html'
+TITLE = 'Articles'
+}
+<h1>Articles</h1>
+<p><a{'/posts.rss' | href}>RSS feed (articles only)</a></p>
+{embed('post-list.plet.html', {posts: posts})}

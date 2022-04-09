@@ -1,3 +1,6 @@
+{
+  tags: ['java', 'game']
+}
 # Plan T from Outer Space
 [Indie DB page with jar-download](http://www.indiedb.com/games/plan-t-from-outer-space).
 

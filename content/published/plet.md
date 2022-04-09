@@ -1,6 +1,6 @@
 {
   published: "2021-05-13 12:03",
-  tags: ["textstep", "plet", "c", "blog"]
+  tags: ["textstep", "plet", "c", "blog", "static-sites"]
 }
 # Yet another static site generator
 

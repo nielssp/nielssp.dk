@@ -4,11 +4,11 @@ TITLE = 'Topics'
 }
 <h1>Topics</h1>
 <ul>
-  {for group in posts | flat_map(.tags) | group_by(x => x) | sort_by(g => g[0])}
+  {for tag in tags}
   <li>
-    <a href="{'tags/' + group[0] | link}">
-      <span>{group[0]}</span>
-      (<span>{length(group)}</span>)
+    <a href="{'tags/' + tag.tag | link}">
+      <span>{tag.tag}</span>
+      (<span>{tag.count}</span>)
     </a>
   </li>
   {end for}

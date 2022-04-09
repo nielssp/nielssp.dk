@@ -1,9 +1,9 @@
 {
-  modified: '2021-05-15 16:43'
+  tags: ["textstep", "plet", "c", "static-sites"]
 }
 # Plet
 
-Plet is a static site generator and programming lannguage written in C that I started working on in February 2021. The template language is based on the template language I designed for [TEXTSTEP](textstep.md).
+Plet is a static site generator and programming language written in C that I started working on in February 2021. The template language is based on the template language I designed for [TEXTSTEP](textstep.md).
 
 [Documentation](https://docs.plet.info)
 

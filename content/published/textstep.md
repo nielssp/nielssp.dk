@@ -1,6 +1,6 @@
 {
   published: "2020-07-24 17:20",
-  tags: ["cms", "textstep", "css", "classic-stylesheets", "design"]
+  tags: ["cms", "textstep", "css", "classic-stylesheets", "design", "static-sites"]
 }
 # Designing the TEXTSTEP user interface
 <figure>

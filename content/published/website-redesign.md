@@ -1,6 +1,7 @@
 {
   published: "2021-05-19 22:59:00",
-  tags: ["blog", "design"]
+  tags: ["blog", "design"],
+  exclude: true
 }
 
 # Website redesign 

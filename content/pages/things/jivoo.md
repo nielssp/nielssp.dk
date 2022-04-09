@@ -1,3 +1,6 @@
+{
+  tags: ['jivoo', 'cms', 'php']
+}
 # Jivoo
 See also: [PeanutCMS](/things/peanutcms).
 

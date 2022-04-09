@@ -1,3 +1,6 @@
+{
+  tags: ['php', 'game', 'pbbg']
+}
 # Battle of the Island
 A browser-based strategy gamed I developed (but never finished) between 2008 and 2009.
 

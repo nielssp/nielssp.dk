@@ -1,3 +1,6 @@
+{
+  tags: ['php']
+}
 # Acrum
 A web application – using [PeanutCMS](/things/peanutcms) as the underlying framework – I developed in 2013 while at university. Used for a couple of semester projects.
 

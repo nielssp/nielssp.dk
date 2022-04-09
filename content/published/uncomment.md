@@ -1,6 +1,6 @@
 {
   published: "2022-03-15 18:07",
-  tags: ["blog", "uncomment", "rust"]
+  tags: ["blog", "uncomment", "rust", "static-sites"]
 }
 
 # Uncomment &ndash; a lightweight comment system for static websites

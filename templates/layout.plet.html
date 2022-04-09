@@ -20,7 +20,7 @@
 
         <style type="text/css">{read("{DIST_ROOT}/css/main.css")}</style>
 
-        <link rel="alternate" type="application/rss+xml" href="{link('/posts.rss')}"/>
+        <link rel="alternate" type="application/rss+xml" href="{link('/updates.rss')}"/>
 
     </head>
     <body>
@@ -31,12 +31,13 @@
                 <h1><a{'/' | href}>{CONFIG.title | h}</a></h1>
                 <nav>
                     <ul class="menu">
-                        <li><a{'/' | href}>Blog</a></li>
+                        <li><a{'/' | href}>Home</a></li>
+                        <li><a{'/articles' | href}>Articles</a></li>
                         <li><a{'/tags' | href}>Topics</a></li>
                         <li><a{'/things' | href}>Things</a></li>
                         <li><a{'/guis' | href}>GUIs</a></li>
-                        <li><a{'/about' | href}>About</a></li>
-                        <li><a{'/posts.rss' | href}>RSS</a></li>
+                        <li><a{'/contact' | href}>Contact</a></li>
+                        <li><a{'/updates.rss' | href}>RSS</a></li>
                         <li><a href="https://github.com/nielssp" rel="me">GitHub</a></li>
                         <li><a href="https://linkedin.com/in/nielssp">LinkedIn</a></li>
                     </ul>

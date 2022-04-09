@@ -1,6 +1,6 @@
 {
   published: "2017-11-12 16:05",
-  tags: ["c", "csol", "ncurses", "solitaire"]
+  tags: ["c", "csol", "ncurses", "solitaire", "game"]
 }
 # csol – a small collection of solitaire/patience games for the terminal
 

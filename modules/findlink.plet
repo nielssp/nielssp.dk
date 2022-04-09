@@ -1,0 +1,19 @@
+import('html')
+
+export find_link = node => do
+  if type(node) != 'object'
+    return nil
+  end if
+  if node.tag? == symbol('a') and node.attributes?.href?
+    link = node.attributes.href | lower
+    return link
+  else
+    for child in node.children? or []
+      link = find_link(child)
+      if link
+        return link
+      end if
+    end for
+  end if
+  return nil
+end do

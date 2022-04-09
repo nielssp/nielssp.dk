@@ -1,3 +1,6 @@
+{
+  tags: ['game', 'pbbg']
+}
 # NukeNation
 
 &ldquo;NukeNation&rdquo; is a name I've used for several unsuccessful attempts at creating some sort of online browser-based multiplayer strategy game.

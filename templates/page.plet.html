@@ -11,4 +11,21 @@ TITLE = page.title
         </div>
     </header>
     {page.html | copy | no_title | pygmentize | images(736, 736, 90, true) | links | html}
+
+    <div class="tags">
+        {for tag in page.tags? or []}
+        <a href="{link("/tags/{tag}")}">#{tag}</a>
+        {end for}
+    </div>
+
+    {if not page.hide_comments?}
+    <h2>Comments</h2>
+    <div id="comments"></div>
+    <script data-uncomment
+      data-uncomment-target="#comments"
+      data-uncomment-id="{page.id}"
+      data-uncomment-require-name="true"
+      src="https://uncomment.nielssp.dk/en/embed.js"></script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+    {end if}
 </article>

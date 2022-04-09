@@ -1,5 +1,4 @@
 {
-  modified: '2021-05-15 16:57'
 }
 # Things
 This page contains an incomplete list of various ideas, projects, snippets etc.
@@ -12,7 +11,7 @@ This page contains an incomplete list of various ideas, projects, snippets etc.
 
 * [ctodo (GitHub)](https://github.com/nielssp/ctodo) (2012) – ncurses todo list (C)
 * [yuk (GitHub)](https://github.com/nielssp/yuk) (2017) – ncurses Yukon solitaire (C)
-* [csol (GitHub)](https://github.com/nielssp/csol) (2017) – ncurses solitaire (C)
+* [csol](https://nielssp.dk/csol) (2017) – ncurses solitaire (C)
 * [Plet](things/plet.md) (2021) &ndash; static site generator (C)
 
 *GUI applications*
@@ -53,3 +52,5 @@ This page contains an incomplete list of various ideas, projects, snippets etc.
 * [Battle of the Island](things/boti.md) (2008) – tick-based strategy game with isometric graphics  (PHP)
 * [Plan T from Outer Space](things/ptfos.md) (2011) – 2d shoot 'em up (Java)
 * [NukeNation](things/nukenation.md) (2013) – several different attempts at some sort of MMO strategy game (Scala/JavaScript)
+* [Galaxio](things/galaxio.md) (2020) &ndash; browser-based space strategy game (Scala/TypeScript)
+* [MUG](things/mug.md) (2021) &ndash; browser-based space MMO (Scala/TypeScript)

@@ -1,0 +1,30 @@
+{
+updates = updates | take(30)
+}<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>{CONFIG.title} updates</title>
+  <atom:link href="{url()}" rel="self" type="application/rss+xml" />
+  <link>{url('/')}</link>
+  <description>{CONFIG.description}</description>
+  {if updates?[0]}
+  <lastBuildDate>{updates[0].published | rfc2822}</lastBuildDate>
+  {end if}
+
+  {for update in updates}
+  {update_content = update.html | images(480, 360, 90, true) | urls}
+  {update_link = update_content | find_link}
+  <item>
+    <title>{update.html | text_content}</title>
+    <description><![CDATA[
+      {update_content | html}
+      ]]></description>
+    <link>{if update_link then update_link else url("#{update.name}")}</link>
+    <pubDate>{update.published | rfc2822}</pubDate>
+    <guid>{url("#{update.name}")}</guid>
+  </item>
+  {end for}
+
+</channel>
+
+</rss>

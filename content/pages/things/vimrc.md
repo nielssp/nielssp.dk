@@ -1,3 +1,6 @@
+{
+  tags: ['vim'],
+}
 # My minimal .vimrc
 ```vim
 " https://nielssp.dk/dot/.vimrc

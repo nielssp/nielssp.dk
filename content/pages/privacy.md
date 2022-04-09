@@ -1,3 +1,6 @@
+{
+  hide_comments: true
+}
 # Privacy Policy
 
 ## Logs
