@@ -1,7 +1,3 @@
-$link: #0559DF;
-$linkVisited: #3002C3;
-$linkHover: #D81413;
-
 * {
   padding: 0;
   margin: 0;
@@ -22,31 +18,26 @@ body {
   font-variant-ligatures: common-ligatures;
 }
 
-::selection {
-  background-color: #515171;
-  color: #fff;
-}
-
 /* Layout blocks */
 
 #container {
   display: block;
   max-width: 816px;
   margin: 1.55em auto 16px auto;
-  padding: 0 8px;
+  padding: 0 1em;
   line-height: 1.6;
   text-align: left;
 }
 
 #container > header {
-  border-bottom: 1px solid #515171;
+  border-bottom: 1px solid #056;
   margin-bottom: 0.6em;
 
   h1 {
     margin: 0;
     font-size: 1.4em;
     line-height: 1;
-    background-color: #515171;
+    background-color: #056;
     padding: 0.38em 8px;
     color: #fff;
 
@@ -59,7 +50,8 @@ body {
     }
   }
 
-  nav {
+  nav,
+  .mode-select {
     margin: 0.6em 0 0.6em 0;
     line-height: 2;
     ul {
@@ -72,9 +64,13 @@ body {
       margin-right: 10px;
       
       a {
-        color: #000;
+        color: inherit;
       }
     }
+  }
+
+  .mode-select {
+    color: #666;
   }
 
   @media only screen and (min-width: 1360px) {
@@ -87,7 +83,7 @@ body {
       margin: 0 -8px;
     }
 
-    nav {
+    nav, .mode-select {
       li {
         display: block;
         margin: 0;
@@ -97,7 +93,7 @@ body {
 }
 
 #container > footer {
-  border-bottom: 1px solid #515171;
+  border-bottom: 1px solid #056;
   margin: 1.6em 0 0 0;
   padding-bottom: 0.25em;
 
@@ -105,7 +101,7 @@ body {
     font-size: 1em;
     float: left;
     margin: 0.05em 0 0 0;
-    color: #000;
+    color: inherit;
   }
   .copyright {
     text-align: right;
@@ -127,7 +123,6 @@ h1 {
   line-height: 1.4;
   font-weight: 400;
   margin: 0 0 0.4em 0;
-  color: #3636A9;
 }
 
 h1 + time,
@@ -143,7 +138,6 @@ h2 {
   line-height: 1.4;
   font-weight: 400;
   margin: 0.73em 0 0.54em 0;
-  color: #292983;
 }
 
 h3 {
@@ -151,7 +145,6 @@ h3 {
   line-height: 1.4;
   font-weight: 400;
   margin: 1.1em 0 0.66em 0;
-  color: #1D1D5D;
 }
 
 h4 {
@@ -159,14 +152,12 @@ h4 {
   line-height: 1.4;
   font-weight: 600;
   margin: 0.6em 0 0.15em 0;
-  color: #111136;
 }
 
 h5 {
   font-size: 0.9em;
   line-height: 1.4;
   font-weight: 600;
-  color: #444454;
   margin: 1.1em 0 0.18em 0;
 }
 
@@ -175,7 +166,6 @@ h6 {
   line-height: 1.4;
   font-weight: 600;
   font-style: italic;
-  color: #71718D;
   margin: 1.1em 0 0.18em 0;
 }
 
@@ -210,7 +200,6 @@ figure {
   }
   figcaption {
     color: #333;
-    clear: left;
   }
   table {
     margin: 0 -8px 0.75em -8px;
@@ -300,16 +289,15 @@ pre {
 
 a {
   &, &:link, &:visited, &:hover, &:active {
-    color: $link;
+    color: #02b;
     text-decoration: underline;
   }
 
   &:visited {
-    color: $linkVisited;
+    color: #40b;
   }
 
   &:hover, &:active {
-    color: $linkHover;
     text-decoration: none;
   }
 
@@ -424,61 +412,7 @@ textarea {
 
   a, a:link, a:active, a:visited {
     color: #555;
-    text-decoration: underline;
   }
-  a:hover {
-    color: $linkHover;
-  }
-}
-
-.schnack-signin,
-.schnack-login-status,
-.schnack-settings,
-.schnack-above,
-.schnack-comment-inner {
-  margin: 0 0 0.8em 0;
-}
-
-.schnack-form br {
-  display: none;
-}
-
-textarea.schnack-body {
-  display: block;
-  width: 100%;
-  min-height: 120px;
-  margin-bottom: 0.8em;
-}
-
-blockquote.schnack-body {
-  padding-top: 0.4em;
-  padding-bottom: 0.4em;
-  margin-right: 0;
-}
-
-.schnack-comments {
-  list-style-type: none;
-  margin-left: 0;
-
-  .schnack-comments {
-    margin-left: 32px;
-  }
-
-  .schnack-date {
-    margin-left: 16px;
-  }
-
-  .schnack-date a {
-    color: #555;
-  }
-
-  .schnack-form {
-    margin-top: 0.8em;
-  }
-}
-
-.schnack-comment:target > .schnack-comment-inner > .schnack-body {
-  background-color: #fffff7;
 }
 
 .gallery {
@@ -560,4 +494,133 @@ code .nc {
 code .err {
   background-color: #b42;
   color: #fff;
+}
+
+@mixin dark-mode {
+  background: #202020;
+  color: #fff;
+  a {
+    &, &:link, &:visited, &:hover, &:active {
+      color: #bcf;
+    }
+
+    &:visited {
+      color: #dbf;
+    }
+  }
+  .tags {
+    a, a:link, a:active, a:visited {
+      color: #aaa;
+    }
+  }
+  #container > header .mode-select {
+    color: #999;
+  }
+  h1 + time,
+  .dateline {
+    color: #aaa;
+  }
+  figure figcaption {
+    color: #ddd;
+  }
+  figure img,
+  figure canvas {
+    background: #fff;
+  }
+  pre, code {
+    background: #444;
+    color: #fff;
+  }
+  pre > code {
+    background: #444;
+  }
+  pre:hover code::before {
+    background: #444;
+    color: #ccc;
+  }
+
+  code .s, code .s1, code .cpf {
+    color: #cdf;
+  }
+
+  code .m, code .mi, code .mf, code .kc {
+    color: #fdc;
+  }
+
+  code .cp, code .cm, code .c1 {
+    color: #aaa;
+  }
+
+  code .nt,
+  code .nc {
+    color: #9fa;
+  }
+
+  code .err {
+    background-color: #b42;
+    color: #fff;
+  }
+
+  .post > time {
+    color: #bbb;
+  }
+
+  .gallery-js nav a.active {
+    background-color: #444;
+    color: #fff;
+  }
+
+  input[type=text],
+  input[type=number],
+  input[type=email],
+  input[type=url],
+  textarea {
+    background-color: #444;
+    color: #fff;
+    box-shadow: inset 1px 1px 1px #111;
+
+    &:focus {
+      box-shadow: inset 1px 1px 1px #111, 0 0 0 1px #666;
+    }
+  }
+
+  kbd {
+    border-color: #444;
+    border-bottom-color: #444;
+    background-color: #333;
+  }
+
+  button:focus,
+  form:focus-within button[type="submit"]:not(:active) {
+    border-color: #666;
+    box-shadow: inset 1px 1px 0 #666, inset 2px 2px 0 #444, inset -1px -1px 1px #000, 0 0 0 1px #666;
+  }
+
+  button {
+    background-color: #333;
+    box-shadow: inset 1px 1px 0 #666, inset 2px 2px 0 #444, inset -1px -1px 1px #000;
+    color: #fff;
+    border-color: #666;
+
+    &:focus {
+      outline: 1px dotted #ccc;
+    }
+
+    &:active {
+      background-color: #111;
+      color: #fff;
+      box-shadow: inset 1px 1px 1px #000, inset -1px -1px 1px #666;
+      outline: none;
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body:not(.light) {
+    @include dark-mode;
+  }
+}
+
+body.dark {
+  @include dark-mode;
 }

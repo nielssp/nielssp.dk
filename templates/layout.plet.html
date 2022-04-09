@@ -24,6 +24,7 @@
 
     </head>
     <body>
+        <script type="text/javascript">{read("{DIST_ROOT}/js/mode.js")}</script>
 
         <div id="container">
 
@@ -42,6 +43,14 @@
                         <li><a href="https://linkedin.com/in/nielssp">LinkedIn</a></li>
                     </ul>
                 </nav>
+                <div class="mode-select">
+                  <ul class="menu">
+                    <li>Mode</li>
+                    <li><a href="#" onclick="setMode('');event.preventDefault()">Auto</a></li>
+                    <li><a href="#" onclick="setMode('light');event.preventDefault()">Light</a></li>
+                    <li><a href="#" onclick="setMode('dark');event.preventDefault()">Dark</a></li>
+                  </ul>
+                </div>
             </header>
 
             <main>
