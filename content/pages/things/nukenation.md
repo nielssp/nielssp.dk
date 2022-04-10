@@ -84,3 +84,17 @@ The building sprites were mostly reworked from the earlier nn2 building sprites.
 <img src="../../images/nukenation/nn2msprites.png" />
 <figcaption>Graphics made for NukeNation 2 Mini. Licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.</figcaption>
 </figure>
+
+## nn3 (2021)
+
+Early in 2021 I was at it again. I'd made some simple polygonal map generation demo that I thought could be interesting to use as a base for some sort of multiplayer strategy game. This time around I focused entirely on the frontend and just mocked everything else. I worked on it on and off for a few weeks before shelving it. Although I was satisfied with the UI and map component I had created, I couldn't come up with a minimum viable gameplay concept.
+
+<figure>
+<img src="../../images/nukenation/nn3login.png" />
+<figcaption>Login page</figcaption>
+</figure>
+
+<figure>
+<img src="../../images/nukenation/nn3.png" />
+<figcaption>Map and UI</figcaption>
+</figure>

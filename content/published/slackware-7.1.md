@@ -5,7 +5,7 @@
 # Slackware Linux 7.1: A time capsule
 
 <figure>
-<img src="../images/slackware-7.1.png" width="512" alt="KDE 1.2.1 on Slackware Linux 7.1"/>
+<img src="../images/slackware-7.1.png" alt="KDE 1.2.1 on Slackware Linux 7.1"/>
 <figcaption>KDE 1.1.2 on Slackware Linux 7.1</figcaption>
 </figure>
 
