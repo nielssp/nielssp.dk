@@ -10,7 +10,7 @@ So far I've played around with the following versions of Slackware Linux in Virt
 	* [KDE 2.1.2](guis/kde-2.1.2/screenshots.md)
 	* [GNOME 1.4](guis/gnome-1.4/screenshots.md)
 * Slackware 8.1
-	* KDE 3.0.1
+	* [KDE 3.0.1](guis/kde-3.0.1/screenshots.md)
 	* GNOME 1.4
 	* XFCE 3.8
 * Slackware 9.1
