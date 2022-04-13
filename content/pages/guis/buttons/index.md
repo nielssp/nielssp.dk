@@ -4,6 +4,23 @@ This is a collection of buttons from classic as well as modern operating systems
 
 [CSS imitations of some of the buttons.](css.md)
 
+If you're using a high DPI monitor (especially with fractional scaling) the buttons and background patterns below may look distorted or blurry. Checking the following checkbox will attempt to fix that:
+
+<label><input type="checkbox" id="pixel-perfect" /> Pixel perfect buttons (requires JavaScript)</label>
+
+<style id="transform-style" type="text/css"></style>
+<script type="text/javascript">
+document.getElementById('pixel-perfect').onchange = function (e) {
+  if (e.target.checked) {
+    const nearest = window.devicePixelRatio | 0;
+    const scale = nearest / window.devicePixelRatio * 100;
+    document.getElementById('transform-style').innerHTML = '.button-container { transform: scale(' + scale + '%); transform-origin: top left; image-rendering: pixelated;';
+  } else {
+    document.getElementById('transform-style').innerHTML = '';
+  }
+};
+</script>
+
 ## Xerox Alto (1973)
 
 <div class="button-container" style="background-color: #FFFFFF">
