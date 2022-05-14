@@ -123,6 +123,33 @@ add_page('updates.rss', 'templates/updates.plet.rss', {
   updates: updates,
 })
 
+mug_devlogs = list_content('content/mug', {suffix: '.md'}) | filter(p => p.published?) | sort_by(.published)
+
+for i: post in mug_devlogs
+  for tag in post.tags or []
+    if not tag_groups[tag]
+      tag_groups[tag] = []
+    end if
+    tag_groups[tag] | push(post)
+  end for
+  post.link = "mug/devlog/{post.name}/index.html"
+  if i > 0
+    previous = mug_devlogs[i - 1]
+    previous.next_link = post.link
+    previous.next_title = post.title
+    post.previous_link = previous.link
+    post.previous_title = previous.title
+  end if
+  add_page(post.link, 'templates/mug-devlog.plet.html', {
+    post: post
+  })
+  add_reverse(post.path, post.link)
+end for
+
+
+add_page('mug/index.html', 'templates/mug.plet.html', {posts: mug_devlogs})
+add_page('mug/devlog.rss', 'templates/mug-devlog.plet.rss', {posts: mug_devlogs})
+
 tags = []
 
 for tag: posts in tag_groups
@@ -136,3 +163,4 @@ end for
 tags = tags | sort_by(.tag)
 
 add_page('tags/index.html', 'templates/tags.plet.html', {tags: tags})
+

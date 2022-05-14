@@ -1,0 +1,22 @@
+{
+LAYOUT = 'layout.plet.html'
+TITLE = 'MUG Devlog'
+}
+<h1>MUG Devlog</h1>
+
+<p>
+This is the devlog for MUG, a browser-based multiplayer space RPG that I'm working on.
+An <a{'/mug/devlog.rss' | href}>RSS feed</a> is available.
+</p>
+
+{for post in posts}
+<li class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <a href="{link(post.link)}" itemprop="name headline url">{post.title | h}</a>
+  {if post.published?}
+  <time datetime="{post.published | iso8601}" title="{post.published | date('%F %T %Z')}" itemprop="datePublished" style="white-space: nowrap;">{post.published | date('%e %B %Y')}</time>
+  {else if post.modified?}
+  <time datetime="{post.modified | iso8601}" title="{post.modified | date('%F %T %Z')}" itemprop="datePublished" style="white-space: nowrap;">Updated {post.modified | date('%e %B %Y')}</time>
+  {end if}
+</li>
+{end for}
+

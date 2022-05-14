@@ -1,0 +1,28 @@
+{
+posts = posts | take(30)
+}<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>MUG Devlog</title>
+  <atom:link href="{url()}" rel="self" type="application/rss+xml" />
+  <link>{url('/')}</link>
+  <description>MUG development and updates</description>
+  {if posts?[0]}
+  <lastBuildDate>{posts[0].published | rfc2822}</lastBuildDate>
+  {end if}
+
+  {for post in posts}
+  <item>
+    <title>{post.title}</title>
+    <description><![CDATA[
+      {post.html | no_title | images(480, 360, 90, true) | urls | html}
+      ]]></description>
+    <link>{url(post.link)}</link>
+    <pubDate>{post.published | rfc2822}</pubDate>
+    <guid>{url(post.link)}</guid>
+  </item>
+  {end for}
+
+</channel>
+
+</rss>

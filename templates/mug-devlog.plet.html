@@ -1,0 +1,43 @@
+{
+LAYOUT = 'layout.plet.html'
+TITLE = post.title
+}
+<article itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 itemprop="name headline">
+          {post.title | h}
+      </h1>
+      <time datetime="{post.published | iso8601}" title="{post.published | date('%F %T %Z')}" itemprop="datePublished">{post.published | date('%A, %e %B %Y')}</time>
+      <meta itemprop="mainEntityOfPage" content="{url(post.link)}"/>
+      <meta itemprop="dateModified" content="{post.modified | iso8601}"/>
+    </header>
+
+    {if post.previous_link?}
+    <p style="font-style: italic;">Previous:
+      <a href="{post.previous_link | link}">{post.previous_title | h}</a>
+    </p>
+    {end if}
+
+    <div itemprop="articleBody">{post.html | no_title | pygmentize | images(784, 784, 90, true) | links | html}</div>
+
+    {if post.next_link?}
+    <p style="font-style: italic;">Next:
+      <a href="{post.next_link | link}">{post.next_title | h}</a>
+    </p>
+    {end if}
+
+    <div class="tags">
+        {for tag in post.tags}
+        <a href="{link("/tags/{tag}")}">#{tag}</a>
+        {end for}
+    </div>
+
+    <h2>Comments</h2>
+    <div id="comments"></div>
+    <script data-uncomment
+      data-uncomment-target="#comments"
+      data-uncomment-id="mug/devlog/{post.name}"
+      data-uncomment-require-name="true"
+      src="https://uncomment.nielssp.dk/en/embed.js"></script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+</article>
