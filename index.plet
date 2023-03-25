@@ -123,32 +123,37 @@ add_page('updates.rss', 'templates/updates.plet.rss', {
   updates: updates,
 })
 
-mug_devlogs = list_content('content/mug', {suffix: '.md'}) | filter(p => p.published?) | sort_by(.published)
+make_devlog = name => do
+  devlogs = list_content("content/{name}", {suffix: '.md'}) | filter(p => p.published?) | sort_by(.published)
 
-for i: post in mug_devlogs
-  for tag in post.tags or []
-    if not tag_groups[tag]
-      tag_groups[tag] = []
+  for i: post in devlogs
+    for tag in post.tags or []
+      if not tag_groups[tag]
+        tag_groups[tag] = []
+      end if
+      tag_groups[tag] | push(post)
+    end for
+    post.link = "{name}/devlog/{post.name}/index.html"
+    if i > 0
+      previous = devlogs[i - 1]
+      previous.next_link = post.link
+      previous.next_title = post.title
+      post.previous_link = previous.link
+      post.previous_title = previous.title
     end if
-    tag_groups[tag] | push(post)
+    add_page(post.link, "templates/{name}-devlog.plet.html", {
+      post: post
+    })
+    add_reverse(post.path, post.link)
   end for
-  post.link = "mug/devlog/{post.name}/index.html"
-  if i > 0
-    previous = mug_devlogs[i - 1]
-    previous.next_link = post.link
-    previous.next_title = post.title
-    post.previous_link = previous.link
-    post.previous_title = previous.title
-  end if
-  add_page(post.link, 'templates/mug-devlog.plet.html', {
-    post: post
-  })
-  add_reverse(post.path, post.link)
-end for
 
 
-add_page('mug/index.html', 'templates/mug.plet.html', {posts: mug_devlogs})
-add_page('mug/devlog.rss', 'templates/mug-devlog.plet.rss', {posts: mug_devlogs})
+  add_page("{name}/index.html", "templates/{name}.plet.html", {posts: devlogs})
+  add_page("{name}/devlog.rss", "templates/{name}-devlog.plet.rss", {posts: devlogs})
+end do
+
+make_devlog('mug')
+make_devlog('arq')
 
 tags = []
 

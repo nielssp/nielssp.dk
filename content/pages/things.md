@@ -54,3 +54,5 @@ This page contains an incomplete list of various ideas, projects, snippets etc.
 * [NukeNation](things/nukenation.md) (2013) – several different attempts at some sort of MMO strategy game (Scala/JavaScript)
 * [Galaxio](things/galaxio.md) (2020) &ndash; browser-based space strategy game (Scala/TypeScript)
 * [MUG](things/mug.md) (2021) &ndash; browser-based space MMO (Scala/TypeScript)
+* [Underground Tomorrow](things/underground-tomorrow.md) (2022) &ndash; browser-based game (Rust/TypeScript)
+* [Arq](/arq) (2023) &ndash; 2D MMORPG (Rust/TypeScript)

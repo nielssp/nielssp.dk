@@ -1,12 +1,12 @@
 {
 LAYOUT = 'layout.plet.html'
-TITLE = post.title
+TITLE = "Arq Devlog {post.title}"
 }
 <article itemscope itemtype="http://schema.org/BlogPosting">
     <header>
       <h1 itemprop="name headline">
-        <a{'/mug' | href}>MUG Devlog</a>
-          {post.title | drop('MUG Devlog' | length) | h}
+        <a{'/arq' | href}>Arq Devlog</a>
+          {post.title | h}
       </h1>
       <time datetime="{post.published | iso8601}" title="{post.published | date('%F %T %Z')}" itemprop="datePublished">{post.published | date('%A, %e %B %Y')}</time>
       <meta itemprop="mainEntityOfPage" content="{url(post.link)}"/>
