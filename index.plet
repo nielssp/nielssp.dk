@@ -160,7 +160,7 @@ tags = []
 for tag: posts in tag_groups
   tags | push({tag: tag, count: posts | length})
   add_page("tags/{tag}/index.html", 'templates/archive-tag.plet.html', {
-    posts: posts | sort_by_desc(p => p.published? or p.modified),
+    posts: posts | sort_by_desc(p => time(p.published? or p.modified)),
     tag: tag,
   })
 end for

@@ -1,6 +1,6 @@
 {
   published: "2023-03-25 17:01",
-  tags: ["arq", "devlog"],
+  tags: ["arq", "devlog", "game", "rust"],
   prefix: "Arq Devlog"
 }
 # #1: I'm making a 2D MMORPG
