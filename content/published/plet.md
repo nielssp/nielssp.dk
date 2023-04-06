@@ -8,7 +8,7 @@ For a while I'd wanted to take the actual site generator and template language f
 
 I initially named this project *tsc* (&ldquo;the TEXTSTEP compiler&rdquo;), but when I later realized that &ldquo;tsc&rdquo; is actually the TypeScript compiler, I renamed it to *Plet* (derived from the word [&ldquo;templet&rdquo;](https://en.wiktionary.org/wiki/templet), an archaic form of the word &ldquo;template&rdquo;). Thus Plet is now the name of the static site generator I've built, as well as the programming language used for writing Plet templates and scripts.
 
-The Plet source code is available on [GitHub](https://github.com/nielssp/plet) and the documentation (still work in progress) is available on [docs.plet.info](https://docs.plet.info) (automatically deployed from the Plet repository using Plet and GitHub Actions). There are currently only two examples of sites created using Plet: [This blog](https://github.com/nielssp/nielssp.dk), and the [Plet documentation](https://github.com/nielssp/plet/tree/master/doc).
+The Plet source code is available on [GitHub](https://github.com/nielssp/plet) and the documentation (still work in progress) is available on [plet.nielssp.dk](https://plet.nielssp.dk) (automatically deployed from the Plet repository using Plet and GitHub Actions). There are currently only two examples of sites created using Plet: [This blog](https://github.com/nielssp/nielssp.dk), and the [Plet documentation](https://github.com/nielssp/plet/tree/master/doc).
 
 Some of the features currently offered by Plet are:
 
