@@ -12,7 +12,7 @@ I went back and redesigned some of the tile transitions I presented in [devlog #
 <figcaption>Diagonal paths.</figcaption>
 </figure>
 
-First of all, paths can now be diagonal, in fact there are now 16 different angles. I also added a direct transition from grass to water and tried to add some depth to it. I did the same thing with the transition between grass and sand. It should make the map look a bit more 3-dimensional:
+First of all, paths can now be diagonal, in fact there are now 8 different angles. I also added a direct transition from grass to water and tried to add some depth to it. I did the same thing with the transition between grass and sand. It should make the map look a bit more 3-dimensional:
 
 <figure>
 <img src="../images/arq/newtransitions.png" alt="Tile transitions"/>
