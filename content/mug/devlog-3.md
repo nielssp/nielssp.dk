@@ -12,7 +12,7 @@ Before I got very far however, [PBBG Jam 2022](https://itch.io/jam/persistent-br
 
 So I spent a month building [Underground Tomorrow](../pages/things/underground-tomorrow.md) and successfully had a running online game at the end of the jam. My game didn't win, but I was just happy with having finished on time. I did end up experiencing a little bit of a game development burnout afterwards though, so I shelved both NukeNation and MUG for several months after.
 
-When I did finally try to get back into MUG a month ago, I couldn't quite regain my enthusiasm for making a mostly text-based game. So I started working a graphical 2D RPG instead: [Arq](/arq).
+When I did finally try to get back into MUG a month ago, I couldn't quite regain my enthusiasm for making a mostly text-based game. So I started working on a graphical 2D RPG instead: [Arq](/arq).
 
 I may return to MUG in the future with fresh eyes and new ideas.
 
