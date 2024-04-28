@@ -43,6 +43,11 @@ I previously used the name MUG for multiple different iterations of an online st
 <figcaption>UI showing zoomable map of galaxy and a selected planet.</figcaption>
 </figure>
 
+<figure>
+<img src="../../images/mug/shipdesign.png" alt="Old MUG ship design"/>
+<figcaption>Ship design ala Master of Orion.</figcaption>
+</figure>
+
 The galaxy and planets were randomly generated.
 
 The UI framework is what eventually turned into [CSTK](https://github.com/nielssp/cstk), which I also used later for the RPG.
