@@ -24,6 +24,7 @@ This page contains an incomplete list of various ideas, projects, snippets etc.
 * [parco (GitHub)](https://github.com/nielssp/parco) (2015) – parser combinators (PHP)
 * [Classic Stylesheets (GitHub)](https://github.com/nielssp/classic-stylesheets) (2020) &ndash; web application stylesheets (CSS)
 * [cstk](https://github.com/nielssp/cstk) (2020) &ndash; web application GUI toolkit (TypeScript)
+* [cytoplasmic](https://github.com/nielssp/cytoplasmic) (2024) &ndash; JSX frontend library based on reactive programming (TypeScript)
 
 *Programming languages*
 
