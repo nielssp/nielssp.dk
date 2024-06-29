@@ -7,7 +7,7 @@ Underground Tomorrow was a persistent browser based game created for [PBBG Jam 2
 
 The frontend was implemented in TypeScript using [CSTK](https://github.com/nielssp/cstk) and the backend was implemented in Rust using Actix.
 
-[UndergroundTomorrow.com](https://undergroundtomorrow.com/) (expires July 2023)
+[UndergroundTomorrow.nielssp.dk](https://undergroundtomorrow.nielssp.dk/) (previously UndergroundTomorrow.com)
 
 [Source code on GitHub](https://github.com/nielssp/undergroundtomorrow)
 
