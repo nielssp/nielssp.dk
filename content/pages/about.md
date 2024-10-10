@@ -1,5 +1,5 @@
 # About
-This is the blog of a 31 year old software developer from Denmark.
+This is the blog of a 32 year old software developer from Denmark.
 
 Email: blog@nielssp.dk
 
