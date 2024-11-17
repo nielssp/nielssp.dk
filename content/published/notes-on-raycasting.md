@@ -6,9 +6,11 @@
 
 # Notes on ray casting
 
-These are my notes on [ray casting](https://en.wikipedia.org/wiki/Ray_casting)
+These are my interactive notes on [ray casting](https://en.wikipedia.org/wiki/Ray_casting). Ray casting is an obsolete method for rendering 3D scenes (more like 2.5D). It was used probably most notably in [Wolfenstein 3D](https://en.wikipedia.org/wiki/Wolfenstein_3D).
 
-See also: [Lode's Computer Graphics Tutorial](https://lodev.org/cgtutor/raycasting.html)
+On this page I'll be presenting the basics of rendering simple 3D environments using ray casting. I'll also describe extensions like textures and sprites, as well as an approach to rendering walls, floor, and ceiling at different height levels. All the examples are implemented in TypeScript (but can easily be adapted to other languages) with demos rendered onto a 2D HTML canvas. All the source code is available on [GitHub](https://github.com/nielssp/raycasting-notes).
+
+I would also suggest reading [Lode's Computer Graphics Tutorial](https://lodev.org/cgtutor/raycasting.html) which is where I've learned the basic techniques.
 
 <div class="toc">
 <h2 data-toc-ignore>Contents</h2>
@@ -23,17 +25,21 @@ First we need to create a canvas:
 <canvas id="canvas"></canvas>
 ```
 
+We'll then get a reference to the canvas from JavaScript:
+
 ```typescript
 const canvas = document.getElementById('canvas') as HTMLCanvasElement;
 canvas.width = 320;
 canvas.height = 200;
 canvas.style.imageRendering = 'pixelated';
+```
 
+```typescript
 const ctx = canvas.getContext('2d')!;
 ctx.imageSmoothingEnabled = false;
 ```
 
-We'll calculate the aspect ratio as well
+We'll calculate the aspect ratio as well:
 
 ```typescript
 const aspectRatio = canvas.width / canvas.height;
@@ -95,9 +101,11 @@ const playerDir: Vec2 = {x: 1, y: 0};
 
 The `playerDir` vector is a unit vector (i.e. length 1).
 
+Along with the interface `Vec2`, I'll be using [a few very simple utility functions for adding, subtracting, and multiplying vectors](https://github.com/nielssp/raycasting-notes/blob/main/src/util.ts). 
+
 ### Casting rays
 
-To cast rays we'll start at the left side of the screen, then move right one column at the time. To determine the angle of each screen column we'll need a vector that describes the orientation of the camera/screen relative to the map. If we rotate the player's direction vector counterclockwise by 90 degrees:
+To cast rays we'll start at the left side of the screen, then move right one column at the time. To determine the angle of each screen column we'll need a vector that describes the orientation of the camera/screen relative to the map. If we rotate the player's direction vector clockwise by 90 degrees we get a vector that represents the direction of the screen:
 
 ```typescript
 const cameraPlane = {
@@ -126,6 +134,13 @@ This gives us a number from `- aspectRatio / 2` to `aspectRatio / 2` where 0 rep
 const rayDir = add2(playerDir, mul2(cameraX, cameraPlane));
 ```
 
+Note that `rayDir` is not a unit vector and its length is only 1 at the center of the screen (where `cameraX` is 0). This will become important later.
+
+<figure>
+<img src="../images/raydir.svg" width=300 alt="Illustration of rayDir">
+<figcaption>The relationship between the player direction, the camera plane, and the ray direction. The player position is indicated by the orange circle.</figcaption>
+</figure>
+
 We'll also need to keep track of the map position (i.e. the indices of the current cell):
 
 ```typescript
@@ -135,6 +150,48 @@ const mapPos = {
 };
 ```
 
+To move from cell to cell we'll use an approach based on [digital differential analysis](https://en.wikipedia.org/wiki/Digital_differential_analyzer_\(graphics_algorithm\)) (DDA). We'll need to calculate the following distances:
+
+<figure>
+<img src="../images/sidedist.svg" width=397 alt="Illustration of sideDist and deltaDist">
+<figcaption>The relationship between the ray direction (in red) and the <code>sideDistX</code>, <code>sideDistY</code>, <code>deltaDistX</code>, and <code>deltaDistY</code> variables. Vertical cell boundary intersections are indicated by blue circles, and horizontal cell boundary intersections are indicated by green circles.</figcaption>
+</figure>
+
+`deltaDistX` is how far the ray moves every time `mapPos.x` is incremented (or decremented) while `deltaDistY` is how far the ray moves when `mapPos.y` is incremented. `sideDistX` and `sideDistY` are the initial distances to the nearest vertical and horizontal cell boundaries respectively.
+
+We can use Pythagoras to find `deltaDistX` and `deltaDistY`, e.g. for `deltaDistX` we can see that one side of the triangle has length 1 while the other is as long as the ray travels in the y-direction with each step in the x-direction (`rayDirY / rayDirX`):
+
+```
+deltaDistX = sqrt(1 + rayDirY² / rayDirX²)
+```
+
+We can simplify this by using Pythagoras again to get an equation for the length of the `rayDir` vector and then isolate `rayDirY²`:
+
+```
+rayDirY² = |rayDir|² - rayDirX²
+```
+
+Inserted into the equation for `deltaDistX` we get the following:
+
+```
+deltaDistX = sqrt(1 + (|rayDir|² - rayDirX²) / rayDirX²)
+           = sqrt(1 + |rayDir|² / rayDirX² - rayDirX² / rayDirX²)
+           = sqrt(|rayDir|² / rayDirX²)
+           = abs(|rayDir| / rayDirX)
+```
+
+If we do the same thing for `deltaDistY` we get:
+
+```
+deltaDistY = abs(|rayDir| / rayDirY)
+```
+
+Using the above distances while ray tracing will give use the true Euclidean distance between the player's position and the individual cell boundaries, however if we use this distance for drawing walls we'll actually get a sort of [fisheye lens](https://en.wikipedia.org/wiki/Fisheye_lens) effect where walls appear to be curving away from the camera.
+
+To correct this we can use the fact `rayDir` is not a unit vector and its length is greater the further away we are from the center of the screen. We simply divide both `deltaDistX` and `deltaDistY` by `|rayDir|` (which simplifies the equations to `deltaDistX = abs(1 / rayDirX)` and `deltaDistY = abs(1 / rayDirY)`). This does not affect the DDA process since only the ratio between `deltaDistX` and `deltaDistY` matters.
+
+We can thus initialize the following vector:
+
 ```typescript
 const deltaDist = {
     x: Math.abs(1 / rayDir.x),
@@ -142,31 +199,75 @@ const deltaDist = {
 };
 ```
 
+For the first step the ray only has to travel from the player's position to the nearest cell boundary.
+To calculate `sideDistX` in the above example we can simply scale `deltaDistX` by the distance from the player to the nearest vertical cell boundary to the right:
+
+```
+sideDistX = (1 - (playerPosX - mapPosX)) * deltaDistX
+```
+
+If the ray was pointing to the left instead of to the right (i.e. when `rayDirX` is negative) we would instead use the distance to the nearest cell boundary to the left:
+
+```
+sideDistX = (playerPosX - mapPosX) * deltaDistX
+```
+
+We do the same thing for `sideDistY`. At the same time we'll also determine whether to increment or decrement the coordinates with each step (the `step` vector): 
+
 ```typescript
 const sideDist = {x: 0, y: 0};
 const step = {x: 0, y: 0};
 if (rayDir.x < 0) {
+    // Move left with each x-step
     step.x = -1;
     sideDist.x = (playerPos.x - mapPos.x) * deltaDist.x;
 } else {
+    // Move right with each x-step
     step.x = 1;
-    sideDist.x = (mapPos.x + 1.0 - playerPos.x) * deltaDist.x;
+    sideDist.x = (1 - playerPos.x + mapPos.X) * deltaDist.x;
 }
 if (rayDir.y < 0) {
+    // Move up with each y-step
     step.y = -1;
     sideDist.y = (playerPos.y - mapPos.y) * deltaDist.y;
 } else {
+    // Move down with each y-step
     step.y = 1;
-    sideDist.y = (mapPos.y + 1.0 - playerPos.y) * deltaDist.y;
+    sideDist.y = (1 - playerPos.y + mapPos.y) * deltaDist.y;
 }
 ```
 
+Whenever we advance the ray we'll keep track of whether we've hit a vertical (0) or a horizontal (1) cell boundary:
+
 ```typescript
 let side = 0;
+```
+
+We'll also keep track of the &ldquo;perpendicular wall distance&rdquo;, which &ndash; due to the previous correction of `deltaDist` &ndash; is the distance from the camera plane to the current ray position (rather than the Euclidean distance from the player position to the ray position):
+
+```typescript
 let perpWallDist = 0;
 ```
 
+We'll put all the above calculations into a `createRay` function and return the results as an object with the following type:
+
 ```typescript
+export interface Ray {
+    x: number;
+    rayDir: Vec2;
+    mapPos: Vec2;
+    deltaDist: Vec2;
+    sideDist: Vec2;
+    step: Vec2;
+    side: 0 | 1;
+    perpWallDist: number;
+}
+```
+
+With that the basic ray casting loop is as follows:
+
+```typescript
+const ray = createRay(canvas, aspectRatio, playerPos, playerDir, x, cameraPlane);
 while (true) {
     advanceRay(ray);
     const cell = getMapCell(map, ray.mapPos, mapSize)
@@ -178,6 +279,12 @@ while (true) {
     }
 }
 ```
+
+With each iteration we'll advance the ray, then check if the cell at the current map position is solid or not. To advance the ray we need to take one step in either the x-direction or the y-direction. This is determined by the relative sizes of `sideDistX` and `sideDistY`.
+
+If `sideDistX` is less than `sideDistY` it means we've hit a vertical cell boundary. We set the `perpWallDist` to `sideDistX` and then add `deltaDistX` to `sideDistX` (which means `sideDistX` is now the distance to the next vertical cell boundary). If `sideDistY` is greater than `sideDistX` we do the same but for `sideDistY`.
+
+This gives us the following function for advancing the ray:
 
 ```typescript
 export function advanceRay(
@@ -197,28 +304,26 @@ export function advanceRay(
 }
 ```
 
+This way, after calling `advanceRay`, `ray.mapPos` points at the current cell while `ray.perpWallDist` is the distance to the cell.
+
+We now have enough to create a simple 2D demonstration of the ray casting process:
+
 <figure>
 <canvas id="canvas1b" width="600" height="480" tabindex=0></canvas>
+<figcaption>32 columns of ray casting.</figcaption>
 </figure>
 
-### Rendering walls
+[Source code](https://github.com/nielssp/raycasting-notes/blob/main/src/demo1b.ts)
 
-```typescript
-const wallHeight = Math.ceil(canvasHeight / dist);
-const wallY = Math.floor((canvasHeight - wallHeight) / 2);
-```
-
-```typescript
-ctx.strokeStyle = ray.side ? '#005566' : '#003F4C';
-ctx.beginPath()
-ctx.moveTo(ray.x + 0.5, Math.max(wallY, 0));
-ctx.lineTo(ray.x + 0.5, Math.min(wallY + wallHeight + 1, canvas.height));
-ctx.stroke();
-```
+Every time the ray passes a vertical cell boundary, a blue circle is drawn. When the ray passes a horizontal cell boundary, a green circle is drawn. A red circle is drawn when a solid cell has been hit.
 
 ### Inputs and movement
 
+Player movement is implemented by manipulating the `playerPos` and `playerDir` vectors.
+
 #### Keyboard input
+
+To keep track of key states, we'll use the following type:
 
 ``` typescript
 interface PlayerInputs {
@@ -229,6 +334,8 @@ interface PlayerInputs {
     rotationSpeed: number;
 }
 ```
+
+We'll create a simple keyboard listener that updates the input states:
 
 ```typescript
 export function updateInputs(e: KeyboardEvent, state: boolean, playerInputs: PlayerInputs) {
@@ -259,6 +366,8 @@ canvas.addEventListener('keydown', e => updateInputs(e, true, playerInputs));
 canvas.addEventListener('keyup', e => updateInputs(e, false, playerInputs));
 ```
 
+Then as part of out main rendering loop will use the previously calculated `dt` (the number of seconds since the previous frame) to update the player position. We simply multiply `dt` with a constant player speed (in this case 3 cells per second) and multiple the result with the `playerDir`. If the player is moving forward we add the resulting vector the `playerPos`, otherwise we subtract it:
+
 ```typescript
 if (playerInputs.moveForward || playerInputs.moveBackward) {
     const moveSpeed = dt * 3;
@@ -270,9 +379,28 @@ if (playerInputs.moveForward || playerInputs.moveBackward) {
         newPos.x -= moveSpeed * playerDir.x;
         newPos.y -= moveSpeed * playerDir.y;
     }
-    setPos(newPos);
+    setPlayerPos(newPos);
 }
 ```
+
+`setPlayerPos` should do some sort of collision check to prevent the player from moving through walls. A simple collision check can be implemented by finding the cell for the destination position and checking if it's solid or outside the map:
+
+```typescript
+const mapPos = {x: Math.floor(pos.x), y: Math.floor(pos.y)};
+if (mapPos.x < 0 || mapPos.x >= mapSize.x || mapPos.y < 0 || mapPos.y >= mapSize.y) {
+    return false;
+}
+return !map[mapPos.y][mapPos.x].solid;
+```
+
+Turning the camera is done by rotating the `playerDir` vector by multiplying it with a 2D rotation matrix:
+
+```
+x' = x * cos(angle) - y * sin(angle)
+y' = x * sin(angle) + y * cos(angle)
+```
+
+The following example also contains some code for acceleration so that smaller adjustments can be made by tapping the arrow keys.
 
 ```typescript
 if (playerInputs.turnLeft || playerInputs.turnRight) {
@@ -280,14 +408,18 @@ if (playerInputs.turnLeft || playerInputs.turnRight) {
     const rotSpeed = dt * 3;
     const rotAccel = dt * 0.6;
     if (playerInputs.turnLeft) {
-        playerInputs.rotationSpeed = Math.max(-rotSpeed, Math.min(0, playerInputs.rotationSpeed) - rotAccel);
+        playerInputs.rotationSpeed = Math.max(-rotSpeed,
+            Math.min(0, playerInputs.rotationSpeed) - rotAccel);
     } else {
-        playerInputs.rotationSpeed = Math.min(rotSpeed, Math.max(0, playerInputs.rotationSpeed) + rotAccel);
+        playerInputs.rotationSpeed = Math.min(rotSpeed,
+            Math.max(0, playerInputs.rotationSpeed) + rotAccel);
     }
     // Rotate direction vector
     set2(playerDir, {
-        x: playerDir.x * Math.cos(playerInputs.rotationSpeed) - playerDir.y * Math.sin(playerInputs.rotationSpeed),
-        y: playerDir.x * Math.sin(playerInputs.rotationSpeed) + playerDir.y * Math.cos(playerInputs.rotationSpeed),
+        x: playerDir.x * Math.cos(playerInputs.rotationSpeed)
+            - playerDir.y * Math.sin(playerInputs.rotationSpeed),
+        y: playerDir.x * Math.sin(playerInputs.rotationSpeed)
+            + playerDir.y * Math.cos(playerInputs.rotationSpeed),
     });
 } else {
     playerInputs.rotationSpeed = 0;
@@ -296,23 +428,104 @@ if (playerInputs.turnLeft || playerInputs.turnRight) {
 
 ##### Strafing
 
+I didn't implement strafing in any of the examples since the left and right arrow keys are used for turning. But if mouse input is used using A and D to strafe makes for a more modern feeling FPS experience. Strafing can easily be implemented by simply rotating the `playerDir` vector 90 degrees and adding the result to `playerPos`:
+
 ```typescript
 if (playerInput.strafeLeft || playerInputs.strafeRight) {
-    // TODO
+    const strafeSpeed = dt * 2;
+    const newPos = {...playerPos};
+    if (playerInputs.strafeRight) {
+        newPos.x -= strafeSpeed * playerDir.y;
+        newPos.y += strafeSpeed * playerDir.x;
+    } else {
+        newPos.x += strafeSpeed * playerDir.y;
+        newPos.y -= strafeSpeed * playerDir.x;
+    }
+    setPlayerPos(newPos);
 }
 ```
 
+Handling forward/backward movement and strafing separately like this does mean that [the player moves faster when doing both at the same time](https://en.wikipedia.org/wiki/Strafing_\(video_games\)#Strafe-running).
+
 ### Mouse input
 
+Mouse input is also straightforward for movement and rotation (the 0.005 constant is what determines the mouse sensitivity):
 
-### Putting it all together
+```typescript
+document.addEventListener('mousemove', e => {
+    // Add or subtract direction vector from position when moving mouse up
+    // and down
+    const moveSpeed = -0.005 * e.movementY;
+    const newPos = add2(playerPos, mul2(moveSpeed, playerDir));
+    setPos(newPos);
+
+    // Rotate direction vector when moving mouse left and right
+    const rotSpeed = 0.005 * e.movementX;
+    set2(playerDir, {
+        x: playerDir.x * Math.cos(rotSpeed) - playerDir.y * Math.sin(rotSpeed),
+        y: playerDir.x * Math.sin(rotSpeed) + playerDir.y * Math.cos(rotSpeed),
+    });
+});
+```
+
+For the true FPS-experience you should also lock the cursor to the canvas:
+
+```typescript
+canvas.addEventListener("click", () => {
+  canvas.requestPointerLock();
+});
+```
+
+### Rendering walls
+
+Now that we have ray casting and player movement in place it's time to make a simple implementation of the `renderWall` function.
+
+The height of the wall is calculated by dividing the height of the canvas by the distance to the wall:
+
+```typescript
+const wallHeight = Math.ceil(canvas.height / ray.perpWallDist);
+```
+
+We also need to know  where on the screen the wall starts:
+
+```typescript
+const wallY = Math.floor((canvas.height - wallHeight) / 2);
+```
+
+For now we'll simply draw vertical lines to render the walls. We'll use the `ray.side` to determine the color of the wall to make sharp corners:
+
+```typescript
+ctx.strokeStyle = ray.side ? '#005566' : '#003F4C';
+ctx.beginPath()
+ctx.moveTo(ray.x + 0.5, Math.max(wallY, 0));
+ctx.lineTo(ray.x + 0.5, Math.min(wallY + wallHeight + 1, canvas.height));
+ctx.stroke();
+```
+
+The result is as follows:
 
 <figure>
 <canvas id="canvas1" width="320" height="200" tabindex=0></canvas>
 <figcaption>Click to focus. Use the arrow keys or the mouse to move.
 </figure>
 
+[Source code](https://github.com/nielssp/raycasting-notes/blob/main/src/demo1.ts)
+
+The floor and ceiling were drawn as two separate filled rectangles. These need to be rendered before the ray casting and wall rendering code:
+
+```typescript
+// Sky
+ctx.fillStyle = '#333';
+ctx.fillRect(0, 0, canvas.width, canvas.height / 2);
+
+// Ground
+ctx.fillStyle = '#666';
+ctx.fillRect(0, canvas.height / 2, canvas.width, canvas.height / 2);
+```
+
 ### Shading based on distance
+
+To add some more depth we can shade the walls based on the distance from the player. We'll create the following function for determining the brightness based on the current distance (we still use `side` to make the corners sharper):
 
 ```typescript
 export function getBrightness(dist: number, side: 0 | 1 = 0) {
@@ -320,67 +533,192 @@ export function getBrightness(dist: number, side: 0 | 1 = 0) {
 }
 ```
 
+The brightness is a number between `0.2` and `1`. We can use the brightness function to set the stroke style when rendering walls:
+
 ```typescript
 const brightness = getBrightness(ray.perpWallDist, ray.side);
 ctx.strokeStyle = `rgb(0, ${85 * brightness}, ${102 * brightness})`;
+```
 
-ctx.beginPath()
-ctx.moveTo(ray.x + 0.5, Math.max(wallY, 0));
-ctx.lineTo(ray.x + 0.5, Math.min(wallY + wallHeight + 1, canvas.height));
-ctx.stroke();
+For the sky we'll use a gradient created using `createLinearGradient` (we only need to do this once):
+
+```typescript
+const sky = ctx.createLinearGradient(0, 0, 0, canvas.height);
+sky.addColorStop(0, '#333');
+sky.addColorStop(0.5, '#111');
+sky.addColorStop(0.5, '#222');
+sky.addColorStop(1, '#666');
+```
+
+And render it at the start of each frame:
+
+```typescript
+ctx.fillStyle = sky;
+ctx.fillRect(0, 0, canvas.width, canvas.height);
 ```
 
 <figure>
 <canvas id="canvas2" width="320" height="200" tabindex=0></canvas>
 </figure>
 
+[Source code](https://github.com/nielssp/raycasting-notes/blob/main/src/demo2.ts)
+
 ## Texturing walls
+
+To add textures to walls we first need to load some textures. We'll be using the following wall texture:
+
+<figure>
+<img src="../misc/textures/wall.png" width=256 alt="Wall texture" style="image-rendering: pixelated;">
+<figcaption>Wall texture.</figcaption>
+</figure>
+
+To load textures that can be efficiently used with the canvas we'll first create a function for asynchronously loading images:
+
+```typescript
+function loadImage(src: string): Promise<HTMLImageElement> {
+    const img = new Image();
+    img.src = src;
+    return new Promise((resolve, reject) => {
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+    });
+}
+```
+
+We'll use this function to load the image, then draw it onto a canvas before exporting the image data:
+
+```typescript
+async function loadTextureData(src: string): Promise<ImageData> {
+    const img = await loadImage(src);
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d')!;
+    canvas.width = img.width;
+    canvas.height = img.height;
+    ctx.drawImage(img, 0, 0);
+    return ctx.getImageData(0, 0, canvas.width, canvas.height);
+}
+```
+
+The `ImageData` object allows us to read individual pixels from the texture.
+
+We'll load the wall texture:
+
+```typescript
+const wallTexture: ImageData = await loadTextureData('wall.png');
+```
+
+All the textures in this demo are 64&times;64 pixels:
+
+```typescript
+const textureSize = {x: 64, y: 64};
+```
+
+We'll need to use `putImageData` to efficiently write individual pixels for each wall slice. We'll update the ray casting loop as follows:
+
+```typescript
+for (let x = 0; x < canvas.width; x++) {
+    const ray = createRay(canvas, aspectRatio, playerPos, playerDir, x, cameraPlane);
+    // Get image data for the current column:
+    const stripe = ctx.getImageData(x, 0, 1, canvas.height);
+    while (true) {
+        advanceRay(ray);
+        const cell = getMapCell(map, ray.mapPos, mapSize)
+        if (!cell) {
+            break;
+        } else if (cell.solid) {
+            const wall = getWallMeasurements(ray, canvas.height, playerPos);
+            renderWall(canvas, stripe, ray, wall, wallTexture);
+            break;
+        }
+    }
+    // Update image data for the current column
+    ctx.putImageData(stripe, x, 0);
+}
+```
+
+`getWallMeasurements` is a new function that calculates `wallHeight` and `wallY` like before, but also calculates a new variable `wallX`. `wallX` determines the distance from the side of the cell wall to the intersection point of the ray. If we multiply `rayDir` by `perpWallDist` we get a vector from the player's position to the wall intersection point (because `perpWallDist` was scaled by `|rayDir|`). If we've hit a horizontal cell boundary we can add the x-coordinate of that vector to the x-coordinate of `playerPos`, then subtract the x-coordinate of `mapPos`. For vertical cell boundaries we can do the same with the y-coordinates.
+
+<figure>
+<img src="../images/wallx.svg" width=199 alt="Illustration of wallX">
+<figcaption>The relationship between the <code>wallX</code>, <code>playerPosX</code>, <code>rayDirX</code>, and <code>mapPosX</code> variables when hitting a horizontal cell boundary.</figcaption>
+</figure>
 
 ```typescript
 let wallX: number;
 if (ray.side === 0) {
+    // Vertical cell boundary
     wallX = playerPos.y + ray.perpWallDist * ray.rayDir.y - ray.mapPos.y;
 } else {
+    // Horizontal cell boundary
     wallX = playerPos.x + ray.perpWallDist * ray.rayDir.x - ray.mapPos.x;
 }
 ```
 
+We now have `wallX` as a number from 0 to 1 that determines which part of the wall we're looking at. We can multiply that by the texture width to figure out which column of the texture we need to draw:
+
 ```typescript
-let texX: number = Math.floor(wall.wallX * textureSize.x);
+const texX: number = Math.floor(wall.wallX * textureSize.x);
+```
+
+We'll also figure out the top and bottom y-coordinates of the wall (we use min and max to ensure that we only draw pixels inside the canvas):
+
+```typescript
 const yStart = Math.max(wall.wallY, 0);
 const yEnd = Math.min(wall.wallY + wall.wallHeight, canvas.height);
 ```
 
+For each y-coordinate we need to keep track of the y-coordinate of the texture. We'll increment by `step` for each screen pixel. `step` is just texture height divided by the previously calculated wall height:
+
 ```typescript
-const step = textureSize.y * ray.perpWallDist / canvas.height;
+const step = textureSize.y / wall.wallHeight;
+```
+
+`texPos` is what keeps track of the current y coordinate of the texture. If the wall starts above the top of the screen, we need to add as many steps as there are pixels missing to the initial value:
+
+```typescript
 let texPos = wall.wallY < yStart ? (yStart - wall.wallY) * step : 0;
 ```
 
+The brightness is calculated the same as for the untextured walls. We'll multiple each texture pixel by this number:
+
+```typescript
+const brightness = getBrightness(ray.perpWallDist, ray.side);
+```
+
+We'll then iterate through each pixel of the wall and copy the correct texture pixel to the canvas image data (`stripe`):
+
 ```typescript
 for (let y = yStart; y < yEnd; y++) {
+    // Each pixel is 4 bytes wide
     const offset = y * 4;
-    const texY = texPos & (textureSize.y - 1);
+    const texY = Math.floor(texPos) % textureSize.y;
     texPos += step;
     const texOffset = (texY * textureSize.x + texX) * 4;
+    // Red
     stripe.data[offset] = wallTexture.data[texOffset] * brightness;
+    // Green
     stripe.data[offset + 1] = wallTexture.data[texOffset + 1] * brightness;
+    // Blue
     stripe.data[offset + 2] = wallTexture.data[texOffset + 2] * brightness;
+    // Alpha
     stripe.data[offset + 3] = 255;
 }
 ```
 
 <figure>
-<img src="../misc/textures/wall.png">
-</figure>
-
-<figure>
 <canvas id="canvas3" width="320" height="200" tabindex=0></canvas>
 </figure>
 
+[Source code](https://github.com/nielssp/raycasting-notes/blob/main/src/demo3.ts)
+
+With the above code textures are always drawn north-to-south for vertical cell boundaries and west-to-east for horizontal cell boundaries. This means that on west and south walls the texture is actually flipped horizontally. It doesn't matter for the textures used here, but the textures can easily be flipped with the following code:
+
 ```typescript
+// West wall
 if (ray.side === 0 && ray.rayDir.x < 0) {
     texX = textureSize.x - texX - 1;
 }
+// South wall
 if (ray.side === 1 && ray.rayDir.y > 0) {
     texX = textureSize.x - texX - 1;
 }
@@ -398,7 +736,7 @@ if (ray.side === 1 && ray.rayDir.y > 0) {
 
 ## Texturing floors 
 
-There are several different approaches to rendering floors (and ceilings). I've picked the following approach because it makes it relatively easy to have different floor and ceilings heights for cells.
+There are several different approaches to rendering floors (and ceilings). I've picked the following approach because it makes it relatively easy to have different floor and ceilings heights for cells (implemented in a later section).
 
 The basic idea is that while advancing a ray we'll concurrently render the floors for the cells the ray passes through. We'll keep track of how much floor we've rendered for the current column with the following variable:   
 
@@ -406,7 +744,7 @@ The basic idea is that while advancing a ray we'll concurrently render the floor
 let yFloor = 0;
 ```
 
-Each time the ray hits a cell we'll calculate where the floor should stop, i.e. just below wall (even if there isn't actually a wall there):
+Each time the ray hits a cell we'll calculate where the floor should stop, i.e. just below the wall (even if there isn't actually a wall there):
 
 ```typescript
 const cellY = (canvas.height - wall.wallHeight) * 0.5;
@@ -455,7 +793,8 @@ stripe.data[offset + 3] = 255;
 ```
 
 <figure>
-<img src="../misc/textures/floor.png">
+<img src="../misc/textures/floor.png" width=256 alt="Floor texture" style="image-rendering: pixelated;">
+<figcaption>Floor texture.</figcaption>
 </figure>
 
 <figure>
@@ -486,7 +825,8 @@ while (yCeiling < ceilingCellY) {
 We'll use the following ceiling texture:
 
 <figure>
-<img src="../misc/textures/ceiling.png" alt="Ceiling texture">
+<img src="../misc/textures/ceiling.png" width=256 alt="Ceiling texture" style="image-rendering: pixelated;">
+<figcaption>Ceiling texture.</figcaption>
 </figure>
 
 And here's the result:
@@ -569,8 +909,13 @@ export const map: Cell[][] = walls.map((row, y) => {
 ```
 
 <figure>
-<img src="../misc/textures/wall-red.png">
-<img src="../misc/textures/floor-green.png">
+<img src="../misc/textures/wall-red.png" width=256 alt="Red wall texture" style="image-rendering: pixelated;">
+<figcaption>Red wall texture.</figcaption>
+</figure>
+
+<figure>
+<img src="../misc/textures/floor-green.png" width=256 alt="Green floor texture" style="image-rendering: pixelated;">
+<figcaption>Green floor texture.</figcaption>
 </figure>
 
 <figure>
@@ -671,8 +1016,13 @@ export function renderDoor(
 ```
 
 <figure>
-<img src="../misc/textures/door.png">
-<img src="../misc/textures/door-side.png">
+<img src="../misc/textures/door.png" width=256 alt="Door texture" style="image-rendering: pixelated;">
+<figcaption>Door texture.</figcaption>
+</figure>
+
+<figure>
+<img src="../misc/textures/door-side.png" width=256 alt="Door side texture" style="image-rendering: pixelated;">
+<figcaption>Door side texture.</figcaption>
 </figure>
 
 <figure>
@@ -772,7 +1122,8 @@ export function renderSprites(
 ```
 
 <figure>
-<img src="../misc/textures/barrel.png">
+<img src="../misc/textures/barrel.png" width=256 alt="Barrel sprite" style="image-rendering: pixelated;">
+<figcaption>Barrel sprite.</figcaption>
 </figure>
 
 <figure>
