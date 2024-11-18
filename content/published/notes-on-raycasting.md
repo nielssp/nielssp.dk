@@ -366,7 +366,7 @@ canvas.addEventListener('keydown', e => updateInputs(e, true, playerInputs));
 canvas.addEventListener('keyup', e => updateInputs(e, false, playerInputs));
 ```
 
-Then as part of out main rendering loop will use the previously calculated `dt` (the number of seconds since the previous frame) to update the player position. We simply multiply `dt` with a constant player speed (in this case 3 cells per second) and multiple the result with the `playerDir`. If the player is moving forward we add the resulting vector the `playerPos`, otherwise we subtract it:
+Then as part of out main rendering loop will use the previously calculated `dt` (the number of seconds since the previous frame) to update the player position. We simply multiply `dt` with a constant player speed (in this case 3 cells per second) and multiple the result with the `playerDir`. If the player is moving forward we add the resulting vector to `playerPos`, otherwise we subtract it:
 
 ```typescript
 if (playerInputs.moveForward || playerInputs.moveBackward) {
@@ -734,55 +734,85 @@ if (ray.side === 1 && ray.rayDir.y > 0) {
 <canvas id="canvas4" width="320" height="200" tabindex=0></canvas>
 </figure>
 
+[Source code](https://github.com/nielssp/raycasting-notes/blob/main/src/demo4.ts)
+
 ## Texturing floors 
 
 There are several different approaches to rendering floors (and ceilings). I've picked the following approach because it makes it relatively easy to have different floor and ceilings heights for cells (implemented in a later section).
 
-The basic idea is that while advancing a ray we'll concurrently render the floors for the cells the ray passes through. We'll keep track of how much floor we've rendered for the current column with the following variable:   
+The basic idea is that while advancing a ray we'll concurrently render the floors for the cells the ray passes through. We'll keep track of how much floor we've rendered for the current column with the following variable:
 
 ```typescript
 let yFloor = 0;
 ```
 
+Floors start at the bottom of the screen, so here 0 actually means the bottom row of the screen.
+
 Each time the ray hits a cell we'll calculate where the floor should stop, i.e. just below the wall (even if there isn't actually a wall there):
 
 ```typescript
-const cellY = (canvas.height - wall.wallHeight) * 0.5;
-const floorCellY = Math.ceil(cellY);
+const cellY = Math.ceil((canvas.height - wall.wallHeight) * 0.5);
 ```
+
+This also means that we need to call `getWallMeasurements` every time we advance the ray, not just when we've hit a wall. 
+
+To map the floor texture we'll use the previously calculated `wallX` to determine which part of the floor texture we should draw. `floorXWall` and `floorYWall` are the exact map coordinates for the point where the ray hits the cell boundary:
 
 ```typescript
 let floorXWall: number, floorYWall: number;
-if (ray.side === 0 && ray.rayDir.x > 0) {
+if (ray.side === 0) {
     floorXWall = ray.mapPos.x;
     floorYWall = ray.mapPos.y + wallX;
-} else if (ray.side === 0 && ray.rayDir.x < 0) {
-    floorXWall = ray.mapPos.x + 1;
-    floorYWall = ray.mapPos.y + wallX;
-} else if (ray.side === 1 && ray.rayDir.y > 0) {
-    floorXWall = ray.mapPos.x + wallX;
-    floorYWall = ray.mapPos.y;
+    if (ray.rayDir.x < 0) {
+        // West
+        floorXWall += 1;
+    }
 } else {
     floorXWall = ray.mapPos.x + wallX;
-    floorYWall = ray.mapPos.y + 1;
+    floorYWall = ray.mapPos.y;
+    if (ray.rayDir.y < 0) {
+        // North
+        floorYWall += 1;
+    }
 }
 ```
 
+We'll render floor pixels from the bottom of the screen (or the previous floor tile which ended at `yFloor`) until we reach `cellY`:
+
 ```typescript
-while (yFloor < floorCellY) {
+while (yFloor < cellY) {
     const y = (canvas.height - yFloor - 1);
     mapFloorTexture(canvas, stripe, y, floor, playerPos, yFloor, perpWallDist, floorTexture);
     yFloor++;
 }
 ```
 
+Because `yFloor` starts from the bottom of the screen, the actual `y`-coordinate of the screen pixel needs to be calculated.
+
+For each pixel we'll determine how far from the screen plane that pixel is:
+
 ```typescript
 const rowDistance = canvas.height / (canvas.height - 2 * yFloor);
+```
+
+We use this to calculate a weight that determines how close we are to the cell boundary (1 means we're at the cell boundary):
+
+```typescript
 const weight = rowDistance / perpWallDist;
+```
+
+We'll use the weight to determine the exact map coordinates corresponding to the current screen pixel:
+
+```typescript
 const floorX = weight * floor.floorXWall + (1 - weight) * playerPos.x;
 const floorY = weight * floor.floorYWall + (1 - weight) * playerPos.y;
-let tx = ((textureSize.x * floorX) | 0) & (textureSize.x - 1);
-let ty = ((textureSize.y * floorY) | 0) & (textureSize.y - 1);
+```
+
+This can then be turned into texture coordinates, and the correct texture pixel can be drawn to the screen:
+
+```typescript
+let tx = Math.floor(textureSize.x * floorX) % textureSize.x;
+let ty = Math.floor(textureSize.y * floorY) % textureSize.y;
 const texOffset = (ty * textureSize.x + tx) * 4;
 const brightness = getBrightness(rowDistance);
 const offset = y * 4;
@@ -791,6 +821,8 @@ stripe.data[offset + 1] = floorTexture.data[texOffset + 1] * brightness;
 stripe.data[offset + 2] = floorTexture.data[texOffset + 2] * brightness;
 stripe.data[offset + 3] = 255;
 ```
+
+We'll use the following floor texture:
 
 <figure>
 <img src="../misc/textures/floor.png" width=256 alt="Floor texture" style="image-rendering: pixelated;">
@@ -801,6 +833,8 @@ stripe.data[offset + 3] = 255;
 <canvas id="canvas5" width="320" height="200" tabindex=0></canvas>
 </figure>
 
+[Source code](https://github.com/nielssp/raycasting-notes/blob/main/src/demo5.ts)
+
 ## Texturing ceilings
 
 We can texture ceilings the exact same way as we textured the floors. We'll initialize the variable `yCeiling` to 0 a the start of each ray:
@@ -809,14 +843,10 @@ We can texture ceilings the exact same way as we textured the floors. We'll init
 let yCeiling = 0;
 ```
 
-```typescript
-const ceilingCellY = Math.ceil(cellY);
-```
-
 The only difference from floors is that since ceilings start from the top of the screen, we can use `yCeiling` directly:
 
 ```typescript
-while (yCeiling < ceilingCellY) {
+while (yCeiling < cellY) {
     mapFloorTexture(canvas, stripe, yCeiling, floor, playerPos, yCeiling, perpWallDist, ceilingTexture);
     yCeiling++;
 }
@@ -835,7 +865,11 @@ And here's the result:
 <canvas id="canvas6" width="320" height="200" tabindex=0></canvas>
 </figure>
 
+[Source code](https://github.com/nielssp/raycasting-notes/blob/main/src/demo6.ts)
+
 ## Cell textures
+
+We're currently using the same texture for every wall, the same texture for every floor tile, and the same texture for every ceiling tile. We can extend the `Cell` type to include information about which texture to draw instead:
 
 ```typescript
 export interface Cell {
@@ -848,6 +882,8 @@ export interface Cell {
     ceilingTexture?: ImageData;
 }
 ```
+
+We'll extend the map format with additional information about texture types for both walls, floors, and ceilings:
 
 ```typescript
 const walls = [
@@ -908,6 +944,25 @@ export const map: Cell[][] = walls.map((row, y) => {
 });
 ```
 
+We can load and apply the textures to the map like this:
+
+```typescript
+const textures: Partial<Record<string, ImageData>> = Object.fromEntries(await Promise.all(Object.entries({
+    W: loadTextureData('wall.png'),
+    R: loadTextureData('wall-red.png'),
+    F: loadTextureData('floor.png'),
+    G: loadTextureData('floor-green.png'),
+    C: loadTextureData('ceiling.png'),
+}).map(async ([k, p]) => [k, await p])));
+map.forEach(row => row.forEach(cell => {
+    cell.wallTexture = textures[cell.wallType];
+    cell.floorTexture = textures[cell.floorType];
+    cell.ceilingTexture = textures[cell.ceilingType];
+}));
+```
+
+The two new textures:
+
 <figure>
 <img src="../misc/textures/wall-red.png" width=256 alt="Red wall texture" style="image-rendering: pixelated;">
 <figcaption>Red wall texture.</figcaption>
@@ -918,9 +973,34 @@ export const map: Cell[][] = walls.map((row, y) => {
 <figcaption>Green floor texture.</figcaption>
 </figure>
 
+The only difference in the ray casting loop is that we need to keep track of the floor cell. The floor cell is always the cell before the current cell. With that we can apply the floor cell's floor and ceiling textures to the floor and ceiling, and apply the current cell's wall texture to the wall if the cell is solid:
+
+```typescript
+let floorCell = getMapCell(map, ray.mapPos, mapSize)
+while (true) {
+    advanceRay(ray);
+    const cell = getMapCell(map, ray.mapPos, mapSize)
+    if (!cell) {
+        break;
+    }
+    const wall = getWallMeasurements(ray, canvas.height, playerPos);
+    const floor = getFloorMeasurements(ray, wall.wallX);
+    [yFloor, yCeiling] = renderFloorAndCeiling(canvas, stripe, wall, floor, playerPos, ray.perpWallDist,
+            yFloor, yCeiling, floorCell?.floorTexture, floorCell?.ceilingTexture);
+
+    if (cell.solid) {
+        renderWall(canvas, stripe, ray, wall, cell.wallTexture);
+        break;
+    }
+    floorCell = cell;
+}
+```
+
 <figure>
 <canvas id="canvas7" width="320" height="200" tabindex=0></canvas>
 </figure>
+
+[Source code](https://github.com/nielssp/raycasting-notes/blob/main/src/demo7.ts)
 
 ## Sliding doors
 
@@ -940,6 +1020,12 @@ export interface Cell {
 ```
 
 ```typescript
+const doorDepth = 1 / 8;
+const doorStart = 0.5 - doorDepth / 2;
+const doorEnd = doorStart + doorDepth
+```
+
+```typescript
 if (cell.door) {
     if (renderDoor(canvas, stripe, cell, cell.door, ray, playerPos, floor, yFloor, yCeiling)) {
         break;
@@ -948,8 +1034,13 @@ if (cell.door) {
     renderWall(canvas, stripe, ray, wall, cell.wallTexture);
     break;
 }
-
 ```
+
+<figure>
+<img src="../images/door.svg" width=199 alt="Doors">
+<figcaption>Four rays hitting a door cell. The door is partially open, so one ray continues through the gap between the door and the wall to the left.</figcaption>
+</figure>
+
 
 ```typescript
 export function renderDoor(
@@ -1030,6 +1121,7 @@ export function renderDoor(
 <figcaption>Press E or left click to open doors.</figcaption>
 </figure>
 
+[Source code](https://github.com/nielssp/raycasting-notes/blob/main/src/demo8.ts)
 
 ## Sprites
 
@@ -1130,11 +1222,15 @@ export function renderSprites(
 <canvas id="canvas9" width="320" height="200" tabindex=0></canvas>
 </figure>
 
+[Source code](https://github.com/nielssp/raycasting-notes/blob/main/src/demo9.ts)
+
 ## Portals
 
 <figure>
 <canvas id="canvas10" width="320" height="200" tabindex=0></canvas>
 </figure>
+
+[Source code](https://github.com/nielssp/raycasting-notes/blob/main/src/demo10.ts)
 
 ## Different floor and ceiling heights
 
@@ -1145,11 +1241,15 @@ export function renderSprites(
 <figcaption>Press space or right click to jump.</figcaption>
 </figure>
 
+[Source code](https://github.com/nielssp/raycasting-notes/blob/main/src/demo11.ts)
+
 ## Optimization
 
 <figure>
 <canvas id="canvas12" width="320" height="200" tabindex=0></canvas>
 </figure>
+
+[Source code](https://github.com/nielssp/raycasting-notes/blob/main/src/demo12.ts)
 
 <script type="text/javascript" src="../misc/raycasting.js"></script>
 
