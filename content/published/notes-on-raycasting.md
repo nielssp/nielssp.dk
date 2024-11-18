@@ -1004,6 +1004,8 @@ while (true) {
 
 ## Sliding doors
 
+To add sliding doors like in Wolfenstein 3D we'll add the following type:
+
 ```typescript
 export interface Door {
     sideTexture?: ImageData;
@@ -1012,6 +1014,8 @@ export interface Door {
 }
 ```
 
+A door object consists of a side texture (which we'll use to render the side of the door when it's open), an offset describing how open the door is (0 is closed, 1 is fully open). `active` is used to indicate whether the door is currently being animated. We'll add an optional door field to the `Cell` type which will allow us to configure a cell to be a door:
+
 ```typescript
 export interface Cell {
     // ...
@@ -1019,11 +1023,36 @@ export interface Cell {
 }
 ```
 
+We'll use the following wall texture for the door:
+
+<figure>
+<img src="../misc/textures/door.png" width=256 alt="Door texture" style="image-rendering: pixelated;">
+<figcaption>Door texture.</figcaption>
+</figure>
+
+When the door is opening we'll us the following 8 pixel wide texture for the side of the door:
+
+<figure>
+<img src="../misc/textures/door-side.png" width=256 alt="Door side texture" style="image-rendering: pixelated;">
+<figcaption>Door side texture. It's actually 64 pixels wide but only the 8 pixels in the middle will be rendered.</figcaption>
+</figure>
+
+We'll set up the following constants to determine the depth of the wall:
+
 ```typescript
-const doorDepth = 1 / 8;
+const doorDepth = 1 / 8; // 64px / 8 = 8px
 const doorStart = 0.5 - doorDepth / 2;
 const doorEnd = doorStart + doorDepth
 ```
+
+The basic idea is illustrated below. When the ray hits a cell with a door we'll check what part of the door, if any, the ray intersects. 
+
+<figure>
+<img src="../images/door.svg" width=199 alt="Doors">
+<figcaption>Four rays hitting a door cell. The door is partially open, so one ray continues through the gap between the door and the wall to the left.</figcaption>
+</figure>
+
+We'll update the wall-rendering part of the ray casting loop to call a new door rendering function if the current cell has a door:
 
 ```typescript
 if (cell.door) {
@@ -1036,85 +1065,109 @@ if (cell.door) {
 }
 ```
 
-<figure>
-<img src="../images/door.svg" width=199 alt="Doors">
-<figcaption>Four rays hitting a door cell. The door is partially open, so one ray continues through the gap between the door and the wall to the left.</figcaption>
-</figure>
+Note that the new `renderDoor` function returns a boolean to tell whether we should keep advancing the ray or if the ray has hit the door part of the cell.
 
+For the `renderDoor` implementation we'll start by saving the current `perpWallDist` since we'll need it later when rendering the floor and ceiling of the door cell. This is because we'll be partially advancing the ray and thus updating `perpWallDist`, however `perpWallDist` is used for aligning the floor and ceiling textures so if `perpWallDist` isn't the distance to a cell boundary, the textures will be incorrectly aligned:
 
 ```typescript
-export function renderDoor(
-    canvas: HTMLCanvasElement,
-    stripe: ImageData,
-    cell: Cell,
-    door: Door,
-    ray: Ray,
-    playerPos: Vec2,
-    floor: FloorMeasurements,
-    yFloor: number,
-    yCeiling: number,
-): boolean {
-    const floorWallDist = ray.perpWallDist;
+const floorWallDist = ray.perpWallDist;
+```
+
+Next we'll do a calculation very similar to the calculation we did to calculate `wallX`. We'll find what part of the door the ray intersects with by extending the ray by `doorStart` times the `deltaDist` corresponding to side of the cell that we've hit:
+
+```typescript
+let doorX: number;
+if (ray.side === 0) {
+    doorX = playerPos.y + (ray.perpWallDist + ray.deltaDist.x * doorStart) * ray.rayDir.y - ray.mapPos.y;
+} else {
+    doorX = playerPos.x + (ray.perpWallDist + ray.deltaDist.y * doorStart) * ray.rayDir.x - ray.mapPos.x;
+}
+```
+
+The ray may intersect with the plane of the door outside the current cell, in which case `doorX` will be less than 0 or greater than or equal to 1. In that case we should return false and continue advancing the ray:
+
+```typescript
+if (doorX < 0 || doorX >= 1) {
+    return false;
+}
+```
+
+We'll use the following variable to determine whether the texture we should render at end is the side texture or the wall texture:
+
+```typescript
+let doorSide = false;
+```
+
+If the door is open or in the process of opening the door's offset field will be non-zero. We'll check if the intersection point is within the open gap between the side of the door and the wall. If that's the case we'll need to extend the ray further to determine whether we're hitting the side of the door or if the ray continues through the opening:
+
+```typescript
+if (doorX < door.offset) {
+    // The door is partially open and we're looking through the opening
+    doorSide = true;
     let doorX: number;
+    // Extend ray to the nearest cell boundary (opposite to the original side)
+    // then retract by (1 - offset):
     if (ray.side === 0) {
-        doorX = playerPos.y + (ray.sideDist.x - ray.deltaDist.x * doorEnd) * ray.rayDir.y;
+        if (ray.rayDir.y < 0) {
+            // We can't see the side of the door because we're facing the other way
+            return false;
+        }
+        doorX = playerPos.x
+            + (ray.sideDist.y - ray.deltaDist.y * (1 - door.offset)) * ray.rayDir.x - ray.mapPos.x;
     } else {
-        doorX = playerPos.x + (ray.sideDist.y - ray.deltaDist.y * doorEnd) * ray.rayDir.x;
+        if (ray.rayDir.x < 0) {
+            // We can't see the side of the door because we're facing the other way
+            return false;
+        }
+        doorX = playerPos.y
+            + (ray.sideDist.x - ray.deltaDist.x * (1 - door.offset)) * ray.rayDir.y - ray.mapPos.y;
     }
-    let doorMapX = Math.floor(doorX);
-    let doorSide = false;
-    if (doorX - doorMapX < door.offset) {
-        // The door is partially open and we're looking through the opening
-        doorSide = true;
-        if (ray.side === 0) {
-            doorX = playerPos.x + (ray.sideDist.y - ray.deltaDist.y * (1 - door.offset)) * ray.rayDir.x;
-        } else {
-            doorX = playerPos.y + (ray.sideDist.x - ray.deltaDist.x * (1 - door.offset)) * ray.rayDir.y;
-        }
-        let doorMapX = Math.floor(doorX);
-        if (doorX - doorMapX < doorStart || doorX - doorMapX > doorEnd) {
-            return false;
-        } else if (ray.side === 1 && doorMapX === ray.mapPos.y && ray.rayDir.x > 0) {
-            ray.side = 0;
-            ray.perpWallDist = ray.sideDist.x - ray.deltaDist.x * (1 - door.offset);
-            ray.sideDist.x += ray.deltaDist.x * door.offset;
-        } else if (ray.side === 0 && doorMapX === ray.mapPos.x && ray.rayDir.y > 0) {
-            ray.side = 1;
-            ray.perpWallDist = ray.sideDist.y - ray.deltaDist.y * (1 - door.offset);
-            ray.sideDist.y += ray.deltaDist.y * door.offset;
-        } else {
-            return false;
-        }
-    } else if (ray.side === 0 && doorMapX === ray.mapPos.y) {
-        ray.perpWallDist = ray.sideDist.x - ray.deltaDist.x * doorEnd;
-        ray.sideDist.x += ray.deltaDist.x * doorStart;
-    } else if (ray.side === 1 && doorMapX === ray.mapPos.x) {
-        ray.perpWallDist = ray.sideDist.y - ray.deltaDist.y * doorEnd;
-        ray.sideDist.y += ray.deltaDist.y * doorStart;
+    if (doorX < doorStart || doorX > doorEnd) {
+        // We didn't hit the side of the door, continue advancing ray
+        return false;
+    } else if (ray.side === 1 && doorMapX === ray.mapPos.y && ray.rayDir.x > 0) {
+        // We've hit the side of the door, update the ray side and perpWallDist
+        ray.side = 0;
+        ray.perpWallDist = ray.sideDist.x - ray.deltaDist.x * (1 - door.offset);
+    } else if (ray.side === 0 && doorMapX === ray.mapPos.x && ray.rayDir.y > 0) {
+        // We've hit the side of the door, update the ray side and perpWallDist
+        ray.side = 1;
+        ray.perpWallDist = ray.sideDist.y - ray.deltaDist.y * (1 - door.offset);
     } else {
         return false;
     }
-    const wall = getWallMeasurements(ray, canvas.height, playerPos);
-    if (!doorSide) {
-        wall.wallX -= door.offset;
-    }
-    renderFloorAndCeiling(canvas, stripe, wall, floor, playerPos, floorWallDist,
-        yFloor, yCeiling, cell.floorTexture, cell.ceilingTexture);
-    renderWall(canvas, stripe, ray, wall, doorSide ? door.sideTexture : cell.wallTexture);
-    return true;
-}
-
+} else if (// ...
 ```
 
-<figure>
-<img src="../misc/textures/door.png" width=256 alt="Door texture" style="image-rendering: pixelated;">
-<figcaption>Door texture.</figcaption>
-</figure>
+When we detect a hit the `perpWallDist` is updated to match the distance to part of the wall we've hit so that the door will be rendered correctly.
 
-<figure>
-<img src="../misc/textures/door-side.png" width=256 alt="Door side texture" style="image-rendering: pixelated;">
-<figcaption>Door side texture.</figcaption>
-</figure>
+If `doorX` wasn't less than the door offset it means we've hit the front of the door, so we should update `perpWallDist` so that we can render the door texture at the correct size:
+
+```typescript
+} else if (ray.side === 0) {
+    // We've hit the door, update the ray's perpWallDist
+    ray.perpWallDist = ray.sideDist.x - ray.deltaDist.x * doorEnd;
+} else {
+    // We've hit the door, update the ray's perpWallDist
+    ray.perpWallDist = ray.sideDist.y - ray.deltaDist.y * doorEnd;
+}
+```
+
+Finally if we haven't returned yet it means we've hit the door so we should render the floor and ceiling up before the door, then render the door itself. We select the texture based on the `doorSide` variable:
+
+```typescript
+const wall = getWallMeasurements(ray, canvas.height, playerPos);
+if (!doorSide) {
+    // Move the wall texture by offset
+    wall.wallX -= door.offset;
+}
+renderFloorAndCeiling(canvas, stripe, wall, floor, playerPos, floorWallDist,
+    yFloor, yCeiling, cell.floorTexture, cell.ceilingTexture);
+renderWall(canvas, stripe, ray, wall, doorSide ? door.sideTexture : cell.wallTexture);
+return true;
+```
+
+Returning true at the end tells the ray casting loop to break.
 
 <figure>
 <canvas id="canvas8" width="320" height="200" tabindex=0></canvas>
