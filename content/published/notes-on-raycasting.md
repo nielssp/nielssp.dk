@@ -1078,9 +1078,13 @@ Next we'll do a calculation very similar to the calculation we did to calculate 
 ```typescript
 let doorX: number;
 if (ray.side === 0) {
-    doorX = playerPos.y + (ray.perpWallDist + ray.deltaDist.x * doorStart) * ray.rayDir.y - ray.mapPos.y;
+    doorX = playerPos.y
+        + (ray.perpWallDist + ray.deltaDist.x * doorStart) * ray.rayDir.y
+        - ray.mapPos.y;
 } else {
-    doorX = playerPos.x + (ray.perpWallDist + ray.deltaDist.y * doorStart) * ray.rayDir.x - ray.mapPos.x;
+    doorX = playerPos.x
+        + (ray.perpWallDist + ray.deltaDist.y * doorStart) * ray.rayDir.x
+        - ray.mapPos.x;
 }
 ```
 
@@ -1113,28 +1117,28 @@ if (doorX < door.offset) {
             return false;
         }
         doorX = playerPos.x
-            + (ray.sideDist.y - ray.deltaDist.y * (1 - door.offset)) * ray.rayDir.x - ray.mapPos.x;
+            + (ray.sideDist.y - ray.deltaDist.y * (1 - door.offset)) * ray.rayDir.x
+            - ray.mapPos.x;
     } else {
         if (ray.rayDir.x < 0) {
             // We can't see the side of the door because we're facing the other way
             return false;
         }
         doorX = playerPos.y
-            + (ray.sideDist.x - ray.deltaDist.x * (1 - door.offset)) * ray.rayDir.y - ray.mapPos.y;
+            + (ray.sideDist.x - ray.deltaDist.x * (1 - door.offset)) * ray.rayDir.y
+            - ray.mapPos.y;
     }
     if (doorX < doorStart || doorX > doorEnd) {
         // We didn't hit the side of the door, continue advancing ray
         return false;
-    } else if (ray.side === 1 && doorMapX === ray.mapPos.y && ray.rayDir.x > 0) {
-        // We've hit the side of the door, update the ray side and perpWallDist
-        ray.side = 0;
-        ray.perpWallDist = ray.sideDist.x - ray.deltaDist.x * (1 - door.offset);
-    } else if (ray.side === 0 && doorMapX === ray.mapPos.x && ray.rayDir.y > 0) {
+    } else if (ray.side === 0) {
         // We've hit the side of the door, update the ray side and perpWallDist
         ray.side = 1;
         ray.perpWallDist = ray.sideDist.y - ray.deltaDist.y * (1 - door.offset);
     } else {
-        return false;
+        // We've hit the side of the door, update the ray side and perpWallDist
+        ray.side = 0;
+        ray.perpWallDist = ray.sideDist.x - ray.deltaDist.x * (1 - door.offset);
     }
 } else if (// ...
 ```
@@ -1146,14 +1150,14 @@ If `doorX` wasn't less than the door offset it means we've hit the front of the 
 ```typescript
 } else if (ray.side === 0) {
     // We've hit the door, update the ray's perpWallDist
-    ray.perpWallDist = ray.sideDist.x - ray.deltaDist.x * doorEnd;
+    ray.perpWallDist += ray.deltaDist.x * doorStart;
 } else {
     // We've hit the door, update the ray's perpWallDist
-    ray.perpWallDist = ray.sideDist.y - ray.deltaDist.y * doorEnd;
+    ray.perpWallDist += ray.deltaDist.y * doorStart;
 }
 ```
 
-Finally if we haven't returned yet it means we've hit the door so we should render the floor and ceiling up before the door, then render the door itself. We select the texture based on the `doorSide` variable:
+Finally if we haven't returned yet it means we've hit the door so we should render the floor and ceiling in front of the door, then render the door itself. We select the texture based on the `doorSide` variable:
 
 ```typescript
 const wall = getWallMeasurements(ray, canvas.height, playerPos);
@@ -1178,6 +1182,8 @@ Returning true at the end tells the ray casting loop to break.
 
 ## Sprites
 
+To render sprites we'll create the following type:
+
 ```typescript
 export interface Sprite {
     pos: Vec2;
@@ -1187,12 +1193,32 @@ export interface Sprite {
 }
 ```
 
+`pos` is the map position of the sprite while `texture` is the texture that should be rendered. `relPos` and `relDist` are the sprite's position and distance relative to the player, they'll be updated on every frame.
+
+For the purpose of this demonstration we'll create a global sprite array that contains all sprites on the map:
+
 ```typescript
 const sprites: Sprite[] = [];
-const barrelTexture = await loadTextureData('/assets/content/misc/textures/barrel.png');
+```
+
+We'll use the following barrel sprite:
+
+<figure>
+<img src="../misc/textures/barrel.png" width=256 alt="Barrel sprite" style="image-rendering: pixelated;">
+<figcaption>Barrel sprite.</figcaption>
+</figure>
+
+Then load the texture and create two sprites:
+
+```typescript
+const barrelTexture = await loadTextureData('barrel.png');
 sprites.push(createSprite({x: 4, y: 3}, barrelTexture));
 sprites.push(createSprite({x: 5, y: 2.75}, barrelTexture));
 ```
+
+`createSprite` creates a sprite object with the given position and texture. It also intializes `relPos` to `{x: 0, y: 0}` and `relDist` to 0.
+
+We'll update the main ray casting loop with an array as wide as the canvas to keep track of the distance to each rendered wall segment. We'll use this to determine whether a sprite is behind a wall or not:
 
 ```typescript
 const zBuffer = Array(canvas.width);
@@ -1202,74 +1228,61 @@ for (let x = 0; x < canvas.width; x++) {
 }
 ```
 
+Then after all ray casting is done we'll iterate over all the sprites and update their position relative to the player as well as their distance to the player. We'll then sort the sprite array by the `relDist` field in descending order such that sprites closest to the player are rendered last:
+
 ```typescript
-export function renderSprites(
-    canvas: HTMLCanvasElement,
-    ctx: CanvasRenderingContext2D,
-    aspectRatio: number,
-    sprites: Sprite[],
-    zBuffer: number[],
-    playerPos: Vec2,
-    playerDir: Vec2,
-    cameraPlane: Vec2,
-) {
-    for (const sprite of sprites) {
-        sprite.relPos = sub2(sprite.pos, playerPos);
-        sprite.relDist = sprite.relPos.x * sprite.relPos.x + sprite.relPos.y * sprite.relPos.y;
+for (const sprite of sprites) {
+    sprite.relPos = sub2(sprite.pos, playerPos);
+    sprite.relDist = sprite.relPos.x * sprite.relPos.x + sprite.relPos.y * sprite.relPos.y;
+}
+sprites.sort((a, b) => b.relDist - a.relDist);
+```
+
+```typescript
+const invDet = 1 / (cameraPlane.x * playerDir.y - playerDir.x * cameraPlane.y);
+for (const sprite of sprites) {
+    const transformX = invDet * (playerDir.y * sprite.relPos.x - playerDir.x * sprite.relPos.y);
+    const transformY = invDet * (-cameraPlane.y * sprite.relPos.x + cameraPlane.x * sprite.relPos.y);
+    const spriteScreenX = canvas.width / aspectRatio * (aspectRatio / 2 + transformX / transformY) | 0;
+    const spriteHeight = Math.abs(canvas.height / transformY | 0);
+    const drawStartY = (-spriteHeight / 2 + canvas.height / 2) | 0;
+    const spriteWidth = Math.abs(canvas.height / transformY | 0);
+    const drawStartX = Math.max(0, -spriteWidth / 2 + spriteScreenX) | 0;
+    const drawEndX = Math.min(canvas.width - 1, spriteWidth / 2 + spriteScreenX) | 0;
+    const texY = 0;
+    const xMax = drawEndX - drawStartX;
+    if (xMax < 1 || transformY <= 0) {
+        continue;
     }
-    sprites.sort((a, b) => b.relDist - a.relDist);
+    const screenStartY = Math.max(0, Math.min(canvas.height - 1, drawStartY));
+    const spriteYOffset = drawStartY < 0 ? drawStartY : 0;
+    const yMax = Math.min(canvas.height, screenStartY + spriteHeight) - screenStartY;
+    const brightness = getBrightness(transformY);
+    const imageData = ctx.getImageData(drawStartX, screenStartY, xMax, yMax);
+    for (let x = 0; x < xMax; x++) {
+        const stripe = x + drawStartX;
+        const texX = Math.floor(64 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * textureSize.x / spriteWidth / 64);
 
-    const invDet = 1 / (cameraPlane.x * playerDir.y - playerDir.x * cameraPlane.y);
-    for (const sprite of sprites) {
-        const transformX = invDet * (playerDir.y * sprite.relPos.x - playerDir.x * sprite.relPos.y);
-        const transformY = invDet * (-cameraPlane.y * sprite.relPos.x + cameraPlane.x * sprite.relPos.y);
-        const spriteScreenX = canvas.width / aspectRatio * (aspectRatio / 2 + transformX / transformY) | 0;
-        const spriteHeight = Math.abs(canvas.height / transformY | 0);
-        const drawStartY = (-spriteHeight / 2 + canvas.height / 2) | 0;
-        const spriteWidth = Math.abs(canvas.height / transformY | 0);
-        const drawStartX = Math.max(0, -spriteWidth / 2 + spriteScreenX) | 0;
-        const drawEndX = Math.min(canvas.width - 1, spriteWidth / 2 + spriteScreenX) | 0;
-        const texY = 0;
-        const xMax = drawEndX - drawStartX;
-        if (xMax < 1 || transformY <= 0) {
-            continue;
-        }
-        const screenStartY = Math.max(0, Math.min(canvas.height - 1, drawStartY));
-        const spriteYOffset = drawStartY < 0 ? drawStartY : 0;
-        const yMax = Math.min(canvas.height, screenStartY + spriteHeight) - screenStartY;
-        const brightness = getBrightness(transformY);
-        const imageData = ctx.getImageData(drawStartX, screenStartY, xMax, yMax);
-        for (let x = 0; x < xMax; x++) {
-            const stripe = x + drawStartX;
-            const texX = Math.floor(64 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * textureSize.x / spriteWidth / 64);
-
-            if (stripe > 0 && stripe < canvas.width) {
-                for (let y = 0; y < yMax; y++) {
-                    if (transformY >= zBuffer[x + drawStartX]) {
-                        continue;
-                    }
-                    const texYPos = texY + Math.floor((y - spriteYOffset) / spriteHeight * textureSize.y);
-                    const offset = (y * imageData.width + x) * 4;
-                    const texOffset = (texYPos * textureSize.x + texX) * 4;
-                    if (sprite.texture.data[texOffset + 3]) {
-                        imageData.data[offset] = sprite.texture.data[texOffset] * brightness;
-                        imageData.data[offset + 1] = sprite.texture.data[texOffset + 1] * brightness;
-                        imageData.data[offset + 2] = sprite.texture.data[texOffset + 2] * brightness;
-                        imageData.data[offset + 3] = sprite.texture.data[texOffset + 3];
-                    }
+        if (stripe > 0 && stripe < canvas.width) {
+            for (let y = 0; y < yMax; y++) {
+                if (transformY >= zBuffer[x + drawStartX]) {
+                    continue;
+                }
+                const texYPos = texY + Math.floor((y - spriteYOffset) / spriteHeight * textureSize.y);
+                const offset = (y * imageData.width + x) * 4;
+                const texOffset = (texYPos * textureSize.x + texX) * 4;
+                if (sprite.texture.data[texOffset + 3]) {
+                    imageData.data[offset] = sprite.texture.data[texOffset] * brightness;
+                    imageData.data[offset + 1] = sprite.texture.data[texOffset + 1] * brightness;
+                    imageData.data[offset + 2] = sprite.texture.data[texOffset + 2] * brightness;
+                    imageData.data[offset + 3] = sprite.texture.data[texOffset + 3];
                 }
             }
         }
-        ctx.putImageData(imageData, drawStartX, screenStartY);
     }
+    ctx.putImageData(imageData, drawStartX, screenStartY);
 }
-
 ```
-
-<figure>
-<img src="../misc/textures/barrel.png" width=256 alt="Barrel sprite" style="image-rendering: pixelated;">
-<figcaption>Barrel sprite.</figcaption>
-</figure>
 
 <figure>
 <canvas id="canvas9" width="320" height="200" tabindex=0></canvas>
