@@ -657,7 +657,7 @@ if (ray.side === 0) {
 We now have `wallX` as a number from 0 to 1 that determines which part of the wall we're looking at. We can multiply that by the texture width to figure out which column of the texture we need to draw:
 
 ```typescript
-const texX: number = Math.floor(wall.wallX * textureSize.x);
+const texX = Math.floor(wall.wallX * textureSize.x);
 ```
 
 We'll also figure out the top and bottom y-coordinates of the wall (we use min and max to ensure that we only draw pixels inside the canvas):
@@ -1238,50 +1238,88 @@ for (const sprite of sprites) {
 sprites.sort((a, b) => b.relDist - a.relDist);
 ```
 
-```typescript
-const invDet = 1 / (cameraPlane.x * playerDir.y - playerDir.x * cameraPlane.y);
-for (const sprite of sprites) {
-    const transformX = invDet * (playerDir.y * sprite.relPos.x - playerDir.x * sprite.relPos.y);
-    const transformY = invDet * (-cameraPlane.y * sprite.relPos.x + cameraPlane.x * sprite.relPos.y);
-    const spriteScreenX = canvas.width / aspectRatio * (aspectRatio / 2 + transformX / transformY) | 0;
-    const spriteHeight = Math.abs(canvas.height / transformY | 0);
-    const drawStartY = (-spriteHeight / 2 + canvas.height / 2) | 0;
-    const spriteWidth = Math.abs(canvas.height / transformY | 0);
-    const drawStartX = Math.max(0, -spriteWidth / 2 + spriteScreenX) | 0;
-    const drawEndX = Math.min(canvas.width - 1, spriteWidth / 2 + spriteScreenX) | 0;
-    const texY = 0;
-    const xMax = drawEndX - drawStartX;
-    if (xMax < 1 || transformY <= 0) {
-        continue;
-    }
-    const screenStartY = Math.max(0, Math.min(canvas.height - 1, drawStartY));
-    const spriteYOffset = drawStartY < 0 ? drawStartY : 0;
-    const yMax = Math.min(canvas.height, screenStartY + spriteHeight) - screenStartY;
-    const brightness = getBrightness(transformY);
-    const imageData = ctx.getImageData(drawStartX, screenStartY, xMax, yMax);
-    for (let x = 0; x < xMax; x++) {
-        const stripe = x + drawStartX;
-        const texX = Math.floor(64 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * textureSize.x / spriteWidth / 64);
+With the sprites sorted and the relative positions calculated we're ready to iterate over all the sprites:
 
-        if (stripe > 0 && stripe < canvas.width) {
-            for (let y = 0; y < yMax; y++) {
-                if (transformY >= zBuffer[x + drawStartX]) {
-                    continue;
-                }
-                const texYPos = texY + Math.floor((y - spriteYOffset) / spriteHeight * textureSize.y);
-                const offset = (y * imageData.width + x) * 4;
-                const texOffset = (texYPos * textureSize.x + texX) * 4;
-                if (sprite.texture.data[texOffset + 3]) {
-                    imageData.data[offset] = sprite.texture.data[texOffset] * brightness;
-                    imageData.data[offset + 1] = sprite.texture.data[texOffset + 1] * brightness;
-                    imageData.data[offset + 2] = sprite.texture.data[texOffset + 2] * brightness;
-                    imageData.data[offset + 3] = sprite.texture.data[texOffset + 3];
-                }
+```typescript
+for (const sprite of sprites) {
+    // ...
+}
+```
+
+For each sprite we'll have to determine where on the screen it should be drawn. To do that we'll transform the `relPos` vector from the map coordinate system (where the x-axis runs left to right) to the screen coordinate system (where the x-axis
+
+```typescript
+const transform: Vec2 = {
+    x: cameraPlane.x * sprite.relPos.x + cameraPlane.y * sprite.relPos.y,
+    y: cameraPlane.y * sprite.relPos.x - cameraPlane.x * sprite.relPos.y,
+};
+```
+
+`transform.y` is actually the distance to the sprite from the screen plane, so we can use it much the same as we used `perpWallDist`. First we'll check if it's negative, because that means that the sprite is behind use and shouldn't be rendered:
+
+```typescript
+if (transform.y <= 0) {
+    continue;
+}
+```
+
+```typescript
+const spriteScreenX = Math.floor(canvas.width * (0.5 + transform.x / (aspectRatio * transform.y)));
+```
+
+```typescript
+const spriteScreenX = Math.floor(canvas.width * (0.5 + transform.x / (aspectRatio * transform.y)));
+const spriteWidth = Math.abs(Math.floor(canvas.height / transform.y));
+const drawStartX = Math.floor(Math.max(0, -spriteWidth / 2 + spriteScreenX));
+const drawEndX = Math.floor(Math.min(canvas.width - 1, spriteWidth / 2 + spriteScreenX));
+const xMax = drawEndX - drawStartX;
+if (xMax < 1) {
+    continue;
+}
+```
+
+```typescript
+const spriteHeight = spriteWidth;
+const drawStartY = Math.floor((-spriteHeight / 2 + canvas.height / 2));
+const screenStartY = Math.max(0, Math.min(canvas.height - 1, drawStartY));
+const spriteYOffset = drawStartY < 0 ? drawStartY : 0;
+const yMax = Math.min(canvas.height, screenStartY + spriteHeight) - screenStartY;
+```
+
+```typescript
+const brightness = getBrightness(transform.y);
+```
+
+```typescript
+const imageData = ctx.getImageData(drawStartX, screenStartY, xMax, yMax);
+```
+
+```typescript
+for (let x = 0; x < xMax; x++) {
+    const stripe = x + drawStartX;
+    const texX = Math.floor((stripe + spriteWidth / 2 - spriteScreenX) * textureSize.x / spriteWidth);
+
+    if (stripe > 0 && stripe < canvas.width) {
+        for (let y = 0; y < yMax; y++) {
+            if (transformY >= zBuffer[x + drawStartX]) {
+                continue;
+            }
+            const texYPos = texY + Math.floor((y - spriteYOffset) / spriteHeight * textureSize.y);
+            const offset = (y * imageData.width + x) * 4;
+            const texOffset = (texYPos * textureSize.x + texX) * 4;
+            if (sprite.texture.data[texOffset + 3]) {
+                imageData.data[offset] = sprite.texture.data[texOffset] * brightness;
+                imageData.data[offset + 1] = sprite.texture.data[texOffset + 1] * brightness;
+                imageData.data[offset + 2] = sprite.texture.data[texOffset + 2] * brightness;
+                imageData.data[offset + 3] = sprite.texture.data[texOffset + 3];
             }
         }
     }
-    ctx.putImageData(imageData, drawStartX, screenStartY);
 }
+```
+
+```typescript
+ctx.putImageData(imageData, drawStartX, screenStartY);
 ```
 
 <figure>
