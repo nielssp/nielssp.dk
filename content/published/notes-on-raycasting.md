@@ -1246,7 +1246,16 @@ for (const sprite of sprites) {
 }
 ```
 
-For each sprite we'll have to determine where on the screen it should be drawn. To do that we'll transform the `relPos` vector from the map coordinate system (where the x-axis runs left to right) to the screen coordinate system (where the x-axis
+For each sprite we'll have to determine where on the screen it should be drawn. To do that we'll transform the `relPos` vector from the map coordinate system (where the x-axis runs left to right) to the screen coordinate system (where the x-axis goes in the direction of the `cameraPlane` vector):
+
+
+<figure>
+<img src="../images/screenx.svg" width=230 alt="Screen coordinate system">
+<figcaption>How the screen coordinate system relates to the player's direction and the screen plane in the map coordinate system.</figcaption>
+</figure>
+
+We can see from the above figure that the transformation of point simply requires us to rotate it by the same amount as the `cameraPlane` vector, then flip the y axis:
+
 
 ```typescript
 const transform: Vec2 = {
