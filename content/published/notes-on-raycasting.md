@@ -1,12 +1,12 @@
 {
-  published: "2024-11-24 12:00",
+  published: "2024-11-22 18:30",
   tags: ["javascript", "canvas", "dos"],
   toc_depth: 2,
 }
 
 # Notes on ray casting
 
-These are my interactive notes on [ray casting](https://en.wikipedia.org/wiki/Ray_casting). Ray casting is an obsolete method for rendering 3D scenes (more like 2.5D). It was used in several games in the early 90s, probably most notably in [Wolfenstein 3D](https://en.wikipedia.org/wiki/Wolfenstein_3D). While it was quickly replaced by more sophisticated approaches to 3D rendering (no, [Doom does not use ray casting](https://en.wikipedia.org/wiki/Doom_engine), although it does share some of the same limitations as ray casting engines), it remains a pretty simple way of producing the illusion of a 3D world.
+These are my interactive notes on [ray casting](https://en.wikipedia.org/wiki/Ray_casting). Ray casting (not to be confused with [ray tracing](https://en.wikipedia.org/wiki/Ray_tracing_\(graphics\))) is an obsolete method for rendering 3D scenes (more like 2.5D). It was used in several games in the early 90s, probably most notably in [Wolfenstein 3D](https://en.wikipedia.org/wiki/Wolfenstein_3D). While it was quickly replaced by more sophisticated approaches to 3D rendering (no, [Doom does not use ray casting](https://en.wikipedia.org/wiki/Doom_engine), although it does share some of the same limitations as ray casting engines), it remains a pretty simple way of producing the illusion of a 3D world.
 
 On this page, I'll present the basics of rendering simple 3D environments using ray casting. I'll also describe extensions like textures and sprites and an approach to rendering walls, floors, and ceilings at different height levels. All the examples are implemented in TypeScript (but can easily be adapted to other languages) with demos rendered onto a 2D HTML canvas. All the source code is available on [GitHub](https://github.com/nielssp/raycasting-notes).
 
@@ -1790,4 +1790,4 @@ Textures are loaded using the same transformation. `getImageData` and `putImageD
 
 If you open the developer console (Ctrl+Shift+K in Firefox, Ctrl+Shift+J in Chrome) you'll see the average frame rendering time printed every second while a canvas is in focus. In my testing, the performance does improve by almost 50% in the optimized version but there are many factors that play into HTML Canvas performance, so your mileage may vary.
 
-<script type="text/javascript" src="../misc/raycasting.js"></script>
+<script id="raycasting" type="text/javascript" src="../misc/raycasting.js" data-basepath="/assets/content/misc/textures/"></script>
