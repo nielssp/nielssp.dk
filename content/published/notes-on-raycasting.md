@@ -1,14 +1,14 @@
 {
-  published: "2024-10-19 18:07",
-  tags: [],
+  published: "2024-11-24 12:00",
+  tags: ["javascript", "canvas", "dos"],
   toc_depth: 2,
 }
 
 # Notes on ray casting
 
-These are my interactive notes on [ray casting](https://en.wikipedia.org/wiki/Ray_casting). Ray casting is an obsolete method for rendering 3D scenes (more like 2.5D). It was used probably most notably in [Wolfenstein 3D](https://en.wikipedia.org/wiki/Wolfenstein_3D).
+These are my interactive notes on [ray casting](https://en.wikipedia.org/wiki/Ray_casting). Ray casting is an obsolete method for rendering 3D scenes (more like 2.5D). It was used in several games in the early 90s, probably most notably in [Wolfenstein 3D](https://en.wikipedia.org/wiki/Wolfenstein_3D). While it was quickly replaced by more sophisticated approaches to 3D rendering (no, [Doom does not use ray casting](https://en.wikipedia.org/wiki/Doom_engine), although it does share some of the same limitations as ray casting engines), it remains a pretty simple way of producing the illusion of a 3D world.
 
-On this page I'll be presenting the basics of rendering simple 3D environments using ray casting. I'll also describe extensions like textures and sprites, as well as an approach to rendering walls, floor, and ceiling at different height levels. All the examples are implemented in TypeScript (but can easily be adapted to other languages) with demos rendered onto a 2D HTML canvas. All the source code is available on [GitHub](https://github.com/nielssp/raycasting-notes).
+On this page, I'll present the basics of rendering simple 3D environments using ray casting. I'll also describe extensions like textures and sprites and an approach to rendering walls, floors, and ceilings at different height levels. All the examples are implemented in TypeScript (but can easily be adapted to other languages) with demos rendered onto a 2D HTML canvas. All the source code is available on [GitHub](https://github.com/nielssp/raycasting-notes).
 
 I would also suggest reading [Lode's Computer Graphics Tutorial](https://lodev.org/cgtutor/raycasting.html) which is where I've learned the basic techniques.
 
@@ -17,9 +17,9 @@ I would also suggest reading [Lode's Computer Graphics Tutorial](https://lodev.o
 <!--toc-->
 </div>
 
-## Casting rays
+## Minimal ray casting example
 
-First we need to create a canvas:
+First, we need to create a canvas:
 
 ```html
 <canvas id="canvas"></canvas>
@@ -34,18 +34,24 @@ canvas.height = 200;
 canvas.style.imageRendering = 'pixelated';
 ```
 
+For the demos on this page, I've used a low resolution of 320&times;200 pixels (the same as VGA's [mode 13h](https://en.wikipedia.org/wiki/Mode_13h), as used by many DOS games) both for performance reasons and because I think it looks better.
+
+Next, we'll create the 2D rendering context:
+
 ```typescript
 const ctx = canvas.getContext('2d')!;
-ctx.imageSmoothingEnabled = false;
 ```
 
-We'll calculate the aspect ratio as well:
+The aspect ratio will be needed later to adjust the field of view:
 
 ```typescript
 const aspectRatio = canvas.width / canvas.height;
 ```
 
+We use `requestAnimationFrame` to schedule our render code. For each frame, we'll also calculate how much time has passed since the previous frame in seconds. We'll need that later for animations and player movement:
+
 ```typescript
+let previousTime = 0;
 function onAnimationFrame(time: number) {
     const dt = (time - previousTime) / 1000;
     previousTime = time;
@@ -54,11 +60,13 @@ function onAnimationFrame(time: number) {
 
     requestAnimationFrame(onAnimationFrame);
 }
+
+requestAnimationFrame(onAnimationFrame);
 ```
 
 ### Map
 
-The map is 2-dimensional and made up of cells that are either solid or not.
+The map is 2-dimensional and made up of cells that are either solid (wall) or not solid (air).
 
 ```typescript
 export interface Cell {
@@ -92,7 +100,7 @@ export const mapSize: Vec2 = {
 };
 ```
 
-The players position and orientation in the map will be represented by two vectors:
+The player's position and orientation on the map will be represented by two vectors:
 
 ```typescript
 const playerPos: Vec2 = {x: 2, y: 3};
@@ -101,11 +109,11 @@ const playerDir: Vec2 = {x: 1, y: 0};
 
 The `playerDir` vector is a unit vector (i.e. length 1).
 
-Along with the interface `Vec2`, I'll be using [a few very simple utility functions for adding, subtracting, and multiplying vectors](https://github.com/nielssp/raycasting-notes/blob/main/src/util.ts). 
+Along with the interface `Vec2`, I'll be using [a few trivial utility functions for adding, subtracting, and multiplying vectors](https://github.com/nielssp/raycasting-notes/blob/main/src/util.ts). 
 
 ### Casting rays
 
-To cast rays we'll start at the left side of the screen, then move right one column at the time. To determine the angle of each screen column we'll need a vector that describes the orientation of the camera/screen relative to the map. If we rotate the player's direction vector clockwise by 90 degrees we get a vector that represents the direction of the screen:
+To cast rays we'll start at the left side of the screen, then move right one column at a time. To determine the angle of each screen column we'll need a vector that describes the orientation of the camera/screen relative to the map. If we rotate the player's direction vector clockwise by 90 degrees we get a vector that represents the direction of the screen:
 
 ```typescript
 const cameraPlane = {
@@ -122,7 +130,7 @@ for (const x = 0; x < canvas.width; x++) {
 }
 ```
 
-For each x-coordinate of the canvas we'll calculate how far from the center of the screen we are proportional to the width of the screen:
+For each x-coordinate of the canvas, we'll calculate how far from the center of the screen we are proportional to the width of the screen:
 
 ```typescript
 const cameraX = aspectRatio * x / canvas.width - aspectRato / 2;
@@ -186,7 +194,7 @@ If we do the same thing for `deltaDistY` we get:
 deltaDistY = abs(|rayDir| / rayDirY)
 ```
 
-Using the above distances while ray tracing will give use the true Euclidean distance between the player's position and the individual cell boundaries, however if we use this distance for drawing walls we'll actually get a sort of [fisheye lens](https://en.wikipedia.org/wiki/Fisheye_lens) effect where walls appear to be curving away from the camera.
+Using the above distances while ray casting will give us the true Euclidean distance between the player's position and the individual cell boundaries. However, if we use this distance for drawing walls, we'll get a sort of [fisheye lens](https://en.wikipedia.org/wiki/Fisheye_lens) effect where walls appear to be curving away from the camera.
 
 To correct this we can use the fact `rayDir` is not a unit vector and its length is greater the further away we are from the center of the screen. We simply divide both `deltaDistX` and `deltaDistY` by `|rayDir|` (which simplifies the equations to `deltaDistX = abs(1 / rayDirX)` and `deltaDistY = abs(1 / rayDirY)`). This does not affect the DDA process since only the ratio between `deltaDistX` and `deltaDistY` matters.
 
@@ -199,20 +207,20 @@ const deltaDist = {
 };
 ```
 
-For the first step the ray only has to travel from the player's position to the nearest cell boundary.
+For the first step, the ray only has to travel from the player's position to the nearest cell boundary.
 To calculate `sideDistX` in the above example we can simply scale `deltaDistX` by the distance from the player to the nearest vertical cell boundary to the right:
 
 ```
 sideDistX = (1 - (playerPosX - mapPosX)) * deltaDistX
 ```
 
-If the ray was pointing to the left instead of to the right (i.e. when `rayDirX` is negative) we would instead use the distance to the nearest cell boundary to the left:
+If the ray had been pointing to the left instead of to the right (i.e. when `rayDirX` is negative) we would instead have used the distance to the nearest cell boundary to the left:
 
 ```
 sideDistX = (playerPosX - mapPosX) * deltaDistX
 ```
 
-We do the same thing for `sideDistY`. At the same time we'll also determine whether to increment or decrement the coordinates with each step (the `step` vector): 
+We do the same thing for `sideDistY`. At the same time, we'll also determine whether to increment or decrement the coordinates with each step (the `step` vector): 
 
 ```typescript
 const sideDist = {x: 0, y: 0};
@@ -264,7 +272,7 @@ export interface Ray {
 }
 ```
 
-With that the basic ray casting loop is as follows:
+With that, the basic ray casting loop is as follows:
 
 ```typescript
 const ray = createRay(canvas, aspectRatio, playerPos, playerDir, x, cameraPlane);
@@ -280,7 +288,7 @@ while (true) {
 }
 ```
 
-With each iteration we'll advance the ray, then check if the cell at the current map position is solid or not. To advance the ray we need to take one step in either the x-direction or the y-direction. This is determined by the relative sizes of `sideDistX` and `sideDistY`.
+With each iteration, we'll advance the ray and check whether the cell at the current map position is solid. To advance the ray we need to take one step in either the x-direction or the y-direction. Te relative sizes of `sideDistX` and `sideDistY` determine this.
 
 If `sideDistX` is less than `sideDistY` it means we've hit a vertical cell boundary. We set the `perpWallDist` to `sideDistX` and then add `deltaDistX` to `sideDistX` (which means `sideDistX` is now the distance to the next vertical cell boundary). If `sideDistY` is greater than `sideDistX` we do the same but for `sideDistY`.
 
@@ -366,7 +374,7 @@ canvas.addEventListener('keydown', e => updateInputs(e, true, playerInputs));
 canvas.addEventListener('keyup', e => updateInputs(e, false, playerInputs));
 ```
 
-Then as part of out main rendering loop will use the previously calculated `dt` (the number of seconds since the previous frame) to update the player position. We simply multiply `dt` with a constant player speed (in this case 3 cells per second) and multiple the result with the `playerDir`. If the player is moving forward we add the resulting vector to `playerPos`, otherwise we subtract it:
+Then as part of our main rendering loop, we will use the previously calculated `dt` (the number of seconds since the previous frame) to update the player position. We simply multiply `dt` with a constant player speed (in this case 3 cells per second) and multiply the result with `playerDir`. If the player is moving forward we add the resulting vector to `playerPos`, otherwise we subtract it:
 
 ```typescript
 if (playerInputs.moveForward || playerInputs.moveBackward) {
@@ -428,7 +436,7 @@ if (playerInputs.turnLeft || playerInputs.turnRight) {
 
 ##### Strafing
 
-I didn't implement strafing in any of the examples since the left and right arrow keys are used for turning. But if mouse input is used using A and D to strafe makes for a more modern feeling FPS experience. Strafing can easily be implemented by simply rotating the `playerDir` vector 90 degrees and adding the result to `playerPos`:
+I didn't implement strafing in any of the demos on this page since the left and right arrow keys are used for turning. But if mouse input is used using A and D to strafe makes for a more modern feeling FPS experience. Strafing can easily be implemented by simply rotating the `playerDir` vector 90 degrees and adding the result to `playerPos`:
 
 ```typescript
 if (playerInput.strafeLeft || playerInputs.strafeRight) {
@@ -468,7 +476,7 @@ document.addEventListener('mousemove', e => {
 });
 ```
 
-For the true FPS-experience you should also lock the cursor to the canvas:
+For the true FPS-experience, you should also lock the cursor to the canvas:
 
 ```typescript
 canvas.addEventListener("click", () => {
@@ -492,7 +500,7 @@ We also need to know  where on the screen the wall starts:
 const wallY = Math.floor((canvas.height - wallHeight) / 2);
 ```
 
-For now we'll simply draw vertical lines to render the walls. We'll use the `ray.side` to determine the color of the wall to make sharp corners:
+For now, we'll just draw vertical lines to render the walls. We'll use the `ray.side` to determine the color of the wall to make sharp corners:
 
 ```typescript
 ctx.strokeStyle = ray.side ? '#005566' : '#003F4C';
@@ -525,7 +533,7 @@ ctx.fillRect(0, canvas.height / 2, canvas.width, canvas.height / 2);
 
 ### Shading based on distance
 
-To add some more depth we can shade the walls based on the distance from the player. We'll create the following function for determining the brightness based on the current distance (we still use `side` to make the corners sharper):
+To add some depth we can shade the walls based on the distance from the player. We'll create the following function for determining the brightness based on the current distance (we still use `side` to make the corners sharper):
 
 ```typescript
 export function getBrightness(dist: number, side: 0 | 1 = 0) {
@@ -636,7 +644,7 @@ for (let x = 0; x < canvas.width; x++) {
 }
 ```
 
-`getWallMeasurements` is a new function that calculates `wallHeight` and `wallY` like before, but also calculates a new variable `wallX`. `wallX` determines the distance from the side of the cell wall to the intersection point of the ray. If we multiply `rayDir` by `perpWallDist` we get a vector from the player's position to the wall intersection point (because `perpWallDist` was scaled by `|rayDir|`). If we've hit a horizontal cell boundary we can add the x-coordinate of that vector to the x-coordinate of `playerPos`, then subtract the x-coordinate of `mapPos`. For vertical cell boundaries we can do the same with the y-coordinates.
+`getWallMeasurements` is a new function that calculates `wallHeight` and `wallY` like before, but also calculates a new variable `wallX`. `wallX` determines the distance from the side of the cell wall to the intersection point of the ray. If we multiply `rayDir` by `perpWallDist` we get a vector from the player's position to the wall intersection point (because `perpWallDist` was scaled by `|rayDir|`). If we've hit a horizontal cell boundary we can add the x-coordinate of that vector to the x-coordinate of `playerPos`, then subtract the x-coordinate of `mapPos`. For vertical cell boundaries, we can do the same with the y-coordinates.
 
 <figure>
 <img src="../images/wallx.svg" width=199 alt="Illustration of wallX">
@@ -657,8 +665,10 @@ if (ray.side === 0) {
 We now have `wallX` as a number from 0 to 1 that determines which part of the wall we're looking at. We can multiply that by the texture width to figure out which column of the texture we need to draw:
 
 ```typescript
-const texX = Math.floor(wall.wallX * textureSize.x);
+const texX = (wall.wallX * textureSize.x) & (textureSize.x - 1);
 ```
+
+We use `& (textureSize.x - 1)` to wrap the texture offset. We could also have used `% textureSize.x` however the modulo operation is measurably slower than bitwise AND. The only limitations are that the texture size must be a power of two (64 in this case) and that all map positions are positive.
 
 We'll also figure out the top and bottom y-coordinates of the wall (we use min and max to ensure that we only draw pixels inside the canvas):
 
@@ -667,19 +677,19 @@ const yStart = Math.max(wall.wallY, 0);
 const yEnd = Math.min(wall.wallY + wall.wallHeight, canvas.height);
 ```
 
-For each y-coordinate we need to keep track of the y-coordinate of the texture. We'll increment by `step` for each screen pixel. `step` is just texture height divided by the previously calculated wall height:
+For each y-coordinate of the screen, we need to keep track of the y-coordinate of the texture. We'll increment by `step` for each screen pixel. `step` is just texture height divided by the previously calculated wall height:
 
 ```typescript
 const step = textureSize.y / wall.wallHeight;
 ```
 
-`texPos` is what keeps track of the current y coordinate of the texture. If the wall starts above the top of the screen, we need to add as many steps as there are pixels missing to the initial value:
+`texPos` keeps track of the current y coordinate of the texture. If the wall starts above the top of the screen, we need to add as many steps as pixels are missing to the initial value:
 
 ```typescript
 let texPos = wall.wallY < yStart ? (yStart - wall.wallY) * step : 0;
 ```
 
-The brightness is calculated the same as for the untextured walls. We'll multiple each texture pixel by this number:
+The brightness is calculated in the same way as for the untextured walls. We'll multiply each texture pixel by this number:
 
 ```typescript
 const brightness = getBrightness(ray.perpWallDist, ray.side);
@@ -691,7 +701,7 @@ We'll then iterate through each pixel of the wall and copy the correct texture p
 for (let y = yStart; y < yEnd; y++) {
     // Each pixel is 4 bytes wide
     const offset = y * 4;
-    const texY = Math.floor(texPos) % textureSize.y;
+    const texY = texPos & (textureSize.y - 1);
     texPos += step;
     const texOffset = (texY * textureSize.x + texX) * 4;
     // Red
@@ -711,7 +721,7 @@ for (let y = yStart; y < yEnd; y++) {
 
 [Source code](https://github.com/nielssp/raycasting-notes/blob/main/src/demo3.ts)
 
-With the above code textures are always drawn north-to-south for vertical cell boundaries and west-to-east for horizontal cell boundaries. This means that on west and south walls the texture is actually flipped horizontally. It doesn't matter for the textures used here, but the textures can easily be flipped with the following code:
+With the above code, textures are always drawn north-to-south for vertical cell boundaries and west-to-east for horizontal cell boundaries. This means that on west and south walls the texture is actually flipped horizontally. It doesn't matter for the textures used here, but the textures can easily be flipped with the following code:
 
 ```typescript
 // West wall
@@ -724,21 +734,9 @@ if (ray.side === 1 && ray.rayDir.y > 0) {
 }
 ```
 
-## Skybox
-
-<figure>
-<img src="../misc/textures/sky.png">
-</figure>
-
-<figure>
-<canvas id="canvas4" width="320" height="200" tabindex=0></canvas>
-</figure>
-
-[Source code](https://github.com/nielssp/raycasting-notes/blob/main/src/demo4.ts)
-
 ## Texturing floors 
 
-There are several different approaches to rendering floors (and ceilings). I've picked the following approach because it makes it relatively easy to have different floor and ceilings heights for cells (implemented in a later section).
+There are several different approaches to rendering floors (and ceilings). I've picked the following approach because it makes it relatively easy to have different floor and ceiling heights for cells (implemented in a later section).
 
 The basic idea is that while advancing a ray we'll concurrently render the floors for the cells the ray passes through. We'll keep track of how much floor we've rendered for the current column with the following variable:
 
@@ -748,7 +746,7 @@ let yFloor = 0;
 
 Floors start at the bottom of the screen, so here 0 actually means the bottom row of the screen.
 
-Each time the ray hits a cell we'll calculate where the floor should stop, i.e. just below the wall (even if there isn't actually a wall there):
+Each time the ray hits a cell we'll calculate where the floor should stop, i.e. just below the wall (even if there isn't a wall there):
 
 ```typescript
 const cellY = Math.ceil((canvas.height - wall.wallHeight) * 0.5);
@@ -787,7 +785,7 @@ while (yFloor < cellY) {
 }
 ```
 
-Because `yFloor` starts from the bottom of the screen, the actual `y`-coordinate of the screen pixel needs to be calculated.
+Because `yFloor` starts from the bottom of the screen, the actual `y`-coordinate of the screen pixel must be calculated.
 
 For each pixel we'll determine how far from the screen plane that pixel is:
 
@@ -811,8 +809,8 @@ const floorY = weight * floor.floorYWall + (1 - weight) * playerPos.y;
 This can then be turned into texture coordinates, and the correct texture pixel can be drawn to the screen:
 
 ```typescript
-let tx = Math.floor(textureSize.x * floorX) % textureSize.x;
-let ty = Math.floor(textureSize.y * floorY) % textureSize.y;
+let tx = (textureSize.x * floorX) & (textureSize.x - 1);
+let ty = (textureSize.y * floorY) & (textureSize.y - 1);
 const texOffset = (ty * textureSize.x + tx) * 4;
 const brightness = getBrightness(rowDistance);
 const offset = y * 4;
@@ -837,7 +835,7 @@ We'll use the following floor texture:
 
 ## Texturing ceilings
 
-We can texture ceilings the exact same way as we textured the floors. We'll initialize the variable `yCeiling` to 0 a the start of each ray:
+We can texture ceilings the same way as we textured the floors. We'll initialize the variable `yCeiling` to 0 a the start of each ray:
 
 ```typescript
 let yCeiling = 0;
@@ -973,7 +971,7 @@ The two new textures:
 <figcaption>Green floor texture.</figcaption>
 </figure>
 
-The only difference in the ray casting loop is that we need to keep track of the floor cell. The floor cell is always the cell before the current cell. With that we can apply the floor cell's floor and ceiling textures to the floor and ceiling, and apply the current cell's wall texture to the wall if the cell is solid:
+The only difference in the ray casting loop is that we need to keep track of the floor cell. The floor cell is always the cell before the current cell. With that, we can apply the floor cell's floor and ceiling textures to the floor and ceiling, and apply the current cell's wall texture to the wall if the cell is solid:
 
 ```typescript
 let floorCell = getMapCell(map, ray.mapPos, mapSize)
@@ -1014,7 +1012,7 @@ export interface Door {
 }
 ```
 
-A door object consists of a side texture (which we'll use to render the side of the door when it's open), an offset describing how open the door is (0 is closed, 1 is fully open). `active` is used to indicate whether the door is currently being animated. We'll add an optional door field to the `Cell` type which will allow us to configure a cell to be a door:
+A door object consists of a side texture (which we'll use to render the side of the door when it's open) and an offset describing how open the door is (0 is closed, 1 is fully open). `active` is used to indicate whether the door is currently being animated. We'll add an optional door field to the `Cell` type which will allow us to configure a cell to be a door:
 
 ```typescript
 export interface Cell {
@@ -1030,11 +1028,11 @@ We'll use the following wall texture for the door:
 <figcaption>Door texture.</figcaption>
 </figure>
 
-When the door is opening we'll us the following 8 pixel wide texture for the side of the door:
+When the door is opening we'll use the following 8 pixels wide texture for the side of the door:
 
 <figure>
 <img src="../misc/textures/door-side.png" width=256 alt="Door side texture" style="image-rendering: pixelated;">
-<figcaption>Door side texture. It's actually 64 pixels wide but only the 8 pixels in the middle will be rendered.</figcaption>
+<figcaption>Door side texture. It's 64 pixels wide but only the 8 pixels in the middle will be rendered.</figcaption>
 </figure>
 
 We'll set up the following constants to determine the depth of the wall:
@@ -1052,7 +1050,7 @@ The basic idea is illustrated below. When the ray hits a cell with a door we'll 
 <figcaption>Four rays hitting a door cell. The door is partially open, so one ray continues through the gap between the door and the wall to the left.</figcaption>
 </figure>
 
-We'll update the wall-rendering part of the ray casting loop to call a new door rendering function if the current cell has a door:
+We'll update the wall-rendering part of the ray casting loop to call a new door-rendering function if the current cell has a door:
 
 ```typescript
 if (cell.door) {
@@ -1067,13 +1065,13 @@ if (cell.door) {
 
 Note that the new `renderDoor` function returns a boolean to tell whether we should keep advancing the ray or if the ray has hit the door part of the cell.
 
-For the `renderDoor` implementation we'll start by saving the current `perpWallDist` since we'll need it later when rendering the floor and ceiling of the door cell. This is because we'll be partially advancing the ray and thus updating `perpWallDist`, however `perpWallDist` is used for aligning the floor and ceiling textures so if `perpWallDist` isn't the distance to a cell boundary, the textures will be incorrectly aligned:
+For the `renderDoor` implementation we'll start by saving the current `perpWallDist` since we'll need it later when rendering the floor and ceiling of the door cell. This is because we'll be partially advancing the ray and thus updating `perpWallDist`, however, `perpWallDist` is used for aligning the floor and ceiling textures so if `perpWallDist` isn't the distance to a cell boundary, the textures will be incorrectly aligned:
 
 ```typescript
 const floorWallDist = ray.perpWallDist;
 ```
 
-Next we'll do a calculation very similar to the calculation we did to calculate `wallX`. We'll find what part of the door the ray intersects with by extending the ray by `doorStart` times the `deltaDist` corresponding to side of the cell that we've hit:
+Next, we'll do a calculation very similar to the calculation we did to calculate `wallX`. We'll find what part of the door the ray intersects with by extending the ray by `doorStart` times the `deltaDist` corresponding to side of the cell that we've hit:
 
 ```typescript
 let doorX: number;
@@ -1088,7 +1086,7 @@ if (ray.side === 0) {
 }
 ```
 
-The ray may intersect with the plane of the door outside the current cell, in which case `doorX` will be less than 0 or greater than or equal to 1. In that case we should return false and continue advancing the ray:
+The ray may intersect with the plane of the door outside the current cell, in which case `doorX` will be less than 0 or greater than or equal to 1. In that case, we should return false and continue advancing the ray:
 
 ```typescript
 if (doorX < 0 || doorX >= 1) {
@@ -1096,7 +1094,7 @@ if (doorX < 0 || doorX >= 1) {
 }
 ```
 
-We'll use the following variable to determine whether the texture we should render at end is the side texture or the wall texture:
+We'll use the following variable to determine whether the texture we should render at the end is the side texture or the wall texture:
 
 ```typescript
 let doorSide = false;
@@ -1157,7 +1155,7 @@ If `doorX` wasn't less than the door offset it means we've hit the front of the 
 }
 ```
 
-Finally if we haven't returned yet it means we've hit the door so we should render the floor and ceiling in front of the door, then render the door itself. We select the texture based on the `doorSide` variable:
+Finally, if we haven't returned yet it means we've hit the door so we should render the floor and ceiling in front of the door, and then render the door itself. We select the texture based on the `doorSide` variable:
 
 ```typescript
 const wall = getWallMeasurements(ray, canvas.height, playerPos);
@@ -1175,7 +1173,7 @@ Returning true at the end tells the ray casting loop to break.
 
 <figure>
 <canvas id="canvas8" width="320" height="200" tabindex=0></canvas>
-<figcaption>Press E or left click to open doors.</figcaption>
+<figcaption>Press E or left-click to open doors.</figcaption>
 </figure>
 
 [Source code](https://github.com/nielssp/raycasting-notes/blob/main/src/demo8.ts)
@@ -1195,7 +1193,7 @@ export interface Sprite {
 
 `pos` is the map position of the sprite while `texture` is the texture that should be rendered. `relPos` and `relDist` are the sprite's position and distance relative to the player, they'll be updated on every frame.
 
-For the purpose of this demonstration we'll create a global sprite array that contains all sprites on the map:
+For this demonstration we'll create a global sprite array that contains all sprites on the map:
 
 ```typescript
 const sprites: Sprite[] = [];
@@ -1216,7 +1214,7 @@ sprites.push(createSprite({x: 4, y: 3}, barrelTexture));
 sprites.push(createSprite({x: 5, y: 2.75}, barrelTexture));
 ```
 
-`createSprite` creates a sprite object with the given position and texture. It also intializes `relPos` to `{x: 0, y: 0}` and `relDist` to 0.
+`createSprite` creates a sprite object with the given position and texture. It also initializes `relPos` to `{x: 0, y: 0}` and `relDist` to 0.
 
 We'll update the main ray casting loop with an array as wide as the canvas to keep track of the distance to each rendered wall segment. We'll use this to determine whether a sprite is behind a wall or not:
 
@@ -1228,7 +1226,7 @@ for (let x = 0; x < canvas.width; x++) {
 }
 ```
 
-Then after all ray casting is done we'll iterate over all the sprites and update their position relative to the player as well as their distance to the player. We'll then sort the sprite array by the `relDist` field in descending order such that sprites closest to the player are rendered last:
+Then after all ray casting is done we'll iterate over all the sprites and update their position relative to the player and their distance to the player. We'll then sort the sprite array by the `relDist` field in descending order such that sprites closest to the player are rendered last:
 
 ```typescript
 for (const sprite of sprites) {
@@ -1246,7 +1244,7 @@ for (const sprite of sprites) {
 }
 ```
 
-For each sprite we'll have to determine where on the screen it should be drawn. To do that we'll transform the `relPos` vector from the map coordinate system (where the x-axis runs left to right) to the screen coordinate system (where the x-axis goes in the direction of the `cameraPlane` vector):
+For each sprite, we'll have to determine where on the screen it should be drawn. To do that we'll transform the `relPos` vector from the map coordinate system to the screen coordinate system (where x is negative on the left side of the screen, positive on the right, and y extends into the screen):
 
 
 <figure>
@@ -1254,8 +1252,21 @@ For each sprite we'll have to determine where on the screen it should be drawn. 
 <figcaption>How the screen coordinate system relates to the player's direction and the screen plane in the map coordinate system.</figcaption>
 </figure>
 
-We can see from the above figure that the transformation of point simply requires us to rotate it by the same amount as the `cameraPlane` vector, then flip the y axis:
+The `cameraPlane` is defined in terms of map coordinates and its angle relative to the map x-axis can be described in terms of the rotation matrix (because it's a unit vector):
 
+```
+[ cameraPlaneX  -cameraPlaneY ]
+[ cameraPlaneY   cameraPlaneX ]
+```
+
+To transform a point from the map coordinate system to the screen coordinate system we need first to undo this rotation, we can do this simply by inverting the rotation matrix:
+
+```
+[  cameraPlaneX  cameraPlaneY ]
+[ -cameraPlaneY  cameraPlaneX ]
+```
+
+We'll also see from the illustration above that the y-axis ends up pointing in the opposite direction, so we'll need to negate the y-coordinate. This gives us the final transformation of the sprite's position:
 
 ```typescript
 const transform: Vec2 = {
@@ -1264,7 +1275,7 @@ const transform: Vec2 = {
 };
 ```
 
-`transform.y` is actually the distance to the sprite from the screen plane, so we can use it much the same as we used `perpWallDist`. First we'll check if it's negative, because that means that the sprite is behind use and shouldn't be rendered:
+`transform.y` is the distance to the sprite from the screen plane, so we can use it much the same as we used `perpWallDist`. First, we'll check if it's negative because that means that the sprite is behind use and shouldn't be rendered:
 
 ```typescript
 if (transform.y <= 0) {
@@ -1272,60 +1283,81 @@ if (transform.y <= 0) {
 }
 ```
 
-```typescript
-const spriteScreenX = Math.floor(canvas.width * (0.5 + transform.x / (aspectRatio * transform.y)));
-```
+We'll then scale and position the sprite horizontally on the canvas. The width of the sprite is simply the height of the canvas divided by the distance to the sprite (`transform.y`). We'll do the same thing to find its horizontal position while also dividing by the aspect ratio (since we multiplied by the aspect ratio back when we calculated `cameraX` to render walls):
 
 ```typescript
-const spriteScreenX = Math.floor(canvas.width * (0.5 + transform.x / (aspectRatio * transform.y)));
-const spriteWidth = Math.abs(Math.floor(canvas.height / transform.y));
-const drawStartX = Math.floor(Math.max(0, -spriteWidth / 2 + spriteScreenX));
-const drawEndX = Math.floor(Math.min(canvas.width - 1, spriteWidth / 2 + spriteScreenX));
+const spriteWidth = Math.floor(canvas.height / transform.y);
+const spriteScreenX = Math.floor(
+    canvas.width * (0.5 + transform.x / (aspectRatio * transform.y)));
+```
+
+`drawStartX` and `drawEndX` are used to determine where on the screen the sprite starts and ends horizontally:
+
+```typescript
+const drawStartX = Math.max(0, Math.floor(spriteScreenX - spriteWidth / 2));
+const drawEndX = Math.min(canvas.width, Math.floor(spriteScreenX + spriteWidth / 2 ));
 const xMax = drawEndX - drawStartX;
+```
+
+If `xMax` is less than 1, it means the sprite is outside the player's field of view and we can skip it entirely:
+
+```typescript
 if (xMax < 1) {
     continue;
 }
 ```
 
+Since our sprite texture is square, the height of the sprite is the same as the width. The sprite is positioned vertically in the center of the screen:
+
 ```typescript
 const spriteHeight = spriteWidth;
-const drawStartY = Math.floor((-spriteHeight / 2 + canvas.height / 2));
-const screenStartY = Math.max(0, Math.min(canvas.height - 1, drawStartY));
-const spriteYOffset = drawStartY < 0 ? drawStartY : 0;
-const yMax = Math.min(canvas.height, screenStartY + spriteHeight) - screenStartY;
+const spriteScreenY = Math.floor(canvas.height / 2 - spriteHeight / 2);
+const drawStartY = Math.max(0, spriteScreenY);
+const drawEndY = Math.min(canvas.height, spriteScreenY + spriteHeight);
+const yMax = drawEndY - drawStartY;
 ```
+
+We'll use the same brightness function we used to shade the walls:
 
 ```typescript
 const brightness = getBrightness(transform.y);
 ```
 
+As for walls, we'll use `getImageData`/`putImageData` to draw the sprite:
+
 ```typescript
 const imageData = ctx.getImageData(drawStartX, screenStartY, xMax, yMax);
 ```
 
+We can now start drawing the sprite. For each vertical stripe of the sprite we'll compare `transform.y` (i.e. the distance from the screen plane to the sprite) to the corresponding `zBuffer`-element to determine whether that part of the sprite is behind a wall.
+
 ```typescript
 for (let x = 0; x < xMax; x++) {
-    const stripe = x + drawStartX;
-    const texX = Math.floor((stripe + spriteWidth / 2 - spriteScreenX) * textureSize.x / spriteWidth);
+    const stripeX = x + drawStartX;
+    const texX = Math.floor(
+        (stripeX + spriteWidth / 2 - spriteScreenX) / spriteWidth * textureSize.x);
 
-    if (stripe > 0 && stripe < canvas.width) {
-        for (let y = 0; y < yMax; y++) {
-            if (transformY >= zBuffer[x + drawStartX]) {
-                continue;
-            }
-            const texYPos = texY + Math.floor((y - spriteYOffset) / spriteHeight * textureSize.y);
+    if (transform.y >= zBuffer[stripeX]) {
+        // Stripe is behind a wall, don't render
+        continue;
+    }
+    for (let y = 0; y < yMax; y++) {
+        const texYPos = Math.floor(
+            (y + drawStartY - spriteScreenY) / spriteHeight * textureSize.y);
+        const texOffset = (texYPos * textureSize.x + texX) * 4;
+        // Only render opaque pixels of the sprite
+        if (sprite.texture.data[texOffset + 3]) {
             const offset = (y * imageData.width + x) * 4;
-            const texOffset = (texYPos * textureSize.x + texX) * 4;
-            if (sprite.texture.data[texOffset + 3]) {
-                imageData.data[offset] = sprite.texture.data[texOffset] * brightness;
-                imageData.data[offset + 1] = sprite.texture.data[texOffset + 1] * brightness;
-                imageData.data[offset + 2] = sprite.texture.data[texOffset + 2] * brightness;
-                imageData.data[offset + 3] = sprite.texture.data[texOffset + 3];
-            }
+            imageData.data[offset] = sprite.texture.data[texOffset] * brightness;
+            imageData.data[offset + 1] = sprite.texture.data[texOffset + 1] * brightness;
+            imageData.data[offset + 2] = sprite.texture.data[texOffset + 2] * brightness;
+            imageData.data[offset + 3] = sprite.texture.data[texOffset + 3];
         }
     }
 }
 ```
+
+Finally, we'll apply the updated image data to the canvas:
 
 ```typescript
 ctx.putImageData(imageData, drawStartX, screenStartY);
@@ -1339,24 +1371,416 @@ ctx.putImageData(imageData, drawStartX, screenStartY);
 
 ## Portals
 
+A relatively simple trick we can do while ray casting is to apply a transformation to the ray when we hit a special type of cell so that we render a different part of the map. This can be used to create portals.
+
+We'll add a portal vector and an array of sprites to the cell type:
+
+```typescript
+export interface Cell {
+    // ...
+    portal?: Vec2;
+    sprites: Sprite[];
+}
+```
+
+The portal vector, if defined, will be the coordinates of a different cell. The sprite array is necessary because we'll need to keep track of which sprites belong to which cells to apply the appropriate offset when rendering them. The demo map is defined as follows:
+
+```typescript
+'WWWWWWWWWWWWWWWWWWWW',
+'W      WWWWWWWW    W',
+'W      WWWWWWWW    W',
+'W     WWWWWWWWWWW  W',
+'W                  W',
+'W                  W',
+'WWWWWWWWWWWWWWWWWWWW',
+```
+
+We'll add four portals to the map to make it so that there's very short hallway on the left and a long hallway on the right leading to the same room:
+
+```typescript
+map[1][6].portal = {x: 16, y: 1};
+map[2][6].portal = {x: 16, y: 2};
+map[1][15].portal = {x: 5, y: 1};
+map[2][15].portal = {x: 5, y: 2};
+```
+
+We'll also add two barrel sprites:
+
+```typescript
+map[3][4].sprites.push(createSprite({x: 4, y: 3}, barrelTexture));
+map[2][5].sprites.push(createSprite({x: 5, y: 2.75}, barrelTexture));
+```
+
+Only a few modifications have to be made to add portals to the rendering loop. First, we'll add a map to keep track of the cells that a ray has passed through:
+
+```typescript
+const visibleCells = new Map<Cell, Vec2>();
+```
+
+To the ray casting loop we'll add `offsetPlayerPos`. `offsetPlayerPos` will replace any use of `playeePos` inside the ray casting loop and will updated whenever we hit a portal. We'll also update `visibleCell` for every step of each ray:
+
+```typescript
+for (let x = 0; x < canvas.width; x++) {
+    // ...
+    let offsetPlayerPos = playerPos;
+    let floorCell = getMapCell(map, ray.mapPos, mapSize)
+    while (true) {
+        if (floorCell) {
+            visibleCells.set(floorCell, offsetPlayerPos);
+        }
+        // ...
+    }
+}
+```
+
+When we hit a portal we'll update `offsetPlayerPos` and the ray's `mapPos` field to the destination coordinates:
+
+```typescript
+if (cell.portal) {
+    offsetPlayerPos = add2(offsetPlayerPos, sub2(cell.portal, ray.mapPos));
+    ray.mapPos = {...cell.portal};
+    cell = getMapCell(map, ray.mapPos, mapSize)
+} else if (cell.door) {
+  // ...
+} else if (cell.solid) {
+  // ...
+}
+```
+
+After the ray casting step is done, we'll iterate over the `visibleCells` map and calculate `relPos` relative to the `offsetPlayerPos`:
+
+```typescript
+const sprites: Sprite[] = [];
+visibleCells.forEach((offsetPlayerPos, cell) => {
+    cell.sprites.forEach(sprite => {
+        sprite.relPos = sub2(sprite.pos, offsetPlayerPos);
+        sprite.relDist = sprite.relPos.x * sprite.relPos.x + sprite.relPos.y * sprite.relPos.y;
+        sprites.push(sprite);
+    });
+});
+sprites.sort((a, b) => b.relDist - a.relDist);
+```
+
+Wall, door, and sprite rendering remains the same as in the previous demo.
+
 <figure>
 <canvas id="canvas10" width="320" height="200" tabindex=0></canvas>
 </figure>
 
 [Source code](https://github.com/nielssp/raycasting-notes/blob/main/src/demo10.ts)
 
+To allow the player to move through the portal the `setPlayerPos` function was updated with a check to determine if the destination cell is a portal:
+
+```typescript
+const currentMapPos = {x: Math.floor(playerPos.x), y: Math.floor(playerPos.y)};
+const newMapPos = {x: Math.floor(newPlayerPos.x), y: Math.floor(newPlayerPos.y)};
+if (currentMapPos.x !== newMapPos.x || currentMapPos.y !== newMapPos.y) {
+    const cell = getMapCell(map, newMapPos, mapSize);
+    if (cell?.portal) {
+        set2(playerPos, add2(newPlayerPos, sub2(cell.portal, newMapPos)));
+        return;
+    }
+}
+set2(playerPos, newPlayerPos);
+```
+
 ## Different floor and ceiling heights
 
-<img src="../misc/textures/wall2.png">
+Until now we've been stuck on a 2D plane, even though the ray casting process creates the illusion of a 3D world. With a few modifications, it's actually possible to make the world a bit more three-dimensional.
+
+We'll start by assigning a cell height, a floor height, and a ceiling height to each cell:
+
+```typescript
+export interface Cell {
+    // ...
+    cellHeight: number;
+    ceilingHeight: number;
+    floorHeight: number;
+}
+```
+
+The basic idea is that when rendering a cell we'll draw wall texture from the bottom of the world up to the cell's floor height and from the cell's total height down to its ceiling height. Between the floor height and the ceiling height, we'll continue ray casting and render whatever is behind the cell.
+
+For this demo, we'll use two additional arrays to describe the floor and ceiling heights. They look like the existing cell-type arrays, but instead use a base 36 number (0-9, A-Z) to describe the height:
+
+```typescript
+const floorHeights = [
+    'JJJJJJJJJJJ',
+    'J888888888J',
+    'J889ABCD88J',
+    'J888888E88J',
+    'J888888F88J',
+    'J8888C8G88J',
+    'ZZ8ZZZZGZZZ',
+    'Z88888GGJJZ',
+    'Z88888GGJJZ',
+    'Z88888GGJJZ',
+    'ZZZZZZZZZZZ',
+];
+```
+
+We'll use a constant cell height of 4 units, and divide the base 36 heights by 8:
+
+```typescript
+cellHeight: 4,
+floorHeight: parseInt(floorHeightRow[x], 36) / 8,
+ceilingHeight: parseInt(ceilingHeightRow[x], 36) / 8,
+```
+
+The player position vector is updated with a z-coordinate:
+
+```typescript
+const playerPos: Vec3 = {x: 2, y: 3, z: 1};
+```
+
+### Rendering the environment
+
+Aside from `yFloor` and `yCeiling` we'll now also need to keep track of where walls and floors are obscured by parts of a wall. We'll initialize each to half of the canvas height:
+
+```typescript
+let yFloorMax = canvas.height / 2;
+let yCeilingMax = canvas.height / 2;
+```
+
+We'll also introduce a `heightMultiplier`. This is the same way we previously calculated the wall height, however now it's just used to determine the height of a single unit of wall:
+
+```typescript
+const heightMultiplier = canvasHeight / ray.perpWallDist;
+```
+
+We also need a new 2-dimensional `zBuffer` since sprites can now be partially obscured by both floors, ceiling, and walls:
+
+```typescript
+const zBuffer = Array(canvas.width * canvas.height);
+```
+
+#### Floor and ceiling
+
+Because of the way we previously implemented floors and ceilings, we don't have to change much to introduce a z-coordinate.
+
+We'll calculate `cellY` as before, but we'll now need to calculate a separate `floorCellY` and `ceilingCellY` based on the floor height and ceiling height respectively. Both also need to be adjusted based on the player's z-coordinate:
+
+```typescript
+const floorCellY = Math.ceil(cellY - playerPos.z * wall.heightMultiplier
+    + cell.floorHeight * wall.heightMultiplier);
+const ceilingCellY = Math.ceil(cellY + playerPos.z * wall.heightMultiplier
+    - (cell.ceilingHeight - 1) * wall.heightMultiplier);
+```
+
+The floor and ceiling texture mapping remains almost the same, but we'll need to adjust the `rowDistance` variable based on the player's z-coordinate. For floors this adjustment is calculated as follows:
+
+```typescript
+const zMultiplier = 2 * playerPos.z - 2 * cell.floorHeight + 1;
+```
+
+For ceilings it's negated:
+    
+```typescript
+const zMultiplier = -2 * playerPos.z + 2 * cell.ceilingHeight - 1;
+```
+
+We apply it to the row distance for each pixel:
+
+```typescript
+const rowDistance = canvas.height * zMultiplier / (canvas.height - 2 * yFloor);
+```
+
+We'll also need to update the `zBuffer` for each pixel:
+
+```typescript
+zBuffer[x * canvas.height + y] = rowDistance;
+```
+
+#### Walls
+
+Wall rendering is similar to before, except we need to extend the wall's height to the full cell height and skip rendering the part of the wall between the cell's floor height and ceiling height.
+
+The new wall height is calculated by multiplying the old height with the height of the cell:
+
+```typescript
+const wallHeight = Math.ceil(wall.heightMultiplier * cell.cellHeight);
+```
+
+For the vertical positioning of the wall, we apply the player's z-coordinate as an offset:
+
+```typescript
+const wallY = Math.floor(canvas.height / 2
+    + playerPos.z * wall.heightMultiplier
+    + (0.5 - cell.cellHeight) * wall.heightMultiplier);
+```
+
+We'll also calculate where the floor and ceiling start based on the floor height and ceiling height of the cell:
+
+```typescript
+const ceilingY = Math.ceil(wallY + (cell.cellHeight - cell.ceilingHeight) * wall.heightMultiplier);
+const floorY = Math.ceil(wallY + (cell.cellHeight - cell.floorHeight) * wall.heightMultiplier);
+```
+
+`yStart` and `yEnd` are now limited based on previously rendered floors and ceilings in front of the wall:
+
+```typescript
+const yStart = Math.max(wallY, yCeiling);
+const yEnd = Math.min(wallY + wallHeight + 1, canvas.height - yFloor);
+```
+
+The rest is the same as before except we need to update `zBuffer` for each pixel:
+
+```typescript
+if (yStart <= ceilingY || yEnd >= floorY) {
+    const brightness = getBrightness(ray.perpWallDist, ray.side);
+    let texX: number = (wall.wallX * textureSize.x) & (textureSize.x - 1);
+
+    const step = textureSize.y * ray.perpWallDist / canvas.height;
+    let texPos = wallY < yStart ? (yStart - wallY) * step : 0;
+
+    for (let y = yStart; y < yEnd; y++) {
+        const texY = texPos & (textureSize.y - 1);
+        texPos += step;
+        if (y > ceilingY && y < floorY) {
+            continue;
+        }
+        const offset = y * 4;
+        // ...
+        zBuffer[x * canvas.height + y] = ray.perpWallDist;
+    }
+}
+```
+
+After rendering both parts of the wall, the floor and ceiling limits are updated:
+
+```typescript
+yFloor = Math.max(yFloor, canvas.height - floorY),
+yCeiling = Math.max(yCeiling, ceilingY),
+yFloorMax = Math.min(yFloorMax, canvas.height - ceilingY),
+yCeilingMax = Math.min(yCeilingMax, floorY),
+```
+
+This prevents floors and ceilings from being rendered on top of the already rendered wall.
+
+#### Doors
+
+We'll handle door cells by treating the space between `floorHeight` and `ceilingHeight` as the door, while the rest is rendered as a regular wall cell:
+
+```typescript
+[yFloor, yCeiling, yFloorMax, yCeilingMax] = renderWall(/* ... */);
+if (cell.door) {
+    if (renderDoor(/* ... */)) {
+        break;
+    }
+}
+```
+
+Otherwise, the door ray casting code remains pretty much unchanged.
+
+### Rendering sprites
+
+Only two things need to be changed in the sprite rendering code. First, the vertical positioning of the sprite needs to be adjusted based on the z-coordinates of both the player and the sprite:
+
+```typescript
+const spriteScreenY = Math.floor(canvas.height / 2
+    - spriteHeight / 2
+    - (sprite.pos.z - playerPos.z) * spriteHeight);
+```
+
+Second, we need to check the `zBuffer` when rendering each pixel of the sprite:
+
+```typescript
+for (let x = 0; x < xMax; x++) {
+    // ...
+    for (let y = 0; y < yMax; y++) {
+        const zOffset = ((x + drawStartX) * canvas.height + y + drawStartY);
+        if (transform.y >= zBuffer[zOffset]) {
+            continue;
+        }
+        // ...
+    }
+}
+```
+
+### Inputs and movement
+
+We need to update the movement code to handle the new dimension. We'll introduce the following constants:
+
+```typescript
+const maxStepSize = 1/8;
+const playerHeight = 5/8;
+const gravity = 9.82;
+```
+
+`maxStepSize` determines how big of a step the player can ascend without jumping. `playerHeight` determines the height of the player character used when calculating collision with the ceiling. `gravity` is applied to the player when they're not standing on the floor.
+
+To implement jumping and gravity, a player velocity vector is needed:
+
+```typescript
+const playerVel: Vec3 = {x: 0, y: 0, z: 0};
+```
+
+A jump can be performed by assigning a positive velocity to the z-axis:
+
+```typescript
+canvas.addEventListener('keypress', e => {
+    if (e.key === ' ') {
+        e.preventDefault();
+        const cell = map[Math.floor(playerPos.y)][Math.floor(playerPos.x)];
+        if (cell && playerPos.z === cell.floorHeight) {
+            playerVel.z = 3;
+        }
+    }
+});
+```
+
+To apply gravity we check if either the players z-velocity is greater than zero or if the player's current z-position is above the floor height of the current cell:
+
+```typescript
+const cell = map[Math.floor(playerPos.y)][Math.floor(playerPos.x)];
+if (cell && (playerVel.z !== 0 || playerPos.z > cell.floorHeight)) {
+    playerPos.z += playerVel.z * dt;
+    playerVel.z -= gravity * dt;
+    if (playerPos.z <= cell.floorHeight) {
+        // Player is below the floor, push them up
+        playerPos.z = cell.floorHeight;
+        playerVel.z = 0;
+    } else if (playerPos.z > cell.ceilingHeight - playerHeight) {
+        // Player has hit the ceiling, push them down
+        playerPos.z = cell.ceilingHeight - playerHeight;
+        playerVel.z = 0;
+    }
+}
+```
+
+We'll also update the `setPlayerPos` function to allow the player to walk up floors lower than or equal to `maxStepSize` relative to the current position:
+
+```typescript
+if (cell.floorHeight <= playerPos.z + maxStepSize
+        && cell.ceilingHeight > Math.max(playerPos.z, cell.floorHeight) + playerHeight) {
+    playerPos.x = newPlayerPos.x;
+    playerPos.y = newPlayerPos.y;
+    if (playerPos.z < cell.floorHeight) {
+        playerPos.z = cell.floorHeight;
+    }
+}
+```
+
+### Demo
 
 <figure>
 <canvas id="canvas11" width="320" height="200" tabindex=0></canvas>
-<figcaption>Press space or right click to jump.</figcaption>
+<figcaption>Press space or right-click to jump.</figcaption>
 </figure>
 
 [Source code](https://github.com/nielssp/raycasting-notes/blob/main/src/demo11.ts)
 
 ## Optimization
+
+So far we've been rendering our canvas from left to right one column at a time and reading textures the same way. However, due to the nature of CPU caches it may be more efficient to rotate the entire thing 90 degrees and render horizontally line by line instead to preserve [spatial locality](https://en.wikipedia.org/wiki/Locality_of_reference).
+
+The demo below renders to a rotated canvas then draws that canvas to the original canvas using a transformation that flips the x- and y-coordinates:
+
+```typescript
+ctx.transform(0, 1, 1, 0, 0, 0);
+```
+
+Textures are loaded using the same transformation. `getImageData` and `putImageData` are unaffected by transformations, so x and y must be swapped in every call to those functions.
 
 <figure>
 <canvas id="canvas12" width="320" height="200" tabindex=0></canvas>
@@ -1364,6 +1788,6 @@ ctx.putImageData(imageData, drawStartX, screenStartY);
 
 [Source code](https://github.com/nielssp/raycasting-notes/blob/main/src/demo12.ts)
 
-<script type="text/javascript" src="../misc/raycasting.js"></script>
+If you open the developer console (Ctrl+Shift+K in Firefox, Ctrl+Shift+J in Chrome) you'll see the average frame rendering time printed every second while a canvas is in focus. In my testing, the performance does improve by almost 50% in the optimized version but there are many factors that play into HTML Canvas performance, so your mileage may vary.
 
-<img src="../misc/textures/test.png">
+<script type="text/javascript" src="../misc/raycasting.js"></script>
