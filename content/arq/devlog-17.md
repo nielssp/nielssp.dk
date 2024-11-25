@@ -13,7 +13,7 @@ So I spent some time creating a small tile set from scratch that I think is clos
 
 <figure>
 <a href="../images/arq/artstyle2.png">
-<img src="../images/arq/artstyle2.png" alt="8-bit style graphics">
+<img src="../images/arq/artstyle2.png" width=512 alt="8-bit style graphics">
 </a>
 <figcaption>8-bit style alternative to the current art style.</figcation>
 </figure>
@@ -22,7 +22,7 @@ Compare that to the same scene recreated using Arq's current tile set and sprite
 
 <figure>
 <a href="../images/arq/artstyle1.png">
-<img src="../images/arq/artstyle1.png" alt="Current art style">
+<img src="../images/arq/artstyle1.png" width=640 alt="Current art style">
 </a>
 <figcaption>Current art style.</figcation>
 </figure>
