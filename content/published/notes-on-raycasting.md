@@ -1275,7 +1275,7 @@ const transform: Vec2 = {
 };
 ```
 
-`transform.y` is the distance to the sprite from the screen plane, so we can use it much the same as we used `perpWallDist`. First, we'll check if it's negative because that means that the sprite is behind use and shouldn't be rendered:
+`transform.y` is the distance to the sprite from the screen plane, so we can use it much the same as we used `perpWallDist`. First, we'll check if it's negative because that means that the sprite is behind us and shouldn't be rendered:
 
 ```typescript
 if (transform.y <= 0) {

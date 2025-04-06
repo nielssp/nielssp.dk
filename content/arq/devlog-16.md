@@ -5,7 +5,7 @@
 }
 # #16: Quests, trade, and groups
 
-To be honest, I haven't spend much time on Arq in the past few months. Instead, I've spent time on [Classic Stylesheets 2.0](https://github.com/nielssp/classic-stylesheets/releases/tag/v2.0) and [notes on ray casting](../published/notes-on-raycasting.md). This is just a short update outlining some of the functionality I have worked on since the previous devlog.
+To be honest, I haven't spent much time on Arq in the past few months. Instead, I've spent time on [Classic Stylesheets 2.0](https://github.com/nielssp/classic-stylesheets/releases/tag/v2.0) and [notes on ray casting](../published/notes-on-raycasting.md). This is just a short update outlining some of the functionality I have worked on since the previous devlog.
 
 ## Quests
 
